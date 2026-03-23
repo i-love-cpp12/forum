@@ -12,7 +12,7 @@ class Request
     public function __construct()
     {
         $this->method = strtoupper($_SERVER["REQUEST_METHOD"]);
-        $this->uri = strtoupper($_SERVER["REQUEST_URI"]);
+        $this->uri = $_SERVER["REQUEST_URI"];
         $this->body = $this->method === "GET" ? [] : json_decode(file_get_contents("php://input"), true);
     }
 }

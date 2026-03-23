@@ -14,7 +14,6 @@ class Router
 {
     private static $routes = [];
     private static $methods = ["GET", "POST", "PUT", "DELETE"];
-
     /** @param callable[] $middleware */
     public function bind(
         string $method,
@@ -28,8 +27,8 @@ class Router
         if(!self::validateMethod($method))
             throw new Exception("Method not allowed");
 
-        self::$routes[$method] =
-            ["path" => $path, "handle" => $handle, "middleware" => $middleware];
+        self::$routes[$method][] =
+            ["path" => self::pathToRegexp($path), "handle" => $handle, "middleware" => $middleware];
     }
 
     public function route(string $method, string $uri): void
@@ -37,13 +36,19 @@ class Router
         if(!self::validateMethod($method))
             Respond::json(["error" => "Method not allowed"], 405);
 
-        // [$path, $handle, $middleware] = self::$routes[$method];
-
         foreach(self::$routes[$method] as $route)
         {
-            $uriRegexp =
-                "^" . str_replace("\{[A-Za-z]\}", "([A-Za-z0-9]+)", $route["path"]) . "$";
-            Respond::json([$uriRegexp]);
+            if(!preg_match($route["path"], $uri, $match))
+                continue;
+
+            if(count($match) > 1)
+                $match = [$match[1]];
+
+            foreach($route["middleware"] as $middleware)
+            {
+                $middleware();
+            }
+            $route["handle"](...$match);
         }
 
         Respond::json(["error" => "Endpoint not found"], 404);
@@ -52,5 +57,11 @@ class Router
     private static function validateMethod(string $method): bool
     {
         return in_array($method, self::$methods, true);
+    }
+
+    private static function pathToRegexp(string $path): string
+    {
+        $path = str_replace("/", "\/", $path);
+        return "/" . preg_replace("/\{[a-z]+\}/i", "([A-Za-z0-9]+)", $path) . "$/";
     }
 }
