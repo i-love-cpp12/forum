@@ -1,0 +1,99 @@
+# FORUM RESTFUL API
+
+## 1. Users (Użytkownicy)
+
+POST    /api/register           - Rejestracja nowego użytkownika
+        Body: { "username": "oliwier", "email": "a@b.com", "password": "haslo123" }
+
+POST    /api/login              - Logowanie użytkownika
+        Body: { "email": "a@b.com", "password": "haslo123" }
+
+POST    /api/logout             - Wylogowanie
+        Body: brak
+
+GET     /api/users/{id}         - Pobierz profil użytkownika
+        Body: brak
+
+PUT     /api/users/{id}         - Aktualizacja danych użytkownika
+        Body: { "username": "noweImie", "bio": "opis" }
+
+DELETE  /api/users/{id}         - Usunięcie konta
+        Body: brak
+
+
+## 2. Posts (Posty)
+
+GET     /api/posts              - Pobierz listę wszystkich postów
+        Query: ?page=1&limit=20
+
+GET     /api/posts/{id}         - Pobierz szczegóły posta
+        Body: brak
+
+POST    /api/posts              - Utwórz nowy post
+        Body: { "title": "Tytuł", "content": "Treść posta" }
+
+PUT     /api/posts/{id}         - Aktualizuj post
+        Body: { "title": "Nowy tytuł", "content": "Nowa treść" }
+
+DELETE  /api/posts/{id}         - Usuń post
+        Body: brak
+
+
+## 3. Comments (Komentarze)
+
+GET     /api/posts/{postId}/comments  - Pobierz komentarze dla posta
+        Body: brak
+
+POST    /api/posts/{postId}/comments  - Dodaj komentarz
+        Body: { "content": "Świetny post!" }
+
+PUT     /api/comments/{id}            - Edytuj komentarz
+        Body: { "content": "Zaktualizowany komentarz" }
+
+DELETE  /api/comments/{id}            - Usuń komentarz
+        Body: brak
+
+
+## 4. Likes (Polubienia)
+
+POST    /api/posts/{id}/like          - Polubienie posta
+        Body: brak
+
+DELETE  /api/posts/{id}/like          - Usunięcie polubienia
+        Body: brak
+
+POST    /api/comments/{id}/like       - Polubienie komentarza
+        Body: brak
+
+DELETE  /api/comments/{id}/like       - Usunięcie polubienia
+        Body: brak
+
+
+## 5. Categories / Tags (Kategorie / Tagowanie - opcjonalnie)
+
+GET     /api/categories              - Pobierz wszystkie kategorie
+        Body: brak
+
+POST    /api/categories              - Dodaj kategorię
+        Body: { "name": "Technologia" }
+
+PUT     /api/categories/{id}         - Edytuj kategorię
+        Body: { "name": "Nowa nazwa" }
+
+DELETE  /api/categories/{id}         - Usuń kategorię
+        Body: brak
+
+
+## 6. Search / Filters (Wyszukiwanie / Filtry)
+
+GET     /api/posts?authorId=1&category=tech&sort=latest
+GET     /api/posts?search=react
+
+
+## 7. Middleware / Auth (Autoryzacja)
+
+- JWT Token w nagłówku: Authorization: Bearer {token}
+- Sprawdza:
+    - Czy użytkownik jest zalogowany
+    - Czy użytkownik ma prawa do edycji / usuwania
+    - Opcjonalnie: rate limiting / ochrona przed spamem
