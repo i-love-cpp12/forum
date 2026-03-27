@@ -13,7 +13,7 @@ $router = new Router();
 
 $router->bind("GET", "api/{id}/create", function($id){echo $id; exit();});
 
-$router->route($request->method, "backend/api/2374/create");
+$router->route($request->method, $request->uri);
 // $router->route($request->method, "backend/api/create");
 
 echo "dziala";
