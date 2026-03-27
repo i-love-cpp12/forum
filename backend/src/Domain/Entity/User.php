@@ -26,7 +26,7 @@ class User extends Entity
         parent::__construct($id);
         
         $username = trim($username);
-        $email = trim($username);
+        $email = trim($email);
 
         if(!self::validateUsername($username))
             throw new InvalidArgumentException("username: $username must be (" . self::$usernameMinLenght . " - " . self::$usernameMaxLenght . ") character long");
@@ -46,14 +46,17 @@ class User extends Entity
     {
         return Validator::validateLenght($username, self::$usernameMinLenght, self::$usernameMaxLenght);
     }
+
     public static function validateEmail(string $email): bool
     {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
+        return Validator::validateEmail($email);
     }
+    
     public static function validatePasswordHash(string $passwordHash): bool
     {
         return Validator::validateSha256($passwordHash);
     }
+
     public static function validatePassword(string $password)
     {
         return

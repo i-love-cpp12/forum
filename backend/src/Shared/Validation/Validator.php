@@ -12,7 +12,7 @@ class Validator
 {
     static function validateLenght(Countable | string $countable, ?int $min, ?int $max): bool
     {
-        $lenght = $countable instanceof string ? strlen($countable) : count($countable);
+        $lenght = is_string($countable) ? strlen($countable) : count($countable);
 
         if($min !== null && $max !== null && $min > $max)
             throw new InvalidArgumentException("min can not be grater then max");
@@ -28,10 +28,17 @@ class Validator
 
         return true;
     }
+
+    static function validateEmail($email): bool
+    {
+        return boolval(filter_var($email, FILTER_VALIDATE_EMAIL));
+    }
+
     static function validateSha256($hash): bool
     {
-        return preg_match("/^[a-f0-9]{64}$/i", $hash);
+        return boolval(preg_match("/^[a-f0-9]{64}$/i", $hash));
     }
+
     static function stringContain
     (
         string $string,

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace src\Domain\Entity;
 
+use InvalidArgumentException;
 use LogicException;
 
 require_once(__DIR__ . "/../../../autoload.php");
@@ -13,7 +14,7 @@ class Entity
     
     public function __construct(?int $id)
     {
-        $this->id;
+        $this->id = null;
         $this->setId($id);
     }
     public function getId(): ?int
@@ -24,6 +25,8 @@ class Entity
     {
         if($this->id)
             throw new LogicException("Id is already set");
+        if($this->id < 0)
+            throw new InvalidArgumentException("Id: $id can not be negative");
         $this->id = $id;
     }
 }

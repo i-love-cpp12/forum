@@ -13,12 +13,15 @@ interface UserRepositoryInterface
     public function save(User $user): void;
     /** @return User[]*/
     public function getAllUsers(): array;
-    public function getUserById(string $id): ?User;
+    public function getUserById(int $id): ?User;
     public function getUserByEmail(string $email): ?User;
 
-    public function deleteUser($id): void;
+    public function deleteUser(int $id): void;
 
-    public function saveToken(User $user, Token $token): void;
-    public function deactivateToken(Token $token): void;
+    public function saveToken(Token $token, int $userId): void;
+    public function deactivateToken(int $tokenId): void;
+    /** @return Token[] */
+    public function getActiveTokensForUser(int $userId): array;
+
     
 }
