@@ -2,9 +2,10 @@
 declare(strict_types=1);
 namespace src\Interface\Midlleware;
 
-use src\Application\DTO\User\GetLoggedDTO;
+use src\Application\DTO\User\UserGetLoggedDTO;
 use src\Application\Service\User\UserGetLoggedByTokenService;
 use src\Domain\Service\GetUserAuthTokenService;
+use src\Infrastructure\Http\Request;
 use src\Shared\Exception\ExceptionHandler;
 use Throwable;
 
@@ -15,6 +16,7 @@ class AuthMiddleware
 {
     public function __construct
     (
+        private Request $request,
         private UserGetLoggedByTokenService $userGetLoggedByTokenService,
         private GetUserAuthTokenService $getUserAuthTokenService
     ){}
@@ -24,9 +26,9 @@ class AuthMiddleware
         {
             
             $token = $this->getUserAuthTokenService->execute();
-            $DTO = new GetLoggedDTO($token);
+            $DTO = new UserGetLoggedDTO($token);
 
-            $this->userGetLoggedByTokenService->execute($DTO);
+            $this->request->setStateItem("user", $this->userGetLoggedByTokenService->execute($DTO));
         }
         catch(Throwable $e)
         {

@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace src\Application\DTO\User;
 
-class LogoutDTO
+class UserGetLoggedDTO
 {
     public function __construct
     (
-        readonly public string $email
+        readonly public string $token
     )
     {
         

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace src\Application\DTO\User;
 
-class GetUserDTO
+class UserGetDTO
 {
     public function __construct
     (

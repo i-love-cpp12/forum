@@ -5,7 +5,7 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Application\DTO\User\RegisterDTO;
+use src\Application\DTO\User\UserRegisterDTO;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Domain\Entity\User;
 use src\Shared\Exception\BusinessException;
@@ -14,7 +14,7 @@ class UserRegisterService
 {
     public function __construct(private UserRepositoryInterface $userRepo){}
 
-    public function execute(RegisterDTO $DTO): void
+    public function execute(UserRegisterDTO $DTO): void
     {
         if(!User::validateUsername($DTO->username))
             throw new BusinessException("username: $DTO->username must be (" . User::$usernameMinLenght . " - " . User::$usernameMaxLenght . ") character long");
