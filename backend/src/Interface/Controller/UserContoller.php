@@ -11,15 +11,36 @@ require_once(__DIR__ . "/../../../autoload.php");
 class UserContoller
 {
     public function __construct(private UserLogoutService $userLogoutService){}
-    public function login(){}
-    public function logout()
+    public function login(): void
+    {
+
+    }
+    public function logout(): void
     {
         
     }
-    public function register(){}
-    public function getAllUsers(){}
-    public function getUser(int $userId){}
-    public function updateUser(int $userId){}
-    public function getLoggedUser(){}
-    public function deleteUser(int $userId){}
+    public function register(): void
+    {
+
+    }
+    public function getAllUsers(): void
+    {
+
+    }
+    public function getUser(int $userId): void
+    {
+
+    }
+    public function updateUser(int $userId): void
+    {
+
+    }
+    public function getLoggedUser(): void
+    {
+
+    }
+    public function deleteUser(int $userId): void
+    {
+
+    }
 }
