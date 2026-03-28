@@ -16,8 +16,9 @@ class Token extends Entity
     public static int $length = 64;
 
     readonly public ?int $expireTimeStamp;
+    private bool $isActive;
 
-    public function __construct(?int $id, int $userId, string $value, ?int $duration = null)
+    public function __construct(?int $id, int $userId, string $value, ?int $duration = null, bool $isActive = true)
     {
         parent::__construct($id);
 
@@ -36,5 +37,16 @@ class Token extends Entity
         $this->userId = $userId; 
         $this->value = $value; 
         $this->expireTimeStamp = $duration !== null ? time() + $duration : null;
+        $this->isActive = $isActive;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive && ($this->expireTimeStamp === null || $this->expireTimeStamp >= time());
+    }
+
+    public function deactivate(): void
+    {
+        $this->isActive = false;
     }
 }

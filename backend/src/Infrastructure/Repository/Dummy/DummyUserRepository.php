@@ -8,6 +8,7 @@ require_once(__DIR__ . "/../../../../autoload.php");
 use src\Domain\Entity\User;
 use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
+use src\Shared\Array\ArrayHelper;
 
 class DummyUserRepository implements UserRepositoryInterface
 {
@@ -32,10 +33,25 @@ class DummyUserRepository implements UserRepositoryInterface
         $this->tokens[] =
             (new Token(20, $this->users[20]->getId(), hash("sha256", "oliwier20"), null));
     }
+
     public function save(User $user): void
     {
+        if($user->getId() === null)
+        {
+            $this->users[] = $user;
+            return;   
+        }
 
+        for($i = 0; $i < count($this->users); ++$i)
+        {
+            if($this->users[$i]->getId() === $user->getId())
+            {
+                $this->users[$i] = $user;
+                return;    
+            }
+        }
     }
+
     /** @return User[]*/
     public function getAllUsers(): array
     {
@@ -43,39 +59,34 @@ class DummyUserRepository implements UserRepositoryInterface
     }
     public function getUserById(int $id): ?User
     {
-        foreach($this->users as $user)
-        {
-            if($user->getId() === $id)
-                return $user;
-        }
-        return null;
+        return ArrayHelper::find($this->users,
+            function(User $user) use($id)
+            {
+                return $user->getId() === $id;
+            }, $index
+        );
     }
     public function getUserByEmail(string $email): ?User
     {
-        foreach($this->users as $user)
-        {
-            if($user->email === $email)
-                return $user;
-        }
-        return null;
+        return ArrayHelper::find($this->users,
+            function(User $user) use($email)
+            {
+                return $user->email === $email;
+            }, $index
+        );
     }
 
     public function deleteUser(int $id): void
     {
-        $userIndex = null;
-        foreach($this->users as $i => $user)
-        {
-            if($user->getId() === $id)
+        $userToDelete = ArrayHelper::find($this->users,
+            function(User $user) use($id)
             {
-                $userIndex = $i;
-                break;
-            }   
-        }
+                return $user->getId() === $id;
+            }, $index
+        );
 
-        if($userIndex === null)
-            return;
-        $this->users =
-            [...array_slice($this->users, 0, $userIndex), ...array_slice($this->users, $userIndex + 1)];
+        if($userToDelete !== null && $index !== null)
+            ArrayHelper::deleteByIndex($this->users, $index);
     }
 
     public function saveToken(Token $token, int $userId): void
@@ -96,7 +107,7 @@ class DummyUserRepository implements UserRepositoryInterface
             if
             (
                 $token->userId === $userId &&
-                ($token->expireTimeStamp === null || $token->expireTimeStamp >= time())
+                $token->isActive()
             )
             {
                 $tokens[] = $token;
