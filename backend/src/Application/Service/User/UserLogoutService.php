@@ -10,7 +10,7 @@ use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Exception\BusinessException;
 
-class UserLoginService
+class UserLogoutService
 {
     public static int $tokenDurationS = 60 * 60 * 5;
 

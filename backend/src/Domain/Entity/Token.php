@@ -40,6 +40,16 @@ class Token extends Entity
         $this->isActive = $isActive;
     }
 
+    public function __toString(): string
+    {
+        return
+            "id: " . $this->getId() .
+            " | userId: " . $this->userId .
+            " | value: " . $this->value .
+            " | expDate: " . ($this->expireTimeStamp !== null ? date("d M Y H:i:s", $this->expireTimeStamp) : "null") .
+            " | is active: " . ($this->isActive() ? "true":"false");
+    }
+
     public function isActive(): bool
     {
         return $this->isActive && ($this->expireTimeStamp === null || $this->expireTimeStamp >= time());

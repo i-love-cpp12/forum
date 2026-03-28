@@ -9,6 +9,7 @@ use src\Application\DTO\User\LoginDTO;
 use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Exception\BusinessException;
+use src\Domain\Entity\User;
 
 class UserLoginService
 {
@@ -20,10 +21,8 @@ class UserLoginService
     {
         $user = $this->userRepo->getUserByEmail($DTO->email);
 
-        $paswordHash = password_hash($DTO->password, "sha256");
-
-        if($user === null || $user->passwordHash !== $paswordHash)
-            throw new BusinessException("Invalid credentials email: $DTO->email password: " . str_repeat("*", strlen($DTO->password)), 401);
+        if($user === null || $user->isPasswordCorrect($DTO->password))
+            throw new BusinessException("Invalid credentials email: $DTO->email password: " . User::hidePassword($DTO->password), 401);
 
         $token = new Token(null, $user->getId(), $DTO->token, self::$tokenDurationS);
 

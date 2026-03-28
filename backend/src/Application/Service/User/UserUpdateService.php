@@ -10,7 +10,7 @@ use src\Domain\Entity\User;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Exception\BusinessException;
 
-class UserGetService
+class UserUpdateService
 {
     public function __construct(private UserRepositoryInterface $userRepo){}
 
@@ -24,7 +24,11 @@ class UserGetService
         if(!User::validateUsername($DTO->newUsername))
             throw new BusinessException("New username: $DTO->newUsername is not valid");
 
-        $user->username = $DTO->newUsername;
+        if(!User::validatePassword($DTO->newPassword))
+            throw new BusinessException("New password: " . User::hidePassword($DTO->newPassword) . " is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
+
+        $user->setUsername($DTO->newUsername);
+        $user->setPassword($DTO->newPassword);
         
         $this->userRepo->saveUser($user);
     }

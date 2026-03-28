@@ -23,7 +23,7 @@ class UserRegisterService
             throw new BusinessException("email: $DTO->email is not valid email");
 
         if(!User::validatePassword($DTO->password))
-            throw new BusinessException("password: $DTO->password is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
+            throw new BusinessException("password: " . User::hidePassword($DTO->password) . " is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
 
         if($this->userRepo->getUserByEmail($DTO->email) !== null)
             throw new BusinessException("user with this email: $DTO->email already exist", 409);

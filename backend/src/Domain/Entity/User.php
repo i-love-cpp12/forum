@@ -9,21 +9,21 @@ use InvalidArgumentException;
 use src\Shared\Validation\Validator;
 use src\Domain\Entity\Entity;
 
-enum UserRole
+enum UserRole: int
 {
-    case normal;
-    case admin;
+    case normal = 0;
+    case admin = 1;
 };
 
 class User extends Entity
 {
-    public string $username;
+    private string $username;
     public static int $usernameMinLenght = 3;
     public static int $usernameMaxLenght = 50;
 
     readonly public string $email;
 
-    public string $passwordHash;
+    private string $passwordHash;
     public static int $passwordMinLenght = 8;
 
     readonly public UserRole $role;
@@ -32,22 +32,64 @@ class User extends Entity
     {
         parent::__construct($id);
         
-        $username = trim($username);
-        $email = trim($email);
+        $this->username = "";
+        $this->passwordHash = "";
 
-        if(!self::validateUsername($username))
-            throw new InvalidArgumentException("username: $username must be (" . self::$usernameMinLenght . " - " . self::$usernameMaxLenght . ") character long");
+        $this->setUsername($username);
+        $this->setPasswordByHash($passwordHash);
+
+        $email = trim($email);
 
         if(!self::validateEmail($email))
             throw new InvalidArgumentException("email: $email is not valid email");
 
-        if(!self::validatePasswordHash($passwordHash))
-            throw new InvalidArgumentException("password hash: $passwordHash is not valid sha256 hash");
+        $this->email = $email;
+        $this->role = $role;
+    }
+
+    public function __toString(): string
+    {
+        $roles = ["normal", "admin"];
+        return
+            "id: " . $this->getId() .
+            " | email: " . $this->email .
+            " | username: " . $this->username .
+            " | passwordHash: " . $this->passwordHash .
+            " | role: " . $roles[$this->role->value];
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+    public function setUsername(string $username): void
+    {
+        $username = trim($username);
+
+        if(!self::validateUsername($username))
+            throw new InvalidArgumentException("username: $username must be (" . self::$usernameMinLenght . " - " . self::$usernameMaxLenght . ") character long");
 
         $this->username = $username;
-        $this->email = $email;
+    }
+
+    public function setPassword(string $password): void
+    {
+        if(!self::validatePassword($password))
+            throw new InvalidArgumentException("password: " . self::hidePassword($password) . " is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . self::$passwordMinLenght . ") long");
+
+        $this->passwordHash = hash("sha256", $password);
+    }
+
+    public function setPasswordByHash(string $passwordHash): void
+    {
+        if(!self::validatePasswordHash($passwordHash))
+            throw new InvalidArgumentException("password hash: $passwordHash is not valid sha256 hash");
         $this->passwordHash = $passwordHash;
-        $this->role = $role;
+    }
+
+    public function isPasswordCorrect(string $password): bool
+    {
+        return hash("sha256", $password) === $this->passwordHash;
     }
 
     public static function validateUsername(string $username): bool
@@ -70,5 +112,9 @@ class User extends Entity
         return
             Validator::stringContain($password, true, true, true) &&
             Validator::validateLenght($password, self::$passwordMinLenght, null);
+    }
+    public static function hidePassword(string $password): string
+    {
+        return str_repeat("*", strlen($password));
     }
 }
