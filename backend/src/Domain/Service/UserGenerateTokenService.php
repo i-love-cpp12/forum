@@ -5,7 +5,7 @@ namespace src\Domain\Service;
 
 require_once(__DIR__ . "/../../../autoload.php");
 
-class GenerateUserTokenService
+class UserGenerateTokenService
 {
     public static function execute(): string
     {

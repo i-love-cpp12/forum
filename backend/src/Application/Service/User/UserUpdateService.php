@@ -5,7 +5,7 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Application\DTO\User\UpdateDTO;
+use src\Application\DTO\User\UserUpdateDTO;
 use src\Domain\Entity\User;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Exception\BusinessException;
@@ -14,7 +14,7 @@ class UserUpdateService
 {
     public function __construct(private UserRepositoryInterface $userRepo){}
 
-    public function execute(UpdateDTO $DTO): void
+    public function execute(UserUpdateDTO $DTO): void
     {
         $user = $this->userRepo->getUserById($DTO->id);
         
