@@ -9,6 +9,7 @@ use src\Domain\Entity\User;
 use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Array\ArrayHelper;
+use src\Infrastructure\Repository\Dummy\DummyRepositoryHelper;
 
 class DummyUserRepository implements UserRepositoryInterface
 {
@@ -34,37 +35,19 @@ class DummyUserRepository implements UserRepositoryInterface
             (new Token(20, $this->users[20]->getId(), hash("sha256", "oliwier20"), null));
     }
 
-    public function save(User $user): void
+    public function saveUser(User $user): void
     {
-        if($user->getId() === null)
-        {
-            $this->users[] = $user;
-            return;   
-        }
-
-        for($i = 0; $i < count($this->users); ++$i)
-        {
-            if($this->users[$i]->getId() === $user->getId())
-            {
-                $this->users[$i] = $user;
-                return;    
-            }
-        }
+        DummyRepositoryHelper::saveEntity($user, $this->users);
     }
 
     /** @return User[]*/
     public function getAllUsers(): array
     {
-        return $this->users;
+        return DummyRepositoryHelper::getAllEntities($this->users);
     }
     public function getUserById(int $id): ?User
     {
-        return ArrayHelper::find($this->users,
-            function(User $user) use($id)
-            {
-                return $user->getId() === $id;
-            }, $index
-        );
+        return DummyRepositoryHelper::getEntityById($id, $this->users);
     }
     public function getUserByEmail(string $email): ?User
     {
@@ -72,26 +55,18 @@ class DummyUserRepository implements UserRepositoryInterface
             function(User $user) use($email)
             {
                 return $user->email === $email;
-            }, $index
+            }
         );
     }
 
     public function deleteUser(int $id): void
     {
-        $userToDelete = ArrayHelper::find($this->users,
-            function(User $user) use($id)
-            {
-                return $user->getId() === $id;
-            }, $index
-        );
-
-        if($userToDelete !== null && $index !== null)
-            ArrayHelper::deleteByIndex($this->users, $index);
+        DummyRepositoryHelper::deleteEntity($id, $this->users);
     }
 
-    public function saveToken(Token $token, int $userId): void
+    public function saveToken(Token $token): void
     {
-
+        DummyRepositoryHelper::saveEntity($token, $this->tokens);
     }
     public function deactivateToken(int $tokenId): void
     {

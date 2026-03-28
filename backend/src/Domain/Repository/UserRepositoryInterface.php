@@ -10,7 +10,7 @@ use src\Domain\Entity\Token;
 
 interface UserRepositoryInterface
 {
-    public function save(User $user): void;
+    public function saveUser(User $user): void;
     /** @return User[]*/
     public function getAllUsers(): array;
     public function getUserById(int $id): ?User;
@@ -18,7 +18,7 @@ interface UserRepositoryInterface
 
     public function deleteUser(int $id): void;
 
-    public function saveToken(Token $token, int $userId): void;
+    public function saveToken(Token $token): void;
     public function deactivateToken(int $tokenId): void;
     /** @return Token[] */
     public function getActiveTokensForUser(int $userId): array;

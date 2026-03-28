@@ -15,7 +15,8 @@ class Entity
     public function __construct(?int $id)
     {
         $this->id = null;
-        $this->setId($id);
+        if($id !== null)
+            $this->setId($id);
     }
     public function getId(): ?int
     {
