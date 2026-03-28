@@ -20,7 +20,5 @@ interface UserRepositoryInterface
 
     public function activateToken(Token $token): void;
     public function deactivateTokensForUser(int $userId): void;
-    public function hasUserActiveToken(int $userId): bool;
-
-    
+    public function getActiveTokenByValue(string $tokenValue): ?Token;
 }

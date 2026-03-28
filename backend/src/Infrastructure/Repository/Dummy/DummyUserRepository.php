@@ -87,21 +87,13 @@ class DummyUserRepository implements UserRepositoryInterface
         }
     }
 
-    /** @return Token[] */
-    public function hasUserActiveToken(int $userId): bool
+    public function getActiveTokenByValue(string $tokenValue): ?Token
     {
-        foreach($this->tokens as &$token)
-        {
-            if
-            (
-                $token->userId === $userId &&
-                $token->isActive()
-            )
+        return ArrayHelper::find($this->tokens,
+            function(Token $token) use($tokenValue)
             {
-                return true;
+                return $token->value === $tokenValue && $token->isActive();
             }
-        }
-
-        return false;
+        );
     }
 }

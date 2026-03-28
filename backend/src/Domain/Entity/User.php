@@ -9,19 +9,26 @@ use InvalidArgumentException;
 use src\Shared\Validation\Validator;
 use src\Domain\Entity\Entity;
 
+enum UserRole
+{
+    case normal;
+    case admin;
+};
+
 class User extends Entity
 {
     public string $username;
-    public static $usernameMinLenght = 3;
-    public static $usernameMaxLenght = 50;
+    public static int $usernameMinLenght = 3;
+    public static int $usernameMaxLenght = 50;
 
     readonly public string $email;
 
     public string $passwordHash;
+    public static int $passwordMinLenght = 8;
 
-    public static $passwordMinLenght = 8;
+    readonly public UserRole $role;
 
-    public function __construct(?int $id, string $username, string $email, string $passwordHash)
+    public function __construct(?int $id, string $username, string $email, string $passwordHash, UserRole $role = UserRole::normal)
     {
         parent::__construct($id);
         
@@ -40,6 +47,7 @@ class User extends Entity
         $this->username = $username;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
+        $this->role = $role;
     }
 
     public static function validateUsername(string $username): bool

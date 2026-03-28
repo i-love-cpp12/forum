@@ -5,6 +5,7 @@ namespace src\Infrastructure\Http;
 
 class Request
 {
+    readonly public array $headers;
     readonly public array $body;
     readonly public string $method; 
     readonly public string $uri;
@@ -14,5 +15,6 @@ class Request
         $this->method = strtoupper($_SERVER["REQUEST_METHOD"]);
         $this->uri = $_SERVER["REQUEST_URI"];
         $this->body = $this->method === "GET" ? [] : json_decode(file_get_contents("php://input"), true);
+        $this->headers = getallheaders() ?? [];
     }
 }
