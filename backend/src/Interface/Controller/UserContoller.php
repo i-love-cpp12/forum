@@ -18,6 +18,8 @@ class UserContoller
     }
     public function register(){}
     public function getAllUsers(){}
-    public function updateUsername(int $userId){}
+    public function getUser(int $userId){}
+    public function updateUser(int $userId){}
+    public function getLoggedUser(){}
     public function deleteUser(int $userId){}
 }

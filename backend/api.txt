@@ -13,6 +13,9 @@ POST    /api/logout             - Wylogowanie
 
 GET     /api/users/{id}         - Pobierz profil użytkownika
         Body: brak
+        
+GET     /api/me                 - Pokaz kto jest zalogowany
+        Body: brak
 
 PUT     /api/users/{id}         - Aktualizacja danych użytkownika
         Body: { "username": "noweImie", "bio": "opis" }
