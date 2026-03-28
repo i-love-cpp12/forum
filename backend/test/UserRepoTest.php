@@ -28,6 +28,8 @@ Respond::json(
         "token for(20)" => $repo->getActiveTokensForUser(20),
         "add new token for user id (20)" => $repo->saveToken(new Token(null, 20, hash("sha256", "new token"), null)),
         "token for(20) after insert" => $repo->getActiveTokensForUser(20),
+        "token deactivate token id (21)" => $repo->deactivateToken(21),
+        "token for (20) after deativate" => $repo->getActiveTokensForUser(20),
         "time" => time()
     ]
 );

@@ -11,10 +11,13 @@ use src\Shared\Array\ArrayHelper;
 class DummyRepositoryHelper
 {
     /** @param Entity[] $entityStorage */
-    public static function saveEntity(Entity $entity, array& $entityStorage): void
+    public static function saveEntity(Entity $entity, array& $entityStorage, ?int& $nextId = null): void
     {
         if($entity->getId() === null)
         {
+            if($nextId === null)
+                return;
+            $entity->setId($nextId++);
             $entityStorage[] = $entity;
             return;   
         }

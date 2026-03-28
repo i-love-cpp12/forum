@@ -16,28 +16,34 @@ class DummyUserRepository implements UserRepositoryInterface
 
     /** @var User[] */
     private array $users;
+    private int $nextUserId;
+
     /** @var Token[] */
     private array $tokens;
+    private int $nextTokenId;
 
     public function __construct()
     {
+        $this->users = [];
+        $this->tokens = [];
+        $this->nextUserId = 0;
+        $this->nextTokenId = 0;
+
         for($i = 0; $i < 30; ++$i)
         {
-            $this->users[] =
-                (new User($i, "oliwier$i", "oliwier$i@gmail.com", hash("sha256", "oliwier$i")));
+            $this->saveUser(new User(null, "oliwier$i", "oliwier$i@gmail.com", hash("sha256", "oliwier$i")));
         }
+
         for($i = 0; $i < 20; ++$i)
         {
-            $this->tokens[] =
-                (new Token($i, $this->users[$i]->getId(), hash("sha256", "oliwier$i"), $i * $i * 1000));
+            $this->saveToken(new Token(null, $this->users[$i]->getId(), hash("sha256", "oliwier$i"), $i * $i * 1000));
         }
-        $this->tokens[] =
-            (new Token(20, $this->users[20]->getId(), hash("sha256", "oliwier20"), null));
+        $this->saveToken(new Token(null, $this->users[20]->getId(), hash("sha256", "oliwier20"), null));
     }
 
     public function saveUser(User $user): void
     {
-        DummyRepositoryHelper::saveEntity($user, $this->users);
+        DummyRepositoryHelper::saveEntity($user, $this->users, $this->nextUserId);
     }
 
     /** @return User[]*/
@@ -66,11 +72,19 @@ class DummyUserRepository implements UserRepositoryInterface
 
     public function saveToken(Token $token): void
     {
-        DummyRepositoryHelper::saveEntity($token, $this->tokens);
+        DummyRepositoryHelper::saveEntity($token, $this->tokens, $this->nextTokenId);
     }
     public function deactivateToken(int $tokenId): void
     {
+        $tokenToDeactivate =& ArrayHelper::find($this->tokens,
+            function(Token $token) use($tokenId)
+            {
+                return $token->getId() === $tokenId;
+            }
+        );
 
+        if($tokenToDeactivate !== null)
+            $tokenToDeactivate->deactivate();
     }
     /** @return Token[] */
     public function getActiveTokensForUser(int $userId): array
