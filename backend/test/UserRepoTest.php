@@ -21,15 +21,13 @@ Respond::json(
         "delete" => $repo->deleteUser(0),
         "after delete by id" => $repo->getUserById(0),
         "after delete by email" => $repo->getUserByEmail("oliwier0@gmail.com"),
-        "token for(0)" => $repo->getActiveTokensForUser(0),
-        "token for(1)" => $repo->getActiveTokensForUser(1),
-        "token for(1) update" => $repo->saveToken(new Token(1, 1, hash("sha256", "update token"), null)),
-        "token for(1) after update" => $repo->getActiveTokensForUser(1),
-        "token for(20)" => $repo->getActiveTokensForUser(20),
-        "add new token for user id (20)" => $repo->saveToken(new Token(null, 20, hash("sha256", "new token"), null)),
-        "token for(20) after insert" => $repo->getActiveTokensForUser(20),
-        "token deactivate token id (21)" => $repo->deactivateToken(21),
-        "token for (20) after deativate" => $repo->getActiveTokensForUser(20),
+        "token for(0)" => $repo->hasUserActiveToken(0),
+        "token for(1)" => $repo->hasUserActiveToken(1),
+        "token for(20)" => $repo->hasUserActiveToken(20),
+        "add new token for user id (20)" => $repo->activateToken(new Token(null, 20, hash("sha256", "new token"), null)),
+        "token for(20) after insert" => $repo->hasUserActiveToken(20),
+        "token deactivate token id (21)" => $repo->deactivateTokensForUser(20),
+        "token for (20) after deativate" => $repo->hasUserActiveToken(20),
         "time" => time()
     ]
 );

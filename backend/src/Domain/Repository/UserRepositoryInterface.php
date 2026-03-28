@@ -18,10 +18,9 @@ interface UserRepositoryInterface
 
     public function deleteUser(int $id): void;
 
-    public function saveToken(Token $token): void;
-    public function deactivateToken(int $tokenId): void;
-    /** @return Token[] */
-    public function getActiveTokensForUser(int $userId): array;
+    public function activateToken(Token $token): void;
+    public function deactivateTokensForUser(int $userId): void;
+    public function hasUserActiveToken(int $userId): bool;
 
     
 }

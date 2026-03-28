@@ -14,7 +14,7 @@ class UserRegisterService
 {
     public function __construct(private UserRepositoryInterface $userRepo){}
 
-    public function execute(RegisterDTO $DTO)
+    public function execute(RegisterDTO $DTO): void
     {
         if(!User::validateUsername($DTO->username))
             throw new BusinessException("username: $DTO->username must be (" . User::$usernameMinLenght . " - " . User::$usernameMaxLenght . ") character long");
@@ -23,11 +23,14 @@ class UserRegisterService
             throw new BusinessException("email: $DTO->email is not valid email");
 
         if(!User::validatePassword($DTO->password))
-            throw new BusinessException("password: $DTO->password must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
+            throw new BusinessException("password: $DTO->password is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
+
+        if($this->userRepo->getUserByEmail($DTO->email) !== null)
+            throw new BusinessException("user with this email: $DTO->email already exist", 409);
 
         $paswordHash = password_hash($DTO->password, "sha256");
 
         $user = new User(null, $DTO->username, $DTO->email, $paswordHash);
-        $this->userRepo->save($user);
+        $this->userRepo->saveUser($user);
     }
 }

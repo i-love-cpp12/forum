@@ -5,6 +5,7 @@ namespace src\Infrastructure\Repository\Dummy;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
+use LogicException;
 use src\Domain\Entity\User;
 use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
@@ -36,9 +37,9 @@ class DummyUserRepository implements UserRepositoryInterface
 
         for($i = 0; $i < 20; ++$i)
         {
-            $this->saveToken(new Token(null, $this->users[$i]->getId(), hash("sha256", "oliwier$i"), $i * $i * 1000));
+            $this->activateToken(new Token(null, $this->users[$i]->getId(), hash("sha256", "oliwier$i"), $i * $i * 1000));
         }
-        $this->saveToken(new Token(null, $this->users[20]->getId(), hash("sha256", "oliwier20"), null));
+        $this->activateToken(new Token(null, $this->users[20]->getId(), hash("sha256", "oliwier20"), null));
     }
 
     public function saveUser(User $user): void
@@ -70,28 +71,26 @@ class DummyUserRepository implements UserRepositoryInterface
         DummyRepositoryHelper::deleteEntity($id, $this->users);
     }
 
-    public function saveToken(Token $token): void
+    public function activateToken(Token $token): void
     {
+        if($token->getId() !== null || !$token->isActive())
+            throw new LogicException("tokenId must be unset and token must be activated");
         DummyRepositoryHelper::saveEntity($token, $this->tokens, $this->nextTokenId);
     }
-    public function deactivateToken(int $tokenId): void
-    {
-        $tokenToDeactivate =& ArrayHelper::find($this->tokens,
-            function(Token $token) use($tokenId)
-            {
-                return $token->getId() === $tokenId;
-            }
-        );
 
-        if($tokenToDeactivate !== null)
-            $tokenToDeactivate->deactivate();
+    public function deactivateTokensForUser(int $userId): void
+    {
+        foreach($this->tokens as &$token)
+        {
+            if($token->userId === $userId)
+                $token->deactivate();
+        }
     }
-    /** @return Token[] */
-    public function getActiveTokensForUser(int $userId): array
-    {
-        $tokens = [];
 
-        foreach($this->tokens as $token)
+    /** @return Token[] */
+    public function hasUserActiveToken(int $userId): bool
+    {
+        foreach($this->tokens as &$token)
         {
             if
             (
@@ -99,10 +98,10 @@ class DummyUserRepository implements UserRepositoryInterface
                 $token->isActive()
             )
             {
-                $tokens[] = $token;
+                return true;
             }
         }
 
-        return $tokens;
+        return false;
     }
 }

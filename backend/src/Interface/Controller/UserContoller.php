@@ -13,6 +13,6 @@ class UserContoller
     public function logout(){}
     public function register(){}
     public function getAllUsers(){}
-    public function updateUser(int $userId){}
+    public function updateUsername(int $userId){}
     public function deleteUser(int $userId){}
 }

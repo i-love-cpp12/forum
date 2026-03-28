@@ -18,7 +18,7 @@ class Token extends Entity
     readonly public ?int $expireTimeStamp;
     private bool $isActive;
 
-    public function __construct(?int $id, int $userId, string $value, ?int $duration = null, bool $isActive = true)
+    public function __construct(?int $id, int $userId, string $value, ?int $durationS = null, bool $isActive = true)
     {
         parent::__construct($id);
 
@@ -31,12 +31,12 @@ class Token extends Entity
         )
             throw new InvalidArgumentException("token: $value must be (" . self::$length . ") long");
 
-        if($duration !== null && $duration < 0)
-            throw new InvalidArgumentException("duration: $duration can not be negative");
+        if($durationS !== null && $durationS < 0)
+            throw new InvalidArgumentException("duration: $durationS can not be negative");
         
         $this->userId = $userId; 
         $this->value = $value; 
-        $this->expireTimeStamp = $duration !== null ? time() + $duration : null;
+        $this->expireTimeStamp = $durationS !== null ? time() + $durationS : null;
         $this->isActive = $isActive;
     }
 
