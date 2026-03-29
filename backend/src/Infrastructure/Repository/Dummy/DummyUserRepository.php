@@ -73,8 +73,6 @@ class DummyUserRepository implements UserRepositoryInterface
 
     public function activateToken(Token $token): void
     {
-        if($token->getId() !== null || !$token->isActive())
-            throw new LogicException("tokenId must be unset and token must be activated");
         DummyRepositoryHelper::saveEntity($token, $this->tokens, $this->nextTokenId);
     }
 
