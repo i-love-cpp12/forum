@@ -284,7 +284,7 @@ class UserContoller
                 "error" => "",
                 "data" =>
                     [
-                        "message" => "Getting logged user successfull",
+                        "message" => "Getting logged user successful",
                         "user" => $userMapped
                     ]
             ]

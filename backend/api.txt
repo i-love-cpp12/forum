@@ -1,105 +1,203 @@
-# FORUM RESTFUL API
+FORUM RESTFUL API
+1. Users
 
-## 1. Users (Użytkownicy)
+POST /api/register - Register a new user
+Body:
+{
+    "username": "user123",
+    "email": "a@b.com",
+    "password": "pass123"
+}
+Response:
+{
+    "error": "error message",
+    "data":
+        [
+            "message": "Register successful for email: a@b.com"
+        ]
+}
 
-POST    /api/register           - Rejestracja nowego użytkownika
-        Body: { "username": "oliwier", "email": "a@b.com", "password": "haslo123" }
+POST /api/login - User login
+Body:
+{
+    "email": "a@b.com",
+    "password": "pass123"
+}
+Response:
+{
+    "error": "error message",
+    "data":
+        [
+            "message": "Login for email: a@b.com and password: ******* successful",
+            "token": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6"
+        ]
+}
 
-POST    /api/login              - Logowanie użytkownika
-        Body: { "email": "a@b.com", "password": "haslo123" }
+POST /api/logout - Logout
+Body: none
+Response:
+{
+    "error": "error message",
+    "data":
+        [
+            "message": "Logout successful for email: a@b.com"
+        ]
+}
 
-POST    /api/logout             - Wylogowanie
-        Body: brak
+GET /api/users/{id} - Get user profile
+Body: none
+Response:
+{
+    "error": "error message",
+    "data":
+        [
+            "message": "Getting user with id: 1 successful",
+            "user":
+                {
+                    "id": 1,
+                    "username": "user123",
+                    "email": "a@b.com",
+                    "role": "admin"
+                }
+        ]
+}
 
-GET     /api/users/{id}         - Pobierz profil użytkownika
-        Body: brak
+GET /api/users - Get all user profiles
+Body: none
+Response:
+{
+    "error": "error message",
+    "data":
+        [
+            "message": "Getting all users successful",
+            "users":
+                [
+                    {
+                        "id": 1,
+                        "username": "user123",
+                        "email": "a@b.com",
+                        "role": "admin"
+                    },
+                    {
+                        "id": 2,
+                        "username": "user1234",
+                        "email": "c@d.com",
+                        "role": "normal"
+                    },
+                    {
+                        "id": 3,
+                        "username": "user1235",
+                        "email": "e@f.com",
+                        "role": "normal"
+                    }
+                ] 
+        ]
+}
 
-GET     /api/users              - Pobierz wszystkie profile użytkowników
-        Body: brak
-        
-GET     /api/me                 - Pokaz kto jest zalogowany
-        Body: brak
+GET /api/me - Show currently logged-in user
+Body: none
+Response:
+{
+    "error": "error message",
+    "data":
+        [
+            "message": "Getting logged user successful",
+            "user":
+                {
+                    "id": 1,
+                    "username": "user123",
+                    "email": "a@b.com",
+                    "role": "admin"
+                }
+        ]
+}
 
-PUT     /api/users/{id}         - Aktualizacja danych użytkownika
-        Body: { "username": "noweImie", "bio": "opis" }
+PUT /api/users/{id} - Update user data
+Body:
+{
+    "username": "newName",
+    "password": "newPassword"
+}
+Response:
+{
+    "error": "error message",
+    "data":
+        [
+            "message": "Updating user with id: 1 with new username: newName and password: *********** successful",
+        ]
+}
 
-DELETE  /api/users/{id}         - Usunięcie konta
-        Body: brak
+DELETE /api/users/{id} - Delete account
+Body: none
+Response:
+{
+    "error": "error message",
+    "data":
+        [
+            "message": "Deleting user with id: 1 successful",
+        ]
+}
 
+2. Posts
 
-## 2. Posts (Posty)
+GET /api/posts - Get list of all posts
+Query: ?page=1&limit=20
 
-GET     /api/posts              - Pobierz listę wszystkich postów
-        Query: ?page=1&limit=20
+GET /api/posts/{id} - Get post details
+Body: none
 
-GET     /api/posts/{id}         - Pobierz szczegóły posta
-        Body: brak
+POST /api/posts - Create a new post
+Body: { "title": "Title", "content": "Post content" }
 
-POST    /api/posts              - Utwórz nowy post
-        Body: { "title": "Tytuł", "content": "Treść posta" }
+PUT /api/posts/{id} - Update post
+Body: { "title": "New title", "content": "New content" }
 
-PUT     /api/posts/{id}         - Aktualizuj post
-        Body: { "title": "Nowy tytuł", "content": "Nowa treść" }
+DELETE /api/posts/{id} - Delete post
+Body: none
 
-DELETE  /api/posts/{id}         - Usuń post
-        Body: brak
+3. Comments
 
+GET /api/posts/{postId}/comments - Get comments for a post
+Body: none
 
-## 3. Comments (Komentarze)
+POST /api/posts/{postId}/comments - Add a comment
+Body: { "content": "Great post!" }
 
-GET     /api/posts/{postId}/comments  - Pobierz komentarze dla posta
-        Body: brak
+PUT /api/comments/{id} - Edit comment
+Body: { "content": "Updated comment" }
 
-POST    /api/posts/{postId}/comments  - Dodaj komentarz
-        Body: { "content": "Świetny post!" }
+DELETE /api/comments/{id} - Delete comment
+Body: none
 
-PUT     /api/comments/{id}            - Edytuj komentarz
-        Body: { "content": "Zaktualizowany komentarz" }
+4. Likes
 
-DELETE  /api/comments/{id}            - Usuń komentarz
-        Body: brak
+POST /api/posts/{id}/like - Like a post
+Body: none
 
+DELETE /api/posts/{id}/like - Remove like from post
+Body: none
 
-## 4. Likes (Polubienia)
+POST /api/comments/{id}/like - Like a comment
+Body: none
 
-POST    /api/posts/{id}/like          - Polubienie posta
-        Body: brak
+DELETE /api/comments/{id}/like - Remove like from comment
+Body: none
 
-DELETE  /api/posts/{id}/like          - Usunięcie polubienia
-        Body: brak
+5. Categories / Tags (optional)
 
-POST    /api/comments/{id}/like       - Polubienie komentarza
-        Body: brak
+GET /api/categories - Get all categories
+Body: none
 
-DELETE  /api/comments/{id}/like       - Usunięcie polubienia
-        Body: brak
+POST /api/categories - Add a category
+Body: { "name": "Technology" }
 
+PUT /api/categories/{id} - Edit category
+Body: { "name": "New name" }
 
-## 5. Categories / Tags (Kategorie / Tagowanie - opcjonalnie)
+DELETE /api/categories/{id} - Delete category
+Body: none
 
-GET     /api/categories              - Pobierz wszystkie kategorie
-        Body: brak
+6. Search / Filters
 
-POST    /api/categories              - Dodaj kategorię
-        Body: { "name": "Technologia" }
-
-PUT     /api/categories/{id}         - Edytuj kategorię
-        Body: { "name": "Nowa nazwa" }
-
-DELETE  /api/categories/{id}         - Usuń kategorię
-        Body: brak
-
-
-## 6. Search / Filters (Wyszukiwanie / Filtry)
-
-GET     /api/posts?authorId=1&category=tech&sort=latest
-GET     /api/posts?search=react
-
-
-## 7. Middleware / Auth (Autoryzacja)
-
-- JWT Token w nagłówku: Authorization: Bearer {token}
-- Sprawdza:
-    - Czy użytkownik jest zalogowany
-    - Czy użytkownik ma prawa do edycji / usuwania
-    - Opcjonalnie: rate limiting / ochrona przed spamem
+GET /api/posts?authorId=1&category=tech&sort=latest
+GET /api/posts?search=react
