@@ -9,7 +9,7 @@ use src\Domain\Repository\UserRepositoryInterface;
 use src\Application\DTO\User\UserGetDTO;
 use src\Shared\Exception\BusinessException;
 
-class UserGetService
+class UserDeleteService
 {
     public function __construct(private UserRepositoryInterface $userRepo){}
 

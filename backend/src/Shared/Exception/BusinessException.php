@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace src\Shared\Exception;
 
 use Exception;
-use Throwable;
 
 class BusinessException extends Exception
 {

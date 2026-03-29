@@ -18,7 +18,9 @@ class Request
     {
         $this->method = strtoupper($_SERVER["REQUEST_METHOD"]);
         $this->uri = $_SERVER["REQUEST_URI"];
-        $this->body = $this->method === "GET" ? [] : json_decode(file_get_contents("php://input"), true);
+        $this->body =
+            $this->method === "GET" ? [] :
+            json_decode(file_get_contents("php://input"), true) ?? [];
         $this->headers = getallheaders() ?? [];
         $this->state = [];
     }

@@ -13,6 +13,9 @@ POST    /api/logout             - Wylogowanie
 
 GET     /api/users/{id}         - Pobierz profil użytkownika
         Body: brak
+
+GET     /api/users              - Pobierz wszystkie profile użytkowników
+        Body: brak
         
 GET     /api/me                 - Pokaz kto jest zalogowany
         Body: brak

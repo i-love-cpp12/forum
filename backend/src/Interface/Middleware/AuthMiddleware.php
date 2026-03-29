@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
-namespace src\Interface\Midlleware;
+namespace src\Interface\Middleware;
 
 use src\Application\DTO\User\UserGetLoggedDTO;
 use src\Application\Service\User\UserGetLoggedByTokenService;
-use src\Domain\Service\GetUserAuthTokenService;
+use src\Domain\Service\UserGetAuthTokenService;
 use src\Infrastructure\Http\Request;
 use src\Shared\Exception\ExceptionHandler;
 use Throwable;
@@ -18,7 +18,7 @@ class AuthMiddleware
     (
         private Request $request,
         private UserGetLoggedByTokenService $userGetLoggedByTokenService,
-        private GetUserAuthTokenService $getUserAuthTokenService
+        private UserGetAuthTokenService $getUserAuthTokenService
     ){}
     public function execute(): void
     {

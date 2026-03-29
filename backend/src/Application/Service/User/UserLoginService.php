@@ -10,6 +10,7 @@ use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Exception\BusinessException;
 use src\Domain\Entity\User;
+use src\Interface\Mapper\TokenMapper;
 
 class UserLoginService
 {
@@ -21,11 +22,12 @@ class UserLoginService
     {
         $user = $this->userRepo->getUserByEmail($DTO->email);
 
-        if($user === null || $user->isPasswordCorrect($DTO->password))
+        if($user === null || !$user->isPasswordCorrect($DTO->password))
             throw new BusinessException("Invalid credentials email: $DTO->email password: " . User::hidePassword($DTO->password), 401);
 
         $token = new Token(null, $user->getId(), $DTO->token, self::$tokenDurationS);
-
+        echo json_encode(TokenMapper::map($token));
+        die();
         $this->userRepo->activateToken($token);
     }
 }

@@ -9,12 +9,12 @@ use src\Shared\Validation\Validator;
 require_once(__DIR__ . "/../../../autoload.php");
 
 
-class GetUserAuthTokenService
+class UserGetAuthTokenService
 {
     public static function execute(): string
     {
         //Authorization: Bearer TOKEN_CONTENT
-        $authHeader = explode(" ", (new Request())->headers["Authorization"]);
+        $authHeader = explode(" ", (new Request())->headers["Authorization"] ?? "");
         if
         (
             count($authHeader) !== 2 ||

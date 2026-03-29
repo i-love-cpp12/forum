@@ -36,15 +36,10 @@ class DummyRepositoryHelper
     /** @param Entity[] $entityStorage */
     public static function deleteEntity(int $entityId, array& $entityStorage): void
     {
-        ArrayHelper::find($entityStorage,
-            function(Entity $entity) use($entityId)
-            {
-                return $entity->getId() === $entityId;
-            }, $index
+        ArrayHelper::deleteByItem(
+            $entityStorage, $entityId,
+            fn(Entity $entity, int $id) => ($entity->getId() === $id)
         );
- 
-        if($index !== null)
-            ArrayHelper::deleteByIndex($entityStorage, $index);
     }
 
     /** @param Entity[] $entityStorage @return Entity[]*/

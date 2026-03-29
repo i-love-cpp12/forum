@@ -2,20 +2,19 @@
 declare(strict_types=1);
 namespace src\Interface\Controller;
 
-use src\Application\DTO\User\LogoutDTO;
 use src\Application\DTO\User\UserGetDTO;
-use src\Application\DTO\User\UserGetLoggedDTO;
 use src\Application\DTO\User\UserLoginDTO;
 use src\Application\DTO\User\UserRegisterDTO;
 use src\Application\DTO\User\UserUpdateDTO;
+use src\Application\Service\User\UserDeleteService;
 use src\Application\Service\User\UserGetAllService;
-use src\Application\Service\User\UserGetLoggedByTokenService;
 use src\Application\Service\User\UserGetService;
 use src\Application\Service\User\UserLoginService;
 use src\Application\Service\User\UserLogoutService;
 use src\Application\Service\User\UserRegisterService;
 use src\Application\Service\User\UserUpdateService;
 use src\Domain\Entity\User;
+use src\Domain\Entity\UserRole;
 use src\Domain\Service\UserGenerateTokenService;
 use src\Infrastructure\Http\Request;
 use src\Infrastructure\Http\Respond;
@@ -39,7 +38,8 @@ class UserContoller
         private UserLogoutService $userLogoutService,
         private UserGetAllService $userGetAllService,
         private UserGetService $userGetService,
-        private UserUpdateService $userUpdateService
+        private UserUpdateService $userUpdateService,
+        private UserDeleteService $userDeleteService
     ){}
     public function login(): void
     {
@@ -168,8 +168,9 @@ class UserContoller
         );
     }
 
-    public function getUser(int $userId): void
+    public function getUser(string $userId): void
     {
+        $userId = intval($userId);
         $user = null;
 
         try
@@ -196,13 +197,26 @@ class UserContoller
         );
     }
 
-    public function updateUser(int $userId): void
+    public function updateUser(string $userId): void
     {
+        $userId = intval($userId);
+
         $username = $this->request->body["username"] ?? null;
         $password = $this->request->body["password"] ?? null;
 
         try
         {
+            $user = $this->request->getFromState("user");
+
+            if
+            (
+                $user->getId() !== $userId &&
+                $user->role !== UserRole::admin
+            )
+            {
+                throw new BusinessException("You are not authorized user to make this action", 401);
+            }
+
             if($username !== null && !is_string($username))
                 throw new BusinessException("Username must be type of (string)");
 
@@ -237,29 +251,42 @@ class UserContoller
         );
     }
     
-    public function deleteUser(int $userId): void
+    public function deleteUser(string $userId): void
     {
-        // try
-        // {
-        //     $userUpdateDTO = new UserUpdateDTO($userId, $username, $password);
-        //     $this->userUpdateService->execute($userUpdateDTO);
-        // }
-        // catch(Throwable $e)
-        // {
-        //     ExceptionHandler::handle($e);
-        // }
+        $userId = intval($userId);
+
+        try
+        {
+            $user = $this->request->getFromState("user");
+
+            if
+            (
+                $user->getId() !== $userId &&
+                $user->role !== UserRole::admin
+            )
+            {
+                throw new BusinessException("You are not authorized user to make this action", 401);
+            }
+
+            $userGetDTO = new UserGetDTO($userId);
+            $this->userDeleteService->execute($userGetDTO);
+        }
+        catch(Throwable $e)
+        {
+            ExceptionHandler::handle($e);
+        }
 
 
-        // Respond::json(
-        //     [
-        //         "error" => "",
-        //         "data" =>
-        //             [
-        //                 "message" =>
-        //                     "Deleting user with id: $userId successful"
-        //             ]
-        //     ]
-        // );
+        Respond::json(
+            [
+                "error" => "",
+                "data" =>
+                    [
+                        "message" =>
+                            "Deleting user with id: $userId successful"
+                    ]
+            ]
+        );
     }
 
     public function getLoggedUser(): void
