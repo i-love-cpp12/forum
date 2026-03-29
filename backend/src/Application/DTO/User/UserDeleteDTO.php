@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace src\Application\DTO\User;
 
-class UserUpdateDTO
+use src\Domain\Entity\UserRole;
+
+class UserDelteDTO
 {
     public function __construct
     (
-        readonly public int $userToUpdateId,
-        readonly public ?string $newUsername,
-        readonly public ?string $newPassword,
+        readonly public int $userToDeleteId,
         readonly public int $loggedUserId,
         readonly public int $loggedUserRole
     )

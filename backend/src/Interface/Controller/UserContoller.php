@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace src\Interface\Controller;
 
+use src\Application\DTO\User\UserDelteDTO;
 use src\Application\DTO\User\UserGetDTO;
 use src\Application\DTO\User\UserLoginDTO;
 use src\Application\DTO\User\UserRegisterDTO;
@@ -206,17 +207,6 @@ class UserContoller
 
         try
         {
-            $user = $this->request->getFromState("user");
-
-            if
-            (
-                $user->getId() !== $userId &&
-                $user->role !== UserRole::admin
-            )
-            {
-                throw new BusinessException("You are not authorized user to make this action", 401);
-            }
-
             if($username !== null && !is_string($username))
                 throw new BusinessException("Username must be type of (string)");
 
@@ -225,8 +215,11 @@ class UserContoller
 
             if($password === null && $username === null)
                 throw new BusinessException("To update user you have to provide some of allowed data: username (string), password(string)");
+            
+            /** @var User $loggedUser */
+            $loggedUser = $this->request->getFromState("user");
 
-            $userUpdateDTO = new UserUpdateDTO($userId, $username, $password);
+            $userUpdateDTO = new UserUpdateDTO($userId, $username, $password, $loggedUser->getId(), $loggedUser->role->value);
             $this->userUpdateService->execute($userUpdateDTO);
         }
         catch(Throwable $e)
@@ -257,19 +250,11 @@ class UserContoller
 
         try
         {
-            $user = $this->request->getFromState("user");
+            /** @var User $loggedUser */
+            $loggedUser = $this->request->getFromState("user");
 
-            if
-            (
-                $user->getId() !== $userId &&
-                $user->role !== UserRole::admin
-            )
-            {
-                throw new BusinessException("You are not authorized user to make this action", 401);
-            }
-
-            $userGetDTO = new UserGetDTO($userId);
-            $this->userDeleteService->execute($userGetDTO);
+            $userDelteDTO = new UserDelteDTO($userId, $loggedUser->getId(), $loggedUser->role->value);
+            $this->userDeleteService->execute($userDelteDTO);
         }
         catch(Throwable $e)
         {

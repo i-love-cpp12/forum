@@ -7,6 +7,7 @@ require_once(__DIR__ . "/../../../../autoload.php");
 
 use src\Application\DTO\User\UserUpdateDTO;
 use src\Domain\Entity\User;
+use src\Domain\Entity\UserRole;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Exception\BusinessException;
 
@@ -16,13 +17,22 @@ class UserUpdateService
 
     public function execute(UserUpdateDTO $DTO): void
     {
+        if
+        (
+            $DTO->loggedUserId !== $DTO->userToUpdateId &&
+            $DTO->loggedUserRole !== UserRole::admin->value
+        )
+        {
+            throw new BusinessException("You are not authorized user to make this action", 401);
+        }
+
         if($DTO->newUsername === null && $DTO->newPassword === null)
             return;
 
-        $user = $this->userRepo->getUserById($DTO->id);
+        $user = $this->userRepo->getUserById($DTO->userToUpdateId);
         
         if($user === null)
-            throw new BusinessException("User with id: $DTO->id not found", 404);
+            throw new BusinessException("User with id: $DTO->userToUpdateId not found", 404);
 
         if($DTO->newUsername !== null && !User::validateUsername($DTO->newUsername))
             throw new BusinessException("New username: $DTO->newUsername is not valid");
