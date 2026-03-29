@@ -16,19 +16,25 @@ class UserUpdateService
 
     public function execute(UserUpdateDTO $DTO): void
     {
+        if($DTO->newUsername === null && $DTO->newPassword === null)
+            return;
+
         $user = $this->userRepo->getUserById($DTO->id);
         
         if($user === null)
             throw new BusinessException("User with id: $DTO->id not found", 404);
 
-        if(!User::validateUsername($DTO->newUsername))
+        if($DTO->newUsername !== null && !User::validateUsername($DTO->newUsername))
             throw new BusinessException("New username: $DTO->newUsername is not valid");
 
-        if(!User::validatePassword($DTO->newPassword))
+        if($DTO->newPassword !== null && !User::validatePassword($DTO->newPassword))
             throw new BusinessException("New password: " . User::hidePassword($DTO->newPassword) . " is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
+        
+        if($DTO->newUsername !== null)
+            $user->setUsername($DTO->newUsername);
 
-        $user->setUsername($DTO->newUsername);
-        $user->setPassword($DTO->newPassword);
+        if($DTO->newPassword !== null)
+            $user->setPassword($DTO->newPassword);
         
         $this->userRepo->saveUser($user);
     }

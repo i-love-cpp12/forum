@@ -27,6 +27,7 @@ class User extends Entity
     public static int $passwordMinLenght = 8;
 
     readonly public UserRole $role;
+    private static array $roles = ["normal", "admin"];
 
     public function __construct(?int $id, string $username, string $email, string $passwordHash, UserRole $role = UserRole::normal)
     {
@@ -49,13 +50,12 @@ class User extends Entity
 
     public function __toString(): string
     {
-        $roles = ["normal", "admin"];
         return
             "id: " . $this->getId() .
             " | email: " . $this->email .
             " | username: " . $this->username .
             " | passwordHash: " . $this->passwordHash .
-            " | role: " . $roles[$this->role->value];
+            " | role: " . self::roleToString($this->role);
     }
 
     public function getUsername(): string
@@ -74,6 +74,8 @@ class User extends Entity
 
     public function setPassword(string $password): void
     {
+        $password = trim($password);
+
         if(!self::validatePassword($password))
             throw new InvalidArgumentException("password: " . self::hidePassword($password) . " is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . self::$passwordMinLenght . ") long");
 
@@ -94,11 +96,15 @@ class User extends Entity
 
     public static function validateUsername(string $username): bool
     {
+        $username = trim($username);
+
         return Validator::validateLenght($username, self::$usernameMinLenght, self::$usernameMaxLenght);
     }
 
     public static function validateEmail(string $email): bool
     {
+        $email = trim($email);
+
         return Validator::validateEmail($email);
     }
     
@@ -109,6 +115,8 @@ class User extends Entity
 
     public static function validatePassword(string $password)
     {
+        $password = trim($password);
+
         return
             Validator::stringContain($password, true, true, true) &&
             Validator::validateLenght($password, self::$passwordMinLenght, null);
@@ -116,5 +124,9 @@ class User extends Entity
     public static function hidePassword(string $password): string
     {
         return str_repeat("*", strlen($password));
+    }
+    public static function roleToString(UserRole $role): string
+    {
+        return self::$roles[$role->value];    
     }
 }

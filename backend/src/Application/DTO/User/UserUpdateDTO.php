@@ -8,8 +8,8 @@ class UserUpdateDTO
     public function __construct
     (
         readonly public int $id,
-        readonly public string $newUsername,
-        readonly public string $newPassword
+        readonly public ?string $newUsername,
+        readonly public ?string $newPassword
     )
     {
         

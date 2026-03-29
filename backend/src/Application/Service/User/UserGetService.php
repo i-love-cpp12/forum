@@ -14,8 +14,7 @@ class UserGetService
 {
     public function __construct(private UserRepositoryInterface $userRepo){}
 
-    /** @return User[] */
-    public function execute(UserGetDTO $DTO): ?User
+    public function execute(UserGetDTO $DTO): User
     {
         $user = $this->userRepo->getUserById($DTO->id);
         
