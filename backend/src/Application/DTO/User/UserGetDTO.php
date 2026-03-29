@@ -7,7 +7,7 @@ class UserGetDTO
 {
     public function __construct
     (
-        readonly public int $id
+        readonly public int $userId
     )
     {
         

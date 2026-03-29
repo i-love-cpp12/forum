@@ -16,10 +16,10 @@ class UserGetService
 
     public function execute(UserGetDTO $DTO): User
     {
-        $user = $this->userRepo->getUserById($DTO->id);
+        $user = $this->userRepo->getUserById($DTO->userId);
         
         if($user === null)
-            throw new BusinessException("User with id: $DTO->id not found", 404);
+            throw new BusinessException("User with id: $DTO->userId not found", 404);
         return $user;
     }
 }
