@@ -24,6 +24,10 @@ class Post extends Entity
     public static $contentMinLenght = 1;
     public static $contentMaxLenght = 1000;
 
+    /** @var string[] $categories */
+    // to think about
+    public array $categories;
+
     private int $likeCount;
     private int $dislikeCount;
 
@@ -34,6 +38,7 @@ class Post extends Entity
         int $userId,
         ?string $header,
         string $content,
+        array $categories,
         int $likeCount = 0,
         int $dislikeCount = 0
     )
