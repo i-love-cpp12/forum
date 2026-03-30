@@ -27,7 +27,6 @@ class User extends Entity
     public static int $passwordMinLenght = 8;
 
     readonly public UserRole $role;
-    private static array $roles = ["normal", "admin"];
 
     public function __construct
     (
@@ -134,6 +133,7 @@ class User extends Entity
     }
     public static function roleToString(UserRole $role): string
     {
-        return self::$roles[$role->value];    
+        $roles = ["normal", "admin"];
+        return $roles[$role->value];
     }
 }

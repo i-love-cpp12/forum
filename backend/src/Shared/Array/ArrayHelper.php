@@ -40,4 +40,18 @@ class ArrayHelper
         $null = null;
         return $null;
     }
+
+    public static function findAll(array& $array, callable $callback): array
+    {
+        $lenght = count($array);
+        $result = [];
+        for($i = 0; $i < $lenght; ++$i)
+        {
+            if($callback($array[$i]))
+            {
+                $result[] = $array[$i];
+            }
+        }
+        return $result;
+    }
 }

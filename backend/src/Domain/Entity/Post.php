@@ -8,6 +8,7 @@ require_once(__DIR__ . "/../../../autoload.php");
 use InvalidArgumentException;
 use LogicException;
 use src\Domain\Entity\Entity;
+use src\Shared\Array\ArrayHelper;
 use src\Shared\Validation\Validator;
 
 class Post extends Entity
@@ -24,13 +25,13 @@ class Post extends Entity
     public static $contentMinLenght = 1;
     public static $contentMaxLenght = 1000;
 
-    /** @var string[] $categories */
-    // to think about
+    /** @var PostCategory[] $categories */
     public array $categories;
 
     private int $likeCount;
     private int $dislikeCount;
 
+    /** @param PostCategory[] $categories */
     public function __construct
     (
         ?int $id,
@@ -38,7 +39,7 @@ class Post extends Entity
         int $userId,
         ?string $header,
         string $content,
-        array $categories,
+        array $categories = [],
         int $likeCount = 0,
         int $dislikeCount = 0
     )
@@ -56,6 +57,7 @@ class Post extends Entity
     
         $this->header = null;
         $this->content = "";
+        $this->categories = [];
         $this->likeCount = 0;
         $this->dislikeCount = 0;
 
@@ -63,6 +65,7 @@ class Post extends Entity
         $this->setContent($content);
         $this->setLikeCount($likeCount);
         $this->setDislikeCount($dislikeCount);
+        $this->addCategories($categories);
     }
 
     public function setHeader(string $header): void
@@ -90,6 +93,40 @@ class Post extends Entity
     public function getContent(): string
     {
         return $this->content;    
+    }
+
+    public function addCategory(PostCategory $category): void
+    {
+        if($category->getId() === null)
+            throw new LogicException("Category added to post must be already saved");
+        $this->categories[] = $category;
+    }
+
+    /** @param PostCategory[] $categories */
+    public function addCategories(array $categories): void
+    {
+        foreach($categories as $category)
+        {
+            if(!$category instanceof PostCategory)
+                throw new InvalidArgumentException("All categories must be of PostCategory type");
+            $this->addCategory($category);
+        }
+    }
+
+    public function deleteCategory(int $categoryId): void
+    {
+        ArrayHelper::deleteByItem
+        (
+            $this->categories,
+            $categoryId,
+            fn(PostCategory $category, int $categoryId) => ($category->getId() === $categoryId)
+        );
+    }
+
+    /** @return Category[] */
+    public function getCategories(): array
+    {
+        return $this->categories;
     }
 
     public function setLikeCount(int $likeCount): void
@@ -134,6 +171,7 @@ class Post extends Entity
             " | userId: " . $this->userId .
             " | header: " . ($this->header ?? "null") .
             " | content: " . $this->content .
+            " | categories: " . implode(", ", $this->categories) .
             " | likeCount: " . $this->likeCount .
             " | dislikeCount: " . $this->dislikeCount;
     }
