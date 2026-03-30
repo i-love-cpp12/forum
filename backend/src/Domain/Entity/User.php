@@ -29,7 +29,14 @@ class User extends Entity
     readonly public UserRole $role;
     private static array $roles = ["normal", "admin"];
 
-    public function __construct(?int $id, string $username, string $email, string $passwordHash, UserRole $role = UserRole::normal)
+    public function __construct
+    (
+        ?int $id,
+        string $username,
+        string $email,
+        string $passwordHash,
+        UserRole $role = UserRole::normal
+    )
     {
         parent::__construct($id);
         

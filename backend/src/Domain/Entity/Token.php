@@ -18,7 +18,14 @@ class Token extends Entity
     readonly public ?int $expireTimeStamp;
     private bool $isActive;
 
-    public function __construct(?int $id, int $userId, string $value, ?int $durationS = null, bool $isActive = true)
+    public function __construct
+    (
+        ?int $id,
+        int $userId,
+        string $value,
+        ?int $durationS = null,
+        bool $isActive = true
+    )
     {
         parent::__construct($id);
 
