@@ -6,11 +6,14 @@ namespace src\Domain\Entity;
 require_once(__DIR__ . "/../../../autoload.php");
 
 use InvalidArgumentException;
+use LogicException;
 use src\Domain\Entity\Entity;
 use src\Shared\Validation\Validator;
 
 class Post extends Entity
 {
+    public readonly ?int $parentPostId;
+
     public readonly int $userId;
 
     private ?string $header;
@@ -21,19 +24,16 @@ class Post extends Entity
     public static $contentMinLenght = 1;
     public static $contentMaxLenght = 1000;
 
-    /** @var Post[] $comments */
-    private array $comments;
-
     private int $likeCount;
     private int $dislikeCount;
 
     public function __construct
     (
         ?int $id,
+        ?int $parentPostId,
         int $userId,
         ?string $header,
         string $content,
-        array $comments,
         int $likeCount = 0,
         int $dislikeCount = 0
     )
@@ -43,29 +43,33 @@ class Post extends Entity
         if($userId < 0)
             throw new InvalidArgumentException("userId: $userId can not be negative");
 
+        if($parentPostId !== null && $parentPostId < 0)
+            throw new InvalidArgumentException("parentPostId: $parentPostId can not be negative");
+
+        $this->parentPostId = $parentPostId;
+        $this->userId = $userId;
+    
         $this->header = null;
         $this->content = "";
-        $this->comments = [];
+        $this->likeCount = 0;
+        $this->dislikeCount = 0;
 
         $this->setHeader($header);
         $this->setContent($content);
-        foreach($comments as $comment)
-        {
-            if(!$comment instanceof Post)
-                throw new InvalidArgumentException("Comment must be type of Post");
-            $this->addComment($comment);
-        }
-
+        $this->setLikeCount($likeCount);
+        $this->setDislikeCount($dislikeCount);
     }
 
     public function setHeader(string $header): void
     {
         if($header !== null && !self::validateHeader($header))
             throw new InvalidArgumentException("header must be null or string (" . self::$headerMinLenght . " - " . self::$headerMaxLenght . ") long");
+        if($this->parentPostId !== null)
+            throw new LogicException("Header can not be set at comment");
         $this->header = $header;
     }
 
-    public function getHeader(): string
+    public function getHeader(): ?string
     {
         return $this->header;
     }
@@ -83,15 +87,30 @@ class Post extends Entity
         return $this->content;    
     }
 
-    public function addComment(Post $comment): void
+    public function setLikeCount(int $likeCount): void
     {
-        $this->comments[] = $comment;
+        if($likeCount < 0)
+            throw new InvalidArgumentException("likeCount: $likeCount can not be negative");
+
+        $this->$likeCount = $likeCount;
     }
 
-    /** @return Post[] */
-    public function getComments(): array
+    public function getLikeCount(): int
     {
-        return $this->comments;
+        return $this->likeCount;    
+    }
+
+    public function setDislikeCount(int $dislikeCount): void
+    {
+        if($dislikeCount < 0)
+            throw new InvalidArgumentException("dislikeCount: $dislikeCount can not be negative");
+
+        $this->$dislikeCount = $dislikeCount;
+    }
+
+    public function getDislikeCount(): int
+    {
+        return $this->dislikeCount;
     }
 
     public static function validateHeader(string $header): bool
@@ -104,6 +123,13 @@ class Post extends Entity
     }
     public function __toString(): string
     {
-        return "";
+        return
+            "id: " . $this->getId() .
+            " | parentPostId: " . ($this->parentPostId ?? "null") .
+            " | userId: " . $this->userId .
+            " | header: " . ($this->header ?? "null") .
+            " | content: " . $this->content .
+            " | likeCount: " . $this->likeCount .
+            " | dislikeCount: " . $this->dislikeCount;
     }
 }
