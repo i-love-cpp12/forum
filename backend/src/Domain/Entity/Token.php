@@ -16,6 +16,9 @@ class Token extends Entity
     public static int $length = 64;
 
     readonly public ?int $expireTimeStamp;
+
+    public static int $tokenDurationS = 60 * 60 * 5;
+
     private bool $isActive;
 
     public function __construct
@@ -23,11 +26,11 @@ class Token extends Entity
         ?int $id,
         int $userId,
         string $value,
-        ?int $durationS = null,
+        ?int $expireTimeStamp = null,
         bool $isActive = true
     )
     {
-        parent::__construct($id);
+        parent::__construct($id, $expireTimeStamp - self::$tokenDurationS);
 
         if($userId < 0)
             throw new InvalidArgumentException("user: $userId id must not be negative");
@@ -37,13 +40,10 @@ class Token extends Entity
             !Validator::validateSha256($value)
         )
             throw new InvalidArgumentException("token: $value must be (" . self::$length . ") long");
-
-        if($durationS !== null && $durationS < 0)
-            throw new InvalidArgumentException("duration: $durationS can not be negative");
         
         $this->userId = $userId; 
         $this->value = $value; 
-        $this->expireTimeStamp = $durationS !== null ? time() + $durationS : null;
+        $this->expireTimeStamp = $expireTimeStamp;
         $this->isActive = $isActive;
     }
 

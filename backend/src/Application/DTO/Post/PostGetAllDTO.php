@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace src\Application\DTO\User;
+namespace src\Application\DTO\Post;
 
 enum Sort: int
 {

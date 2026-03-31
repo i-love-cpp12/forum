@@ -10,6 +10,7 @@ require_once(__DIR__ . "/../../../autoload.php");
 
 interface LikeRepositoryInterface
 {
-    public function saveLike(Like $like):void;
-    //to continue
+    public function saveLike(Like $like): void;
+    public function deleteLike(int $likeId): void;
+    public function getLike(int $userId, int $postId): ?Like;
 }

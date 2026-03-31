@@ -7,7 +7,7 @@ require_once(__DIR__ . "/../../../../autoload.php");
 
 use src\Application\DTO\User\UserUpdateDTO;
 use src\Domain\Entity\User;
-use src\Domain\Entity\UserRole;
+use src\Application\Service\ServiceHelper;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Exception\BusinessException;
 
@@ -17,14 +17,8 @@ class UserUpdateService
 
     public function execute(UserUpdateDTO $DTO): void
     {
-        if
-        (
-            $DTO->loggedUserId !== $DTO->userToUpdateId &&
-            $DTO->loggedUserRole !== UserRole::admin->value
-        )
-        {
+        if(!ServiceHelper::authUserAction($DTO->loggedUserId, $DTO->loggedUserRole, $DTO->userToUpdateId))
             throw new BusinessException("You are not authorized user to make this action", 401);
-        }
 
         if($DTO->newUsername === null && $DTO->newPassword === null)
             return;

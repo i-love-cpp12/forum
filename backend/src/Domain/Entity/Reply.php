@@ -19,9 +19,10 @@ class Reply extends Post
         int $userId,
         string $content,
         int $likeCount = 0,
-        int $dislikeCount = 0
+        int $dislikeCount = 0,
+        int $commentCount = 0
     )
     {
-        parent::__construct($id, $parentPostId, $userId, null, $content, [], $likeCount, $dislikeCount);
+        parent::__construct($id, $parentPostId, $userId, null, $content, [], $likeCount, $dislikeCount, $commentCount);
     }
 }

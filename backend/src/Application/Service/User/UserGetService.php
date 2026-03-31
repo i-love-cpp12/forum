@@ -14,12 +14,12 @@ class UserGetService
 {
     public function __construct(private UserRepositoryInterface $userRepo){}
 
-    public function execute(UserGetDTO $DTO): User
+    public function execute(int $userId): User
     {
-        $user = $this->userRepo->getUserById($DTO->userId);
+        $user = $this->userRepo->getUserById($userId);
         
         if($user === null)
-            throw new BusinessException("User with id: $DTO->userId not found", 404);
+            throw new BusinessException("User with id: $userId not found", 404);
         return $user;
     }
 }

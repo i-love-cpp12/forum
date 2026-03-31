@@ -7,6 +7,7 @@ use src\Application\Service\User\UserDeleteService;
 use src\Application\Service\User\UserGetAllService;
 use src\Application\Service\User\UserGetLoggedByTokenService;
 use src\Application\Service\User\UserGetService;
+use src\Application\Service\User\UserGetTokenByValueService;
 use src\Application\Service\User\UserUpdateService;
 use src\Application\Service\User\UserLoginService;
 use src\Application\Service\User\UserLogoutService;
@@ -35,6 +36,7 @@ $userGetAllService = new UserGetAllService($userRepository);
 $userGetService = new UserGetService($userRepository);
 $userUpdateService = new UserUpdateService($userRepository);
 $userDeleteService = new UserDeleteService($userRepository);
+$userGetTokenByValueService = new UserGetTokenByValueService($userRepository);
 $userGetLoggedByTokenService = new UserGetLoggedByTokenService($userRepository);
 $userGetAuthTokenService = new UserGetAuthTokenService($userRepository);
 
@@ -54,7 +56,8 @@ $userController = new UserContoller(
     $userGetAllService,
     $userGetService,
     $userUpdateService,
-    $userDeleteService
+    $userDeleteService,
+    $userGetTokenByValueService
 );
 
 $router->bind("POST", "api/register", [$userController, "register"]);

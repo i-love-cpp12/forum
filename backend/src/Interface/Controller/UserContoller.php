@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace src\Interface\Controller;
 
-use src\Application\DTO\User\UserDelteDTO;
+use src\Application\DTO\User\UserDeleteDTO;
 use src\Application\DTO\User\UserGetDTO;
 use src\Application\DTO\User\UserLoginDTO;
 use src\Application\DTO\User\UserRegisterDTO;
@@ -10,15 +10,16 @@ use src\Application\DTO\User\UserUpdateDTO;
 use src\Application\Service\User\UserDeleteService;
 use src\Application\Service\User\UserGetAllService;
 use src\Application\Service\User\UserGetService;
+use src\Application\Service\User\UserGetTokenByValueService;
 use src\Application\Service\User\UserLoginService;
 use src\Application\Service\User\UserLogoutService;
 use src\Application\Service\User\UserRegisterService;
 use src\Application\Service\User\UserUpdateService;
 use src\Domain\Entity\User;
-use src\Domain\Entity\UserRole;
 use src\Domain\Service\UserGenerateTokenService;
 use src\Infrastructure\Http\Request;
 use src\Infrastructure\Http\Respond;
+use src\Interface\Mapper\TokenMapper;
 use src\Interface\Mapper\UserMapper;
 use src\Shared\Exception\BusinessException;
 use src\Shared\Exception\ExceptionHandler;
@@ -40,7 +41,8 @@ class UserContoller
         private UserGetAllService $userGetAllService,
         private UserGetService $userGetService,
         private UserUpdateService $userUpdateService,
-        private UserDeleteService $userDeleteService
+        private UserDeleteService $userDeleteService,
+        private UserGetTokenByValueService $userGetTokenByValueService
     ){}
     public function login(): void
     {
@@ -54,9 +56,9 @@ class UserContoller
             if(!$password || !is_string($password))
                 throw new BusinessException("Request body must contain `password` of (string) type");
 
-            $token = $this->userGenerateTokenService->execute();
+            $generatedToken = $this->userGenerateTokenService->execute();
 
-            $userLoginDTO = new UserLoginDTO($email, $password, $token);
+            $userLoginDTO = new UserLoginDTO($email, $password, $generatedToken);
 
             $this->userLoginService->execute($userLoginDTO);
         }
@@ -65,13 +67,14 @@ class UserContoller
             ExceptionHandler::handle($e);
         }
 
+        $token = $this->userGetTokenByValueService->execute($generatedToken);
         Respond::json(
             [
                 "error" => "",
                 "data" =>
                     [
                         "message" => "Login for email: $email and password: " . User::hidePassword($password) .  " successful",
-                        "token" => $token
+                        "token" => TokenMapper::map($token)
                     ]
             ]
         );
@@ -82,10 +85,9 @@ class UserContoller
         /** @var User $user */
         $user = $this->request->getFromState("user");
 
-        $DTO = new UserGetDTO($user->getId());
         try
         {
-            $this->userLogoutService->execute($DTO);
+            $this->userLogoutService->execute($user->getId());
         }
         catch(Throwable $e)
         {
@@ -176,8 +178,7 @@ class UserContoller
 
         try
         {
-            $userGetDTO = new UserGetDTO($userId);
-            $user = $this->userGetService->execute($userGetDTO);
+            $user = $this->userGetService->execute($userId);
         }
         catch(Throwable $e)
         {
@@ -253,8 +254,8 @@ class UserContoller
             /** @var User $loggedUser */
             $loggedUser = $this->request->getFromState("user");
 
-            $userDelteDTO = new UserDelteDTO($userId, $loggedUser->getId(), $loggedUser->role->value);
-            $this->userDeleteService->execute($userDelteDTO);
+            $userDeleteDTO = new UserDeleteDTO($userId, $loggedUser->getId(), $loggedUser->role->value);
+            $this->userDeleteService->execute($userDeleteDTO);
         }
         catch(Throwable $e)
         {

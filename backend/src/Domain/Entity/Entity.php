@@ -11,12 +11,14 @@ require_once(__DIR__ . "/../../../autoload.php");
 class Entity
 {
     private ?int $id;
+    public readonly ?int $createdAtTimeStamp;
     
-    public function __construct(?int $id)
+    public function __construct(?int $id, ?int $createdAtTimeStamp = null)
     {
         $this->id = null;
         if($id !== null)
             $this->setId($id);
+        $this->createdAtTimeStamp = $createdAtTimeStamp;
     }
     public function getId(): ?int
     {
@@ -29,5 +31,10 @@ class Entity
         if($this->id < 0)
             throw new InvalidArgumentException("Id: $id can not be negative");
         $this->id = $id;
+    }
+    public function __toString(): string
+    {
+        return "id: $this->id | createdAtTimeStamp: " .
+        ($this->createdAtTimeStamp !== null ? $this->createdAtTimeStamp : "null");
     }
 }

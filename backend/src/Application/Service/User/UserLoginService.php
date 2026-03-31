@@ -13,8 +13,6 @@ use src\Domain\Entity\User;
 
 class UserLoginService
 {
-    public static int $tokenDurationS = 60 * 60 * 5;
-
     public function __construct(private UserRepositoryInterface $userRepo){}
 
     public function execute(UserLoginDTO $DTO): void
@@ -24,7 +22,7 @@ class UserLoginService
         if($user === null || !$user->isPasswordCorrect($DTO->password))
             throw new BusinessException("Invalid credentials email: $DTO->email password: " . User::hidePassword($DTO->password), 401);
 
-        $token = new Token(null, $user->getId(), $DTO->token, self::$tokenDurationS);
+        $token = new Token(null, $user->getId(), $DTO->token, time() + Token::$tokenDurationS);
         $this->userRepo->activateToken($token);
     }
 }

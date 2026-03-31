@@ -26,10 +26,12 @@ class Post extends Entity
     public static $contentMaxLenght = 1000;
 
     /** @var PostCategory[] $categories */
-    public array $categories;
+    private array $categories;
 
     private int $likeCount;
     private int $dislikeCount;
+
+    private int $commentCount;
 
     /** @param PostCategory[] $categories */
     public function __construct
@@ -41,10 +43,12 @@ class Post extends Entity
         string $content,
         array $categories = [],
         int $likeCount = 0,
-        int $dislikeCount = 0
+        int $dislikeCount = 0,
+        int $commentCount = 0,
+        ?int $createdAtTimeStamp = null
     )
     {
-        parent::__construct($id);
+        parent::__construct($id, $createdAtTimeStamp);
 
         if($userId < 0)
             throw new InvalidArgumentException("userId: $userId can not be negative");
@@ -68,11 +72,11 @@ class Post extends Entity
         $this->addCategories($categories);
     }
 
-    public function setHeader(string $header): void
+    public function setHeader(?string $header): void
     {
         if($header !== null && !self::validateHeader($header))
             throw new InvalidArgumentException("header must be null or string (" . self::$headerMinLenght . " - " . self::$headerMaxLenght . ") long");
-        if($this->parentPostId !== null)
+        if($header !== null && $this->parentPostId !== null)
             throw new LogicException("Header can not be set at comment");
         $this->header = $header;
     }
@@ -123,7 +127,7 @@ class Post extends Entity
         );
     }
 
-    /** @return Category[] */
+    /** @return PostCategory[] */
     public function getCategories(): array
     {
         return $this->categories;
@@ -134,7 +138,7 @@ class Post extends Entity
         if($likeCount < 0)
             throw new InvalidArgumentException("likeCount: $likeCount can not be negative");
 
-        $this->$likeCount = $likeCount;
+        $this->likeCount = $likeCount;
     }
 
     public function getLikeCount(): int
@@ -147,12 +151,25 @@ class Post extends Entity
         if($dislikeCount < 0)
             throw new InvalidArgumentException("dislikeCount: $dislikeCount can not be negative");
 
-        $this->$dislikeCount = $dislikeCount;
+        $this->dislikeCount = $dislikeCount;
     }
 
     public function getDislikeCount(): int
     {
         return $this->dislikeCount;
+    }
+
+    public function setCommentCount(int $commentCount): void
+    {
+        if($commentCount < 0)
+            throw new InvalidArgumentException("commentCount: $commentCount can not be negative");
+
+        $this->commentCount = $commentCount;
+    }
+
+    public function getCommentCount(): int
+    {
+        return $this->commentCount;
     }
 
     public static function validateHeader(string $header): bool
@@ -166,7 +183,7 @@ class Post extends Entity
     public function __toString(): string
     {
         return
-            "id: " . $this->getId() .
+            parent::__toString() .
             " | parentPostId: " . ($this->parentPostId ?? "null") .
             " | userId: " . $this->userId .
             " | header: " . ($this->header ?? "null") .

@@ -29,7 +29,15 @@ Response:
     "data":
         [
             "message": "Login for email: a@b.com and password: ******* successful",
-            "token": "688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6"
+            "token":
+                {
+                    "id":21,
+                    "createdAtTimeStamp":1774981393,
+                    "userId":1,
+                    "value":"d1065bbb0bb77ddc0ff175da088ab9e67bf0959565aba87e0591ac8d852d133e",
+                    "expireTimeStamp":1774999393,
+                    "isActive":true
+                }
         ]
 }
 

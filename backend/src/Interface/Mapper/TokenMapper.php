@@ -10,7 +10,7 @@ class TokenMapper
     public static function map(Token $token): array
     {
         return [
-            "id" => $token->getId(),
+            ...EntityMapper::map($token),
             "userId" => $token->userId,
             "value" => $token->value,
             "expireTimeStamp" => $token->expireTimeStamp,

@@ -34,10 +34,11 @@ class User extends Entity
         string $username,
         string $email,
         string $passwordHash,
-        UserRole $role = UserRole::normal
+        UserRole $role = UserRole::normal,
+        ?int $createdAtTimeStamp = null
     )
     {
-        parent::__construct($id);
+        parent::__construct($id, $createdAtTimeStamp);
         
         $this->username = "";
         $this->passwordHash = "";
@@ -57,7 +58,7 @@ class User extends Entity
     public function __toString(): string
     {
         return
-            "id: " . $this->getId() .
+            parent::__toString() .
             " | email: " . $this->email .
             " | username: " . $this->username .
             " | passwordHash: " . $this->passwordHash .
