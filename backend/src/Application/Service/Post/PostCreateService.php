@@ -1,0 +1,58 @@
+<?php
+declare(strict_types=1);
+
+namespace src\Application\Service\Post;
+
+use src\Application\DTO\Post\PostCreateDTO;
+use src\Domain\Entity\Post;
+use src\Domain\Repository\PostRepositoryInterface;
+use src\Domain\Repository\CategoryRepositoryInterface;
+use src\Domain\Repository\UserRepositoryInterface;
+use src\Shared\Exception\BusinessException;
+
+require_once(__DIR__ . "/../../../../autoload.php");
+
+class PostCreateService
+{
+    public function __construct
+    (
+        private PostRepositoryInterface $postRepo,
+        private UserRepositoryInterface $userRepo,
+        private CategoryRepositoryInterface $categoryRepo
+    )
+    {}
+
+    public function execute(PostCreateDTO $DTO): void
+    {
+        if($DTO->parentPostId === null && ($DTO->header === null || $DTO->categories === null))
+            throw new BusinessException("Post must contain header and category list");
+        if($DTO->parentPostId !== null && ($DTO->header !== null || ($DTO->categories !== null && $DTO->categories !== [])))
+            throw new BusinessException("Comment can not have header or category");
+
+        if($DTO->parentPostId !== null && !Post::validateHeader($DTO->header))
+            throw new BusinessException("Header: $DTO->header is not valid");
+        if(!Post::validateContent($DTO->content))
+            throw new BusinessException("Content: $DTO->content is not valid");
+
+        if(!$this->userRepo->getUserById($DTO->userId))
+            throw new BusinessException("User with userId: $DTO->userId not found", 404);
+
+        if($DTO->parentPostId !== null && !$this->postRepo->getPostById($DTO->parentPostId))
+            throw new BusinessException("Comment parentPostId not found in posts", 404);
+
+        $post = null;
+
+        $post = new Post(null, $DTO->parentPostId, $DTO->userId, $DTO->header, $DTO->content, []);
+
+        foreach($DTO->categories as $categoryId)
+        {
+            $category = $this->categoryRepo->getCategoryById($categoryId);
+
+            if($category === null)
+                throw new BusinessException("Category with id: $categoryId is invalid");
+            $post->addCategory($category);
+        }
+
+        $this->postRepo->savePost($post);
+    }
+}

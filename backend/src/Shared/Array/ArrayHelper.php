@@ -11,7 +11,7 @@ class ArrayHelper
         $array = array_values($array);
     }
 
-    public static function deleteByItem(array& $array, mixed $item, ?callable $equal = null): void
+    public static function deleteByItem(array& $array, mixed $item, ?callable $equal = null): bool
     {
         if(!$equal)
             $equal = fn($i1, $i2) => ($i1 === $i2);
@@ -21,7 +21,11 @@ class ArrayHelper
         }, $index);
 
         if($index !== null)
+        {
             self::deleteByIndex($array, $index);
+            return true;
+        }
+        return false;
     }
 
     public static function &find(array& $array, callable $callback, ?int &$index = null): mixed

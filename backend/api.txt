@@ -191,6 +191,18 @@ Body: none
 DELETE /api/comments/{id}/like - Remove like from comment
 Body: none
 
+POST /api/posts/{id}/dislike - dislike a post
+Body: none
+
+DELETE /api/posts/{id}/dislike - Remove dislike from post
+Body: none
+
+POST /api/comments/{id}/dislike - dislike a comment
+Body: none
+
+DELETE /api/comments/{id}/dislike - Remove dislike from comment
+Body: none
+
 5. Categories / Tags (optional)
 
 GET /api/categories - Get all categories

@@ -9,15 +9,17 @@ use src\Domain\Repository\PostRepositoryInterface;
 use src\Shared\Exception\BusinessException;
 use src\Domain\Entity\Post;
 
-class PostGetService
+class PostGetCommentsService
 {
     public function __construct(private PostRepositoryInterface $postRepo){}
 
-    public function execute(int $postId): ?Post
+    /** @return Post[] */
+    public function execute(int $postId): array
     {
-        $post = $this->postRepo->getPostById($postId);
+        $post = $this->postRepo->getCommentsForPost($postId);
         if($post === null)
             throw new BusinessException("Post with id: $postId not found", 404);
-        return $post;
+        $comments = $this->postRepo->getCommentsForPost($postId);
+        return $comments;
     }
 }

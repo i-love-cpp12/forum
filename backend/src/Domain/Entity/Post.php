@@ -62,13 +62,23 @@ class Post extends Entity
         $this->header = null;
         $this->content = "";
         $this->categories = [];
-        $this->likeCount = 0;
-        $this->dislikeCount = 0;
+
+        if($likeCount < 0)
+            throw new InvalidArgumentException("likeCount: $likeCount can not be negative");
+        if($dislikeCount < 0)
+            throw new InvalidArgumentException("dislikeCount: $dislikeCount can not be negative");
+        if($commentCount < 0)
+            throw new InvalidArgumentException("commentCount: $commentCount can not be negative");
+
+
+
+
+        $this->likeCount = $likeCount;
+        $this->dislikeCount = $dislikeCount;
+        $this->commentCount = $commentCount;
 
         $this->setHeader($header);
         $this->setContent($content);
-        $this->setLikeCount($likeCount);
-        $this->setDislikeCount($dislikeCount);
         $this->addCategories($categories);
     }
 
@@ -117,9 +127,9 @@ class Post extends Entity
         }
     }
 
-    public function deleteCategory(int $categoryId): void
+    public function deleteCategory(int $categoryId): bool
     {
-        ArrayHelper::deleteByItem
+        return ArrayHelper::deleteByItem
         (
             $this->categories,
             $categoryId,
@@ -133,43 +143,35 @@ class Post extends Entity
         return $this->categories;
     }
 
-    public function setLikeCount(int $likeCount): void
+    public function like(Like $like): void
     {
-        if($likeCount < 0)
-            throw new InvalidArgumentException("likeCount: $likeCount can not be negative");
-
-        $this->likeCount = $likeCount;
+        if($like->getId())
+            throw new InvalidArgumentException("like can have id");
+        if($like->type === LikeType::like)
+            ++$this->likeCount;
+        else if($like->type === LikeType::dislike)
+            ++$this->dislikeCount;
     }
 
-    public function getLikeCount(): int
+    public function deleteLike(Like $like): void
     {
-        return $this->likeCount;    
+        if($like->getId())
+            throw new InvalidArgumentException("like can have id");
+        if($like->type === LikeType::like && --$this->likeCount < 0)
+            throw new LogicException("likeCount: $this->likeCount can not be negative");
+        if($like->type === LikeType::dislike && --$this->dislikeCount < 0)
+            throw new LogicException("dislikeCount: $this->dislikeCount can not be negative");
     }
 
-    public function setDislikeCount(int $dislikeCount): void
+    public function incrementCommentCount(): void
     {
-        if($dislikeCount < 0)
-            throw new InvalidArgumentException("dislikeCount: $dislikeCount can not be negative");
-
-        $this->dislikeCount = $dislikeCount;
+        ++$this->commentCount;
     }
 
-    public function getDislikeCount(): int
+    public function decrementCommentCount(): void
     {
-        return $this->dislikeCount;
-    }
-
-    public function setCommentCount(int $commentCount): void
-    {
-        if($commentCount < 0)
-            throw new InvalidArgumentException("commentCount: $commentCount can not be negative");
-
-        $this->commentCount = $commentCount;
-    }
-
-    public function getCommentCount(): int
-    {
-        return $this->commentCount;
+        if(--$this->commentCount < 0)
+            throw new LogicException("commentCount: $this->commentCount can not be negative");
     }
 
     public static function validateHeader(string $header): bool

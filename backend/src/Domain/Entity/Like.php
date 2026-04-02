@@ -17,12 +17,14 @@ enum LikeType: int
 class Like extends Entity
 {
     public readonly int $postId;
+    public readonly int $userId;
     public readonly LikeType $type;
 
     public function __construct
     (
         ?int $id,
         int $postId,
+        int $userId,
         LikeType $type,
     )
     {
@@ -30,8 +32,11 @@ class Like extends Entity
 
         if($postId < 0)
             throw new InvalidArgumentException("postId: $postId can not be negative");
+        if($userId < 0)
+            throw new InvalidArgumentException("userId: $userId can not be negative");
 
         $this->postId = $postId;
+        $this->userId = $userId;
         $this->type = $type;
     }
 

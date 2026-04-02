@@ -8,7 +8,7 @@ require_once(__DIR__ . "/../../../autoload.php");
 use InvalidArgumentException;
 use src\Domain\Entity\Post;
 
-class Reply extends Post
+class Comment extends Post
 {
 
     /** @param PostCategory[] $categories */

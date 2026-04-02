@@ -1,0 +1,18 @@
+
+getAllPosts
+getOnePost / comment
+getALlcomments for post
+deletePost / comment
+createPost / createComment
+updatepost / comment
+
+repo delete post -> commnet -> othercomment soft
+
+
+
+likestatus
+
+
+
+final touch:
+- upgrade exceptions
