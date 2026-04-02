@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace src\Application\Service\Post;
+namespace src\Application\Service\Like;
 
 use src\Domain\Repository\LikeRepositoryInterface;
 use src\Shared\Exception\BusinessException;
