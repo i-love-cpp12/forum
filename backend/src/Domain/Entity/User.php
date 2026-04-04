@@ -8,12 +8,8 @@ require_once(__DIR__ . "/../../../autoload.php");
 use InvalidArgumentException;
 use src\Shared\Validation\Validator;
 use src\Domain\Entity\Entity;
+use src\Domain\Entity\UserRole;
 
-enum UserRole: int
-{
-    case normal = 0;
-    case admin = 1;
-};
 
 class User extends Entity
 {

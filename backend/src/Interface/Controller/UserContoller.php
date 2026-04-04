@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace src\Interface\Controller;
 
 use src\Application\DTO\User\UserDeleteDTO;
-use src\Application\DTO\User\UserGetDTO;
 use src\Application\DTO\User\UserLoginDTO;
 use src\Application\DTO\User\UserRegisterDTO;
 use src\Application\DTO\User\UserUpdateDTO;
@@ -174,11 +173,13 @@ class UserContoller
 
     public function getUser(string $userId): void
     {
-        $userId = intval($userId);
         $user = null;
-
+        
         try
         {
+            if(!is_int($userId))
+                throw new RequestDataFormatException("userId", "int", true);
+            $userId = intval($userId);
             $user = $this->userGetService->execute($userId);
         }
         catch(Throwable $e)
@@ -202,13 +203,16 @@ class UserContoller
 
     public function updateUser(string $userId): void
     {
-        $userId = intval($userId);
 
         $username = $this->request->body["username"] ?? null;
         $password = $this->request->body["password"] ?? null;
 
         try
         {
+            if(!is_int($userId))
+                throw new RequestDataFormatException("userId", "int", true);
+            $userId = intval($userId);
+
             if($username !== null && !is_string($username))
                 throw new RequestDataFormatException("username", "string");
 
@@ -248,10 +252,13 @@ class UserContoller
     
     public function deleteUser(string $userId): void
     {
-        $userId = intval($userId);
 
         try
         {
+            if(!is_int($userId))
+                throw new RequestDataFormatException("userId", "int", true);
+            $userId = intval($userId);
+
             /** @var User $loggedUser */
             $loggedUser = $this->request->getFromState("user");
 

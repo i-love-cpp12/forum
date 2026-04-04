@@ -7,12 +7,7 @@ require_once(__DIR__ . "/../../../autoload.php");
 
 use InvalidArgumentException;
 use src\Domain\Entity\Entity;
-
-enum LikeType: int
-{
-    case like = 0;
-    case dislike = 1;
-};
+use src\Domain\Entity\LikeType;
 
 class Like extends Entity
 {

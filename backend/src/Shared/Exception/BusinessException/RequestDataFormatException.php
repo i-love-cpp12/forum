@@ -7,8 +7,11 @@ use src\Shared\Exception\BussinessException\BusinessException;
 
 class RequestDataFormatException extends BusinessException
 {
-    public function __construct(string $varName, string $dataType)
+    public function __construct(string $varName, string $dataType, bool $isGetRequest = false)
     {
-        parent::__construct("Request body must contain `$varName` of ($dataType) type");
+        if($isGetRequest)
+            parent::__construct("Request body must contain `$varName` of ($dataType) type");
+        else
+            parent::__construct("URL praram `$varName` must be ($dataType) type");
     }
 }
