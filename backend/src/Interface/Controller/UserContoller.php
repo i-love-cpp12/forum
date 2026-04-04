@@ -21,7 +21,8 @@ use src\Infrastructure\Http\Request;
 use src\Infrastructure\Http\Respond;
 use src\Interface\Mapper\TokenMapper;
 use src\Interface\Mapper\UserMapper;
-use src\Shared\Exception\BusinessException;
+use src\Shared\Exception\BussinessException\BusinessException;
+use src\Shared\Exception\BussinessException\RequestDataFormatException;
 use src\Shared\Exception\ExceptionHandler;
 use Throwable;
 
@@ -52,9 +53,9 @@ class UserContoller
         try
         {
             if(!$email || !is_string($email))
-                throw new BusinessException("Request body must contain `email` of (string) type");
+                throw new RequestDataFormatException("email", "string");
             if(!$password || !is_string($password))
-                throw new BusinessException("Request body must contain `password` of (string) type");
+                throw new RequestDataFormatException("password", "string");
 
             $generatedToken = $this->userGenerateTokenService->execute();
 
@@ -114,11 +115,11 @@ class UserContoller
         try
         {
             if(!$username || !is_string($username))
-                throw new BusinessException("Request body must contain `username` of (string) type");
+                throw new RequestDataFormatException("username", "string");
             if(!$email || !is_string($email))
-                throw new BusinessException("Request body must contain `email` of (string) type");
+                throw new RequestDataFormatException("email", "string");
             if(!$password || !is_string($password))
-                throw new BusinessException("Request body must contain `password` of (string) type");
+                throw new RequestDataFormatException("password", "string");
 
             $userRegisterDTO = new UserRegisterDTO($username, $email, $password);
 
@@ -209,10 +210,10 @@ class UserContoller
         try
         {
             if($username !== null && !is_string($username))
-                throw new BusinessException("Username must be type of (string)");
+                throw new RequestDataFormatException("username", "string");
 
             if($password !== null && !is_string($password))
-                throw new BusinessException("Password must be type of (string)");
+                throw new RequestDataFormatException("password", "string");
 
             if($password === null && $username === null)
                 throw new BusinessException("To update user you have to provide some of allowed data: username (string), password(string)");
@@ -220,7 +221,7 @@ class UserContoller
             /** @var User $loggedUser */
             $loggedUser = $this->request->getFromState("user");
 
-            $userUpdateDTO = new UserUpdateDTO($userId, $username, $password, $loggedUser->getId(), $loggedUser->role->value);
+            $userUpdateDTO = new UserUpdateDTO($userId, $loggedUser->getId(), $loggedUser->role->value, $username, $password);
             $this->userUpdateService->execute($userUpdateDTO);
         }
         catch(Throwable $e)
