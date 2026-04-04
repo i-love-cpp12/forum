@@ -22,12 +22,23 @@ class PostCategory extends Entity
     )
     {
         parent::__construct($id);
+        $this->categoryName = "";
+        $this->setCategoryName($categoryName);
+        
+    }
 
-        if(!Validator::validateLenght($categoryName, self::$categoryNameMinLenght, self::$categoryNameMaxLenght))
+    public function setCategoryName(string $categoryName): void
+    {
+        if(!self::validateCategoryName($categoryName))
             throw new InvalidArgumentException("categoryName: $categoryName must be (" . self::$categoryNameMinLenght . " - " . self::$categoryNameMaxLenght . ") long");
-
+        
         $this->categoryName = $categoryName;
     }
+    public static function validateCategoryName(string $categoryName): bool
+    {
+        return Validator::validateLenght($categoryName, self::$categoryNameMinLenght, self::$categoryNameMaxLenght);
+    }
+
     public function __toString(): string
     {
         return

@@ -19,5 +19,6 @@ class CategoryGetAllService
     /** @return PostCategory[] */
     public function execute(): array
     {
+        return $this->categoryRepo->getAllCategories();
     }
 }

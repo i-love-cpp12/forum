@@ -7,7 +7,8 @@ class CategoryDeleteDTO
 {
     public function __construct
     (
-
+        readonly public int $categoryToDeleteId,
+        readonly public int $loggedUserRole,
     )
     {
         

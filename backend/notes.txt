@@ -16,3 +16,4 @@ likestatus
 
 final touch:
 - upgrade exceptions
+- upgrade auth in serivce
