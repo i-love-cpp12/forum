@@ -5,11 +5,16 @@ namespace src\Application\Service\Post;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Application\DTO\Post\PostDeleteDTO;
-use src\Application\Service\ServiceHelper;
+use src\Domain\Entity\User;
 use src\Domain\Entity\UserRole;
+
+use src\Application\Service\ServiceHelper;
+
 use src\Domain\Repository\PostRepositoryInterface;
-use src\Shared\Exception\BusinessException;
+use src\Application\DTO\Post\PostDeleteDTO;
+
+use src\Shared\Exception\BussinessException\AuthException;
+use src\Shared\Exception\BussinessException\EntityNotFoundException;
 
 class PostDeleteService
 {
@@ -18,12 +23,12 @@ class PostDeleteService
     public function execute(PostDeleteDTO $DTO): void
     {
         if(!ServiceHelper::authUserAction($DTO->loggedUserId, $DTO->loggedUserRole, $DTO->postAuthorId))
-            throw new BusinessException("You are not authorized user to make this action", 401);
+            throw new AuthException(User::roleToString(UserRole::from($DTO->loggedUserRole)));
 
         $post = $this->postRepo->getPostById($DTO->postToDeleteId);
           
         if($post === null)
-            throw new BusinessException("Post with id: $DTO->postToDeleteId not found", 404);
+            throw new EntityNotFoundException("Post", $DTO->postToDeleteId);
 
         $this->postRepo->deletePost($post->getId());
     }

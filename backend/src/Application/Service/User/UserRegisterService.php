@@ -5,10 +5,13 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Application\DTO\User\UserRegisterDTO;
-use src\Domain\Repository\UserRepositoryInterface;
 use src\Domain\Entity\User;
-use src\Shared\Exception\BusinessException;
+
+use src\Domain\Repository\UserRepositoryInterface;
+use src\Application\DTO\User\UserRegisterDTO;
+
+use src\Shared\Exception\BussinessException\BusinessException;
+use src\Shared\Exception\BussinessException\InvalidValueException;
 
 class UserRegisterService
 {
@@ -17,16 +20,16 @@ class UserRegisterService
     public function execute(UserRegisterDTO $DTO): void
     {
         if(!User::validateUsername($DTO->username))
-            throw new BusinessException("username: $DTO->username must be (" . User::$usernameMinLenght . " - " . User::$usernameMaxLenght . ") character long");
+            throw new InvalidValueException("Username", $DTO->username, "(" . User::$usernameMinLenght . " - " . User::$usernameMaxLenght . ") character long");
 
         if(!User::validateEmail($DTO->email))
-            throw new BusinessException("email: $DTO->email is not valid email");
+            throw new InvalidValueException("Email", $DTO->email);
 
         if(!User::validatePassword($DTO->password))
-            throw new BusinessException("password: " . User::hidePassword($DTO->password) . " is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
+            throw new InvalidValueException("New password", User::hidePassword($DTO->password), "contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
 
         if($this->userRepo->getUserByEmail($DTO->email) !== null)
-            throw new BusinessException("user with this email: $DTO->email already exist", 409);
+            throw new BusinessException("User with this email: $DTO->email already exist", 409);
 
         $paswordHash = password_hash($DTO->password, "sha256");
 

@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace src\Application\Service\Like;
 
+use src\Domain\Entity\Like;
+
 use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Repository\LikeRepositoryInterface;
 use src\Domain\Repository\UserRepositoryInterface;
-use src\Shared\Exception\BusinessException;
-use src\Domain\Entity\Like;
+
+use src\Shared\Exception\BussinessException\EntityNotFoundException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
@@ -33,14 +35,14 @@ class LikeAddService
             $likeByUserPostId === null)
         )
         {
-            throw new BusinessException("Like with id: $likeId not found");
+            throw new EntityNotFoundException("Like", $likeId);
         }
 
         if($this->userRepo->getUserById($like->userId) === null)
-            throw new BusinessException("User with id: $like->userId not found");
+            throw new EntityNotFoundException("User", $like->userId);
 
         if($this->postRepo->getPostById($like->postId) === null)
-            throw new BusinessException("Post with id: $like->postId not found");
+            throw new EntityNotFoundException("Post", $like->postId);
         
         if($likeByUserPostId !== null && $like->getId() === null)
             $like->setId($likeByUserPostId->getId());

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace src\Shared\Exception;
+namespace src\Shared\Exception\BussinessException;
 
 use Exception;
 

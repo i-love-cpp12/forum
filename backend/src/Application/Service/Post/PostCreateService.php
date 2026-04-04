@@ -5,10 +5,14 @@ namespace src\Application\Service\Post;
 
 use src\Application\DTO\Post\PostCreateDTO;
 use src\Domain\Entity\Post;
+
 use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Domain\Repository\UserRepositoryInterface;
-use src\Shared\Exception\BusinessException;
+
+use src\Shared\Exception\BussinessException\BusinessException;
+use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BussinessException\InvalidValueException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
@@ -30,12 +34,12 @@ class PostCreateService
             throw new BusinessException("Comment can not have header or category");
 
         if($DTO->parentPostId !== null && !Post::validateHeader($DTO->header))
-            throw new BusinessException("Header: $DTO->header is not valid");
+            throw new InvalidValueException("Header", $DTO->header);
         if(!Post::validateContent($DTO->content))
-            throw new BusinessException("Content: $DTO->content is not valid");
+            throw new InvalidValueException("Content", $DTO->content);
 
         if(!$this->userRepo->getUserById($DTO->userId))
-            throw new BusinessException("User with userId: $DTO->userId not found", 404);
+            throw new EntityNotFoundException("User", $DTO->userId);
 
         if($DTO->parentPostId !== null && !$this->postRepo->getPostById($DTO->parentPostId))
             throw new BusinessException("Comment parentPostId not found in posts", 404);

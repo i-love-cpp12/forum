@@ -5,11 +5,17 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Application\DTO\User\UserUpdateDTO;
 use src\Domain\Entity\User;
+use src\Domain\Entity\UserRole;
+
 use src\Application\Service\ServiceHelper;
+
 use src\Domain\Repository\UserRepositoryInterface;
-use src\Shared\Exception\BusinessException;
+use src\Application\DTO\User\UserUpdateDTO;
+
+use src\Shared\Exception\BussinessException\AuthException;
+use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BussinessException\InvalidValueException;
 
 class UserUpdateService
 {
@@ -18,7 +24,7 @@ class UserUpdateService
     public function execute(UserUpdateDTO $DTO): void
     {
         if(!ServiceHelper::authUserAction($DTO->loggedUserId, $DTO->loggedUserRole, $DTO->userToUpdateId))
-            throw new BusinessException("You are not authorized user to make this action", 401);
+            throw new AuthException(User::roleToString(UserRole::from($DTO->loggedUserRole)));
 
         if($DTO->newUsername === null && $DTO->newPassword === null)
             return;
@@ -26,13 +32,13 @@ class UserUpdateService
         $user = $this->userRepo->getUserById($DTO->userToUpdateId);
         
         if($user === null)
-            throw new BusinessException("User with id: $DTO->userToUpdateId not found", 404);
+            throw new EntityNotFoundException("User", $DTO->userToUpdateId);
 
         if($DTO->newUsername !== null && !User::validateUsername($DTO->newUsername))
-            throw new BusinessException("New username: $DTO->newUsername is not valid");
+            throw new InvalidValueException("New username", $DTO->newUsername);
 
         if($DTO->newPassword !== null && !User::validatePassword($DTO->newPassword))
-            throw new BusinessException("New password: " . User::hidePassword($DTO->newPassword) . " is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
+            throw new InvalidValueException("New password", User::hidePassword($DTO->newPassword), "contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
         
         if($DTO->newUsername !== null)
             $user->setUsername($DTO->newUsername);

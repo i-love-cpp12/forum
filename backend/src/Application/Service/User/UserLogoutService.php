@@ -5,7 +5,6 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Application\DTO\User\UserGetDTO;
 use src\Domain\Repository\UserRepositoryInterface;
 
 class UserLogoutService

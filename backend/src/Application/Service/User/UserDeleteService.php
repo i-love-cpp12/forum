@@ -5,11 +5,16 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Application\DTO\User\UserDeleteDTO;
+use src\Domain\Entity\User;
 use src\Domain\Entity\UserRole;
-use src\Domain\Repository\UserRepositoryInterface;
-use src\Shared\Exception\BusinessException;
+
 use src\Application\Service\ServiceHelper;
+
+use src\Domain\Repository\UserRepositoryInterface;
+use src\Application\DTO\User\UserDeleteDTO;
+
+use src\Shared\Exception\BussinessException\AuthException;
+use src\Shared\Exception\BussinessException\EntityNotFoundException;
 
 class UserDeleteService
 {
@@ -18,12 +23,12 @@ class UserDeleteService
     public function execute(UserDeleteDTO $DTO): void
     {
         if(!ServiceHelper::authUserAction($DTO->loggedUserId, $DTO->loggedUserRole, $DTO->userToDeleteId))
-            throw new BusinessException("You are not authorized user to make this action", 401);
+            throw new AuthException(User::roleToString(UserRole::from($DTO->loggedUserRole)));
 
         $user = $this->userRepo->getUserById($DTO->userToDeleteId);
           
         if($user === null)
-            throw new BusinessException("User with id: $DTO->userToDeleteId not found", 404);
+            throw new EntityNotFoundException("User", $DTO->userToDeleteId);
         $this->userRepo->deleteUser($user->getId());
     }
 }

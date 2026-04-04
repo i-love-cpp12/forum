@@ -5,9 +5,9 @@ namespace src\Application\Service\Post;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Domain\Repository\PostRepositoryInterface;
-use src\Shared\Exception\BusinessException;
 use src\Domain\Entity\Post;
+use src\Domain\Repository\PostRepositoryInterface;
+use src\Shared\Exception\BussinessException\EntityNotFoundException;
 
 class PostGetCommentsService
 {
@@ -18,7 +18,7 @@ class PostGetCommentsService
     {
         $post = $this->postRepo->getCommentsForPost($postId);
         if($post === null)
-            throw new BusinessException("Post with id: $postId not found", 404);
+            throw new EntityNotFoundException("Post", $postId);
         $comments = $this->postRepo->getCommentsForPost($postId);
         return $comments;
     }

@@ -5,10 +5,9 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Domain\Repository\UserRepositoryInterface;
-use src\Application\DTO\User\UserGetDTO;
 use src\Domain\Entity\User;
-use src\Shared\Exception\BusinessException;
+use src\Domain\Repository\UserRepositoryInterface;
+use src\Shared\Exception\BussinessException\EntityNotFoundException;
 
 class UserGetService
 {
@@ -19,7 +18,7 @@ class UserGetService
         $user = $this->userRepo->getUserById($userId);
         
         if($user === null)
-            throw new BusinessException("User with id: $userId not found", 404);
+            throw new EntityNotFoundException("User", $userId);
         return $user;
     }
 }

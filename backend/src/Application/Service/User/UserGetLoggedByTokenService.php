@@ -5,9 +5,12 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Domain\Repository\UserRepositoryInterface;
-use src\Shared\Exception\BusinessException;
 use src\Domain\Entity\User;
+
+use src\Domain\Repository\UserRepositoryInterface;
+
+use src\Shared\Exception\BussinessException\BusinessException;
+use src\Shared\Exception\BussinessException\EntityNotFoundException;
 
 class UserGetLoggedByTokenService
 {
@@ -22,7 +25,7 @@ class UserGetLoggedByTokenService
         $user = $this->userRepo->getUserById($token->userId);
 
         if($user === null)
-            throw new BusinessException("User with active token: $token do not exist");
+            throw new EntityNotFoundException("User", $token->value, "active token");
 
         return $user;
     }

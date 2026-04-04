@@ -7,7 +7,7 @@ require_once(__DIR__ . "/../../../../autoload.php");
 
 use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
-use src\Shared\Exception\BusinessException;
+use src\Shared\Exception\BussinessException\BusinessException;
 
 class UserGetTokenByValueService
 {

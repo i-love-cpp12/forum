@@ -5,11 +5,13 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Application\DTO\User\UserLoginDTO;
-use src\Domain\Entity\Token;
-use src\Domain\Repository\UserRepositoryInterface;
-use src\Shared\Exception\BusinessException;
 use src\Domain\Entity\User;
+use src\Domain\Entity\Token;
+
+use src\Domain\Repository\UserRepositoryInterface;
+use src\Application\DTO\User\UserLoginDTO;
+
+use src\Shared\Exception\BussinessException\BusinessException;
 
 class UserLoginService
 {
