@@ -22,8 +22,11 @@ class UserDeleteService
 
     public function execute(UserDeleteDTO $DTO): void
     {
-        if(!ServiceHelper::authUserAction($DTO->loggedUserId, $DTO->loggedUserRole, $DTO->userToDeleteId))
-            throw new AuthException(User::roleToString(UserRole::from($DTO->loggedUserRole)));
+        ServiceHelper::authorizeAction(
+            UserRole::from($DTO->loggedUserRole),
+            $DTO->loggedUserId,
+            $DTO->userToDeleteId
+        );
 
         $user = $this->userRepo->getUserById($DTO->userToDeleteId);
           

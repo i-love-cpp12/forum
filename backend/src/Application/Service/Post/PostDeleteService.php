@@ -22,8 +22,11 @@ class PostDeleteService
 
     public function execute(PostDeleteDTO $DTO): void
     {
-        if(!ServiceHelper::authUserAction($DTO->loggedUserId, $DTO->loggedUserRole, $DTO->postAuthorId))
-            throw new AuthException(User::roleToString(UserRole::from($DTO->loggedUserRole)));
+        ServiceHelper::authorizeAction(
+            UserRole::from($DTO->loggedUserRole),
+            $DTO->loggedUserId,
+            $DTO->postAuthorId
+        );
 
         $post = $this->postRepo->getPostById($DTO->postToDeleteId);
           

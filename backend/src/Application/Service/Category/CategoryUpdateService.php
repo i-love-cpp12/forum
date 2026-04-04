@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace src\Application\Service\Category;
 
 use src\Domain\Entity\PostCategory;
-use src\Domain\Entity\User;
 use src\Domain\Entity\UserRole;
+
+use src\Application\Service\ServiceHelper;
 
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Application\DTO\Category\CategoryUpdateDTO;
 
-use src\Shared\Exception\BussinessException\AuthException;
 use src\Shared\Exception\BussinessException\EntityNotFoundException;
 use src\Shared\Exception\BussinessException\InvalidValueException;
 
@@ -26,8 +26,12 @@ class CategoryUpdateService
 
     public function execute(CategoryUpdateDTO $DTO): void
     {
-        if($DTO->loggedUserRole !== UserRole::admin)
-            throw new AuthException(User::roleToString(UserRole::from($DTO->loggedUserRole)));
+        ServiceHelper::authorizeAction(
+            UserRole::from($DTO->loggedUserRole),
+            null,
+            null,
+            UserRole::admin
+        );
 
 
         if(!PostCategory::validateCategoryName($DTO->newCategoryName))

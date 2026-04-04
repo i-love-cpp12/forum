@@ -23,8 +23,11 @@ class UserUpdateService
 
     public function execute(UserUpdateDTO $DTO): void
     {
-        if(!ServiceHelper::authUserAction($DTO->loggedUserId, $DTO->loggedUserRole, $DTO->userToUpdateId))
-            throw new AuthException(User::roleToString(UserRole::from($DTO->loggedUserRole)));
+        ServiceHelper::authorizeAction(
+            UserRole::from($DTO->loggedUserRole),
+            $DTO->loggedUserId,
+            $DTO->userToUpdateId
+        );
 
         if($DTO->newUsername === null && $DTO->newPassword === null)
             return;
