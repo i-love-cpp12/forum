@@ -20,10 +20,14 @@ class Post extends Entity
     private ?string $header;
     public static $headerMinLenght = 1;
     public static $headerMaxLenght = 100;
+    public static $headerValidateMessage =
+        "be (" . self::$headerMinLenght . " - " . self::$headerMaxLenght . ") long";
 
     private string $content;
     public static $contentMinLenght = 1;
     public static $contentMaxLenght = 1000;
+    public static $contentValidateMessage =
+        "be string (" . self::$contentMinLenght . " - " . self::$contentMaxLenght . ") long";
 
     /** @var PostCategory[] $categories */
     private array $categories;
@@ -85,7 +89,7 @@ class Post extends Entity
     public function setHeader(?string $header): void
     {
         if($header !== null && !self::validateHeader($header))
-            throw new InvalidArgumentException("header must be null or string (" . self::$headerMinLenght . " - " . self::$headerMaxLenght . ") long");
+            throw new InvalidArgumentException("Header $header must " . self::$headerValidateMessage);
         if($header !== null && $this->parentPostId !== null)
             throw new LogicException("Header can not be set at comment");
         $this->header = $header;
@@ -99,7 +103,7 @@ class Post extends Entity
     public function setContent(string $content): void
     {
         if(!self::validateContent($content))
-            throw new InvalidArgumentException("content must be (" . self::$contentMinLenght . " - " . self::$contentMaxLenght . ") long");
+            throw new InvalidArgumentException("Content $content must " . self::$contentValidateMessage);
 
         $this->content = $content;
     }
@@ -145,8 +149,8 @@ class Post extends Entity
 
     public function like(Like $like): void
     {
-        if($like->getId())
-            throw new InvalidArgumentException("like can have id");
+        if($like->getId() !== null)
+            throw new InvalidArgumentException("Like can not have id");
         if($like->type === LikeType::like)
             ++$this->likeCount;
         else if($like->type === LikeType::dislike)
@@ -155,8 +159,8 @@ class Post extends Entity
 
     public function deleteLike(Like $like): void
     {
-        if($like->getId())
-            throw new InvalidArgumentException("like can have id");
+        if($like->getId() !== null)
+            throw new InvalidArgumentException("Like can not have id");
         if($like->type === LikeType::like && --$this->likeCount < 0)
             throw new LogicException("likeCount: $this->likeCount can not be negative");
         if($like->type === LikeType::dislike && --$this->dislikeCount < 0)

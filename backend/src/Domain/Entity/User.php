@@ -20,11 +20,17 @@ class User extends Entity
     private string $username;
     public static int $usernameMinLenght = 3;
     public static int $usernameMaxLenght = 50;
+    public static string $usernameValidateMessage =
+        "be (" . self::$usernameMinLenght . " - " . self::$usernameMaxLenght . ") character long";
 
     readonly public string $email;
 
     private string $passwordHash;
     public static int $passwordMinLenght = 8;
+    public static string $passwordHashValidateMessage =
+        "be valid sha256 hash";
+    public static string $passwordValidateMessage =
+        "contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . self::$passwordMinLenght . ") long";
 
     readonly public UserRole $role;
 
@@ -74,7 +80,7 @@ class User extends Entity
         $username = trim($username);
 
         if(!self::validateUsername($username))
-            throw new InvalidArgumentException("username: $username must be (" . self::$usernameMinLenght . " - " . self::$usernameMaxLenght . ") character long");
+            throw new InvalidArgumentException("username: $username must " . self::$usernameValidateMessage);
 
         $this->username = $username;
     }
@@ -84,7 +90,7 @@ class User extends Entity
         $password = trim($password);
 
         if(!self::validatePassword($password))
-            throw new InvalidArgumentException("password: " . self::hidePassword($password) . " is too weak, it must contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . self::$passwordMinLenght . ") long");
+            throw new InvalidArgumentException("password: " . self::hidePassword($password) . "must " . self::$passwordValidateMessage);
 
         $this->passwordHash = hash("sha256", $password);
     }
@@ -92,7 +98,7 @@ class User extends Entity
     public function setPasswordByHash(string $passwordHash): void
     {
         if(!self::validatePasswordHash($passwordHash))
-            throw new InvalidArgumentException("password hash: $passwordHash is not valid sha256 hash");
+            throw new InvalidArgumentException("password hash: $passwordHash must " . self::$passwordHashValidateMessage);
         $this->passwordHash = $passwordHash;
     }
 

@@ -5,7 +5,6 @@ namespace src\Domain\Entity;
 
 require_once(__DIR__ . "/../../../autoload.php");
 
-use InvalidArgumentException;
 use src\Domain\Entity\Post;
 
 class Comment extends Post

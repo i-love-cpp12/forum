@@ -13,7 +13,6 @@ use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Application\DTO\Post\PostUpdateDTO;
 
-use src\Shared\Exception\BussinessException\AuthException;
 use src\Shared\Exception\BussinessException\EntityNotFoundException;
 use src\Shared\Exception\BussinessException\InvalidValueException;
 
@@ -53,9 +52,9 @@ class PostUpdateService
             throw new EntityNotFoundException("Post", $DTO->postToUpdateId);
 
         if($DTO->newHeader !== null && !Post::validateHeader($DTO->newHeader))
-            throw new InvalidValueException("New header", $DTO->newHeader);
+            throw new InvalidValueException("New header", $DTO->newHeader, Post::$headerValidateMessage);
         if($DTO->newContent !== null && !Post::validateContent($DTO->newContent))
-            throw new InvalidValueException("New content", $DTO->newContent);
+            throw new InvalidValueException("New content", $DTO->newContent, Post::$contentValidateMessage);
 
 
         $post->setHeader($DTO->newHeader);
@@ -71,7 +70,7 @@ class PostUpdateService
                 ($category = $this->categoryRepo->getCategoryById($categoryId)) === null
             )
             {
-                throw new InvalidValueException("CateogryId", $category);   
+                throw new InvalidValueException("CategoryId", $category);   
             }
 
             $post->addCategory($category);
@@ -86,7 +85,7 @@ class PostUpdateService
                 !$post->deleteCategory($categoryId)
             )
             {
-                throw new InvalidValueException("CateogryId", $category);  
+                throw new InvalidValueException("CategoryId", $category);  
             }
         }
             

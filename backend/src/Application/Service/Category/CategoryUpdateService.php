@@ -35,7 +35,7 @@ class CategoryUpdateService
 
 
         if(!PostCategory::validateCategoryName($DTO->newCategoryName))
-            throw new InvalidValueException("New categoryName", $DTO->newCategoryName);
+            throw new InvalidValueException("New categoryName", $DTO->newCategoryName, PostCategory::$categoryNameValidateMessage);
 
         $category = $this->categoryRepo->getCategoryById($DTO->categoryToUpdateId);
         

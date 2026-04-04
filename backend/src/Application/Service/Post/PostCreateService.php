@@ -34,9 +34,9 @@ class PostCreateService
             throw new BusinessException("Comment can not have header or category");
 
         if($DTO->parentPostId !== null && !Post::validateHeader($DTO->header))
-            throw new InvalidValueException("Header", $DTO->header);
+            throw new InvalidValueException("Header", $DTO->header, Post::$headerValidateMessage);
         if(!Post::validateContent($DTO->content))
-            throw new InvalidValueException("Content", $DTO->content);
+            throw new InvalidValueException("Content", $DTO->content, Post::$contentValidateMessage);
 
         if(!$this->userRepo->getUserById($DTO->userId))
             throw new EntityNotFoundException("User", $DTO->userId);
@@ -53,7 +53,7 @@ class PostCreateService
             $category = $this->categoryRepo->getCategoryById($categoryId);
 
             if($category === null)
-                throw new BusinessException("Category with id: $categoryId is invalid");
+                throw new InvalidValueException("CategoryId", $categoryId);
             $post->addCategory($category);
         }
 

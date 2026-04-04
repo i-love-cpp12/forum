@@ -5,15 +5,7 @@ getALlcomments for post
 deletePost / comment
 createPost / createComment
 updatepost / comment
+add like on post/commnet
+delte like on post/commnet
 
 repo delete post -> commnet -> othercomment soft
-
-
-
-likestatus
-
-
-
-final touch:
-- upgrade exceptions
-- upgrade auth in serivce

@@ -20,13 +20,13 @@ class UserRegisterService
     public function execute(UserRegisterDTO $DTO): void
     {
         if(!User::validateUsername($DTO->username))
-            throw new InvalidValueException("Username", $DTO->username, "(" . User::$usernameMinLenght . " - " . User::$usernameMaxLenght . ") character long");
+            throw new InvalidValueException("Username", $DTO->username, User::$usernameValidateMessage);
 
         if(!User::validateEmail($DTO->email))
             throw new InvalidValueException("Email", $DTO->email);
 
         if(!User::validatePassword($DTO->password))
-            throw new InvalidValueException("New password", User::hidePassword($DTO->password), "contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . User::$passwordMinLenght . ") long");
+            throw new InvalidValueException("New password", User::hidePassword($DTO->password), User::$passwordValidateMessage);
 
         if($this->userRepo->getUserByEmail($DTO->email) !== null)
             throw new BusinessException("User with this email: $DTO->email already exist", 409);

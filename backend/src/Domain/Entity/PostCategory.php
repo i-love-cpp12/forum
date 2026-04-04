@@ -14,6 +14,8 @@ class PostCategory extends Entity
     public readonly string $categoryName;
     public static $categoryNameMinLenght = 1;
     public static $categoryNameMaxLenght = 100;
+    public static $categoryNameValidateMessage =
+        "be (" . self::$categoryNameMinLenght . " - " . self::$categoryNameMaxLenght . ") long";
 
     public function __construct
     (
@@ -30,7 +32,7 @@ class PostCategory extends Entity
     public function setCategoryName(string $categoryName): void
     {
         if(!self::validateCategoryName($categoryName))
-            throw new InvalidArgumentException("categoryName: $categoryName must be (" . self::$categoryNameMinLenght . " - " . self::$categoryNameMaxLenght . ") long");
+            throw new InvalidArgumentException("categoryName: $categoryName must " . self::$categoryNameValidateMessage);
         
         $this->categoryName = $categoryName;
     }
