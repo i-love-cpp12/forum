@@ -13,7 +13,7 @@ class UserGetTokenByValueService
 {
     public function __construct(private UserRepositoryInterface $userRepo){}
 
-    public function execute($token): Token
+    public function execute(string $token): Token
     {
         $tokenFound = $this->userRepo->getActiveTokenByValue($token);
         if($tokenFound === null)

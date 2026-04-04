@@ -1,2 +1,11 @@
-add like on post/commnet service
-delete like on post/commnet service
+post controler
+like controler
+category conteoler
+
+index add endpoints after conterolers and test
+
+dummy repo like post category
+db repo implementation
+
+db
+like no id as priamry key just 2 fileds (postId, userId) in php emualte id to in save update or insert
