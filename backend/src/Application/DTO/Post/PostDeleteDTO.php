@@ -8,7 +8,6 @@ class PostDeleteDTO
     public function __construct
     (
         readonly public int $postToDeleteId,
-        readonly public int $postAuthorId,
         readonly public int $loggedUserId,
         readonly public int $loggedUserRole
     )

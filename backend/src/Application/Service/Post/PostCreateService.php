@@ -28,8 +28,8 @@ class PostCreateService
 
     public function execute(PostCreateDTO $DTO): void
     {
-        if($DTO->parentPostId === null && ($DTO->header === null || $DTO->categories === null))
-            throw new BusinessException("Post must contain header and category list");
+        if($DTO->parentPostId === null && $DTO->header === null)
+            throw new BusinessException("Post must contain header");
         if($DTO->parentPostId !== null && ($DTO->header !== null || ($DTO->categories !== null && $DTO->categories !== [])))
             throw new BusinessException("Comment can not have header or category");
 
@@ -43,8 +43,6 @@ class PostCreateService
 
         if($DTO->parentPostId !== null && !$this->postRepo->getPostById($DTO->parentPostId))
             throw new BusinessException("Comment parentPostId not found in posts", 404);
-
-        $post = null;
 
         $post = new Post(null, $DTO->parentPostId, $DTO->userId, $DTO->header, $DTO->content, []);
 

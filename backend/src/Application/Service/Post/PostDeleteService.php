@@ -21,13 +21,14 @@ class PostDeleteService
 
     public function execute(PostDeleteDTO $DTO): void
     {
+        $post = $this->postRepo->getPostById($DTO->postToDeleteId);
+
         ServiceHelper::authorizeAction(
             UserRole::from($DTO->loggedUserRole),
             $DTO->loggedUserId,
-            $DTO->postAuthorId
+            $post->getId()
         );
 
-        $post = $this->postRepo->getPostById($DTO->postToDeleteId);
           
         if($post === null)
             throw new EntityNotFoundException("Post", $DTO->postToDeleteId);

@@ -9,7 +9,7 @@ class CategoryUpdateDTO
     (
         readonly public int $categoryToUpdateId,
         readonly public int $loggedUserRole,
-        readonly public string $newCategoryName
+        readonly public ?string $newCategoryName
     )
     {
         

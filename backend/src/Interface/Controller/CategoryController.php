@@ -20,7 +20,7 @@ use src\Domain\Entity\User;
 use src\Shared\Exception\BusinessException\RequestDataFormatException;
 use Throwable;
 
-class CategoriesController
+class CategoryController
 {
     public function __construct
     (
@@ -33,7 +33,7 @@ class CategoriesController
     
     public function getAllCategories(): void
     {
-        /** @var PostCategory[] $posts */
+        /** @var PostCategory[] $categories */
         $categories = [];
 
         try
@@ -74,8 +74,8 @@ class CategoriesController
             if(!$categoryName || !is_string($categoryName))
                 throw new RequestDataFormatException("categoryName", "string");
 
-            $DTO = new CategoryCreateDTO($loggedUser->role->value, $categoryName);
-            $this->categoryCreateService->execute($DTO);
+            $CategoryCreateDTO = new CategoryCreateDTO($loggedUser->role->value, $categoryName);
+            $this->categoryCreateService->execute($CategoryCreateDTO);
         }
         catch(Throwable $e)
         {
@@ -87,7 +87,7 @@ class CategoriesController
                 "error" => "",
                 "data" =>
                     [
-                        "message" => "Category with categoryName: $categoryName created successfully",
+                        "message" => "Category with categoryNane: $categoryName created successfully"
                     ]
             ]
         );
@@ -109,8 +109,8 @@ class CategoriesController
             if(!$categoryName || !is_string($categoryName))
                 throw new RequestDataFormatException("categoryName", "string");
 
-            $DTO = new CategoryUpdateDTO($categoryId, $loggedUser->role->value, $categoryName);
-            $this->categoryUpdateService->execute($DTO);
+            $CategoryUpdateDTO = new CategoryUpdateDTO($categoryId, $loggedUser->role->value, $categoryName);
+            $this->categoryUpdateService->execute($CategoryUpdateDTO);
         }
         catch(Throwable $e)
         {
@@ -139,8 +139,8 @@ class CategoriesController
 
             $categoryId = intval($categoryId);
 
-            $DTO = new CategoryDeleteDTO($categoryId, $loggedUser->role->value);
-            $this->categoryDeleteService->execute($DTO);
+            $CategoryDeleteDTO = new CategoryDeleteDTO($categoryId, $loggedUser->role->value);
+            $this->categoryDeleteService->execute($CategoryDeleteDTO);
         }
         catch(Throwable $e)
         {

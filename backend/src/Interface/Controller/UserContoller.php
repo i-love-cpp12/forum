@@ -217,10 +217,7 @@ class UserContoller
 
             if($password !== null && !is_string($password))
                 throw new RequestDataFormatException("password", "string");
-
-            if($password === null && $username === null)
-                throw new BusinessException("To update user you have to provide some of allowed data: username (string), password(string)");
-            
+                
             /** @var User $loggedUser */
             $loggedUser = $this->request->getFromState("user");
 

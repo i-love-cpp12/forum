@@ -1,11 +1,17 @@
-post controler
+post controler | done
 like controler
-category conteoler
+category conteoler | done
+
+adopt update service and controller post to comment
+adopt create service and controller post to comment
 
 index add endpoints after conterolers and test
 
+better and mopre consistant responce msg
+
 dummy repo like post category
 db repo implementation
+
 
 db
 like no id as priamry key just 2 fileds (postId, userId) in php emualte id to in save update or insert

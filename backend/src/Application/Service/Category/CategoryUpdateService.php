@@ -13,6 +13,7 @@ use src\Application\DTO\Category\CategoryUpdateDTO;
 
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 use src\Shared\Exception\BusinessException\InvalidValueException;
+use src\Shared\Exception\BusinessException\BusinessException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
@@ -33,7 +34,8 @@ class CategoryUpdateService
             UserRole::admin
         );
 
-
+        if($DTO->newCategoryName === null)
+            throw new BusinessException("To update category you have to provide some of allowed data: categoryName (string)");
         if(!PostCategory::validateCategoryName($DTO->newCategoryName))
             throw new InvalidValueException("New categoryName", $DTO->newCategoryName, PostCategory::getCategoryNameValidateMessage());
 

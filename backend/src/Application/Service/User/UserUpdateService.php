@@ -12,7 +12,7 @@ use src\Application\Service\ServiceHelper;
 
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Application\DTO\User\UserUpdateDTO;
-
+use src\Shared\Exception\BusinessException\BusinessException;
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 use src\Shared\Exception\BusinessException\InvalidValueException;
 
@@ -29,7 +29,7 @@ class UserUpdateService
         );
 
         if($DTO->newUsername === null && $DTO->newPassword === null)
-            return;
+            throw new BusinessException("To update user you have to provide some of allowed data: username (string), password(string)");
 
         $user = $this->userRepo->getUserById($DTO->userToUpdateId);
         

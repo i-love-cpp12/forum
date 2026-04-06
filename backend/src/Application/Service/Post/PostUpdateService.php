@@ -13,6 +13,7 @@ use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Application\DTO\Post\PostUpdateDTO;
 
+use src\Shared\Exception\BusinessException\BusinessException;
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 use src\Shared\Exception\BusinessException\InvalidValueException;
 
@@ -29,6 +30,15 @@ class PostUpdateService
 
     public function execute(PostUpdateDTO $DTO): void
     {
+        $post = $this->postRepo->getPostById($DTO->postToUpdateId);
+
+        $parentPostId = $post->parentPostId;
+
+        if($parentPostId === null && $DTO->newHeader === null)
+            throw new BusinessException("Post must contain header");
+        if($parentPostId !== null && ($DTO->newHeader !== null || ($DTO->newCategories !== null && $DTO->newCategories !== [] && $DTO->categoriesToDelete !== null && $DTO->categoriesToDelete !== [])))
+            throw new BusinessException("Comment can not have header or category");
+
         if
         (
             $DTO->newHeader === null &&
@@ -37,16 +47,16 @@ class PostUpdateService
             $DTO->categoriesToDelete === null
         )
         {
-            return;
+            throw new BusinessException("To update post you have to provide some of allowed data: newHeader (string), newContent(string), newCategories(array<int>), categoriesToDelete (array<int>)");
         }
+
 
         ServiceHelper::authorizeAction(
             UserRole::from($DTO->loggedUserRole),
             $DTO->loggedUserId,
-            $DTO->postAuthorId
+            $post->getId()
         );
 
-        $post = $this->postRepo->getPostById($DTO->postToUpdateId);
         
         if($post === null)
             throw new EntityNotFoundException("Post", $DTO->postToUpdateId);
