@@ -10,7 +10,7 @@ use src\Application\Service\ServiceHelper;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Application\DTO\Category\CategoryDeleteDTO;
 
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 

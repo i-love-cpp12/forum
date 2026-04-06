@@ -20,8 +20,8 @@ use src\Infrastructure\Http\Request;
 use src\Infrastructure\Http\Respond;
 use src\Interface\Mapper\TokenMapper;
 use src\Interface\Mapper\UserMapper;
-use src\Shared\Exception\BussinessException\BusinessException;
-use src\Shared\Exception\BussinessException\RequestDataFormatException;
+use src\Shared\Exception\BusinessException\BusinessException;
+use src\Shared\Exception\BusinessException\RequestDataFormatException;
 use src\Shared\Exception\ExceptionHandler;
 use Throwable;
 
@@ -174,10 +174,9 @@ class UserContoller
     public function getUser(string $userId): void
     {
         $user = null;
-        
         try
         {
-            if(!is_int($userId))
+            if(!ctype_digit($userId))
                 throw new RequestDataFormatException("userId", "int", true);
             $userId = intval($userId);
             $user = $this->userGetService->execute($userId);

@@ -11,7 +11,7 @@ use src\Application\Service\ServiceHelper;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Application\DTO\Category\CategoryCreateDTO;
 
-use src\Shared\Exception\BussinessException\InvalidValueException;
+use src\Shared\Exception\BusinessException\InvalidValueException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
@@ -33,7 +33,7 @@ class CategoryCreateService
         );
 
         if(!PostCategory::validateCategoryName($DTO->categoryName))
-            throw new InvalidValueException("CategoryName", $DTO->categoryName, PostCategory::$categoryNameValidateMessage);
+            throw new InvalidValueException("CategoryName", $DTO->categoryName, PostCategory::getCategoryNameValidateMessage());
 
         $category = new PostCategory(null, $DTO->categoryName);
         $this->categoryRepo->saveCategory($category);

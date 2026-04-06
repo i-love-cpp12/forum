@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace src\Shared\Exception;
 
+use src\Shared\Exception\BusinessException\BusinessException;
 use PDOException;
 use src\Infrastructure\Http\Respond;
 use Throwable;

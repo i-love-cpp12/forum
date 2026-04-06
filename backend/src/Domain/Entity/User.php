@@ -15,18 +15,13 @@ class User extends Entity
 {
     private string $username;
     public static int $usernameMinLenght = 3;
-    public static int $usernameMaxLenght = 50;
-    public static string $usernameValidateMessage =
-        "be (" . self::$usernameMinLenght . " - " . self::$usernameMaxLenght . ") character long";
+    public static int $usernameMaxLenght = 50;        
 
     readonly public string $email;
 
     private string $passwordHash;
     public static int $passwordMinLenght = 8;
-    public static string $passwordHashValidateMessage =
-        "be valid sha256 hash";
-    public static string $passwordValidateMessage =
-        "contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . self::$passwordMinLenght . ") long";
+    public static string $passwordHashValidateMessage = "be valid sha256 hash";
 
     readonly public UserRole $role;
 
@@ -76,7 +71,7 @@ class User extends Entity
         $username = trim($username);
 
         if(!self::validateUsername($username))
-            throw new InvalidArgumentException("username: $username must " . self::$usernameValidateMessage);
+            throw new InvalidArgumentException("username: $username must " . self::getUsernameValidateMessage());
 
         $this->username = $username;
     }
@@ -86,7 +81,7 @@ class User extends Entity
         $password = trim($password);
 
         if(!self::validatePassword($password))
-            throw new InvalidArgumentException("password: " . self::hidePassword($password) . "must " . self::$passwordValidateMessage);
+            throw new InvalidArgumentException("password: " . self::hidePassword($password) . "must " . self::getPasswordValidateMessage());
 
         $this->passwordHash = hash("sha256", $password);
     }
@@ -110,6 +105,11 @@ class User extends Entity
         return Validator::validateLenght($username, self::$usernameMinLenght, self::$usernameMaxLenght);
     }
 
+    public static function getUsernameValidateMessage(): string
+    {
+        return "be (" . self::$usernameMinLenght . " - " . self::$usernameMaxLenght . ") character long";
+    }
+
     public static function validateEmail(string $email): bool
     {
         $email = trim($email);
@@ -129,6 +129,10 @@ class User extends Entity
         return
             Validator::stringContain($password, true, true, true) &&
             Validator::validateLenght($password, self::$passwordMinLenght, null);
+    }
+    public static function getPasswordValidateMessage(): string
+    {
+        return "contain at least one uppercase letter one lowercase letter and one special character and password must be at least (" . self::$passwordMinLenght . ") long"; 
     }
     public static function hidePassword(string $password): string
     {

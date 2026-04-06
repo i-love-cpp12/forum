@@ -5,7 +5,6 @@ namespace src\Application\Service\User;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
-use src\Domain\Entity\User;
 use src\Domain\Entity\UserRole;
 
 use src\Application\Service\ServiceHelper;
@@ -13,8 +12,7 @@ use src\Application\Service\ServiceHelper;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Application\DTO\User\UserDeleteDTO;
 
-use src\Shared\Exception\BussinessException\AuthException;
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
 class UserDeleteService
 {

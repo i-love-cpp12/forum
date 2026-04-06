@@ -13,8 +13,8 @@ use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Application\DTO\Post\PostUpdateDTO;
 
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
-use src\Shared\Exception\BussinessException\InvalidValueException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\InvalidValueException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
@@ -52,9 +52,9 @@ class PostUpdateService
             throw new EntityNotFoundException("Post", $DTO->postToUpdateId);
 
         if($DTO->newHeader !== null && !Post::validateHeader($DTO->newHeader))
-            throw new InvalidValueException("New header", $DTO->newHeader, Post::$headerValidateMessage);
+            throw new InvalidValueException("New header", $DTO->newHeader, Post::getHeaderValidateMessage());
         if($DTO->newContent !== null && !Post::validateContent($DTO->newContent))
-            throw new InvalidValueException("New content", $DTO->newContent, Post::$contentValidateMessage);
+            throw new InvalidValueException("New content", $DTO->newContent, Post::getContentValidateMessage());
 
 
         $post->setHeader($DTO->newHeader);

@@ -13,8 +13,8 @@ use src\Application\Service\ServiceHelper;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Application\DTO\User\UserUpdateDTO;
 
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
-use src\Shared\Exception\BussinessException\InvalidValueException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\InvalidValueException;
 
 class UserUpdateService
 {
@@ -37,10 +37,10 @@ class UserUpdateService
             throw new EntityNotFoundException("User", $DTO->userToUpdateId);
 
         if($DTO->newUsername !== null && !User::validateUsername($DTO->newUsername))
-            throw new InvalidValueException("New username", $DTO->newUsername, User::$usernameValidateMessage);
+            throw new InvalidValueException("New username", $DTO->newUsername, User::getUsernameValidateMessage());
 
         if($DTO->newPassword !== null && !User::validatePassword($DTO->newPassword))
-            throw new InvalidValueException("New password", User::hidePassword($DTO->newPassword), User::$passwordValidateMessage);
+            throw new InvalidValueException("New password", User::hidePassword($DTO->newPassword), User::getPasswordValidateMessage());
         
         if($DTO->newUsername !== null)
             $user->setUsername($DTO->newUsername);

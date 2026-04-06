@@ -10,9 +10,9 @@ use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Domain\Repository\UserRepositoryInterface;
 
-use src\Shared\Exception\BussinessException\BusinessException;
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
-use src\Shared\Exception\BussinessException\InvalidValueException;
+use src\Shared\Exception\BusinessException\BusinessException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\InvalidValueException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
@@ -34,9 +34,9 @@ class PostCreateService
             throw new BusinessException("Comment can not have header or category");
 
         if($DTO->parentPostId !== null && !Post::validateHeader($DTO->header))
-            throw new InvalidValueException("Header", $DTO->header, Post::$headerValidateMessage);
+            throw new InvalidValueException("Header", $DTO->header, Post::getHeaderValidateMessage());
         if(!Post::validateContent($DTO->content))
-            throw new InvalidValueException("Content", $DTO->content, Post::$contentValidateMessage);
+            throw new InvalidValueException("Content", $DTO->content, Post::getContentValidateMessage());
 
         if(!$this->userRepo->getUserById($DTO->userId))
             throw new EntityNotFoundException("User", $DTO->userId);

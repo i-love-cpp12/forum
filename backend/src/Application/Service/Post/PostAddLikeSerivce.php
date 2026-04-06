@@ -11,7 +11,7 @@ use src\Domain\Entity\Like;
 use src\Domain\Entity\LikeType;
 use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Repository\UserRepositoryInterface;
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
 class PostAddLikeSerivce
 {

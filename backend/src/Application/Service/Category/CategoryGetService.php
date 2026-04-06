@@ -6,7 +6,7 @@ namespace src\Application\Service\Category;
 use src\Domain\Entity\PostCategory;
 use src\Domain\Repository\CategoryRepositoryInterface;
 
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 

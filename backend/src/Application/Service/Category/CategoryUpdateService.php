@@ -11,8 +11,8 @@ use src\Application\Service\ServiceHelper;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Application\DTO\Category\CategoryUpdateDTO;
 
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
-use src\Shared\Exception\BussinessException\InvalidValueException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\InvalidValueException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
@@ -35,7 +35,7 @@ class CategoryUpdateService
 
 
         if(!PostCategory::validateCategoryName($DTO->newCategoryName))
-            throw new InvalidValueException("New categoryName", $DTO->newCategoryName, PostCategory::$categoryNameValidateMessage);
+            throw new InvalidValueException("New categoryName", $DTO->newCategoryName, PostCategory::getCategoryNameValidateMessage());
 
         $category = $this->categoryRepo->getCategoryById($DTO->categoryToUpdateId);
         

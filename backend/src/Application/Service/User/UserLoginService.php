@@ -11,7 +11,7 @@ use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Application\DTO\User\UserLoginDTO;
 
-use src\Shared\Exception\BussinessException\BusinessException;
+use src\Shared\Exception\BusinessException\BusinessException;
 
 class UserLoginService
 {

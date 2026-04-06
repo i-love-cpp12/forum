@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace src\Application\Service\Like;
 
 use src\Domain\Repository\LikeRepositoryInterface;
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 

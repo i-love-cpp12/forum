@@ -7,7 +7,7 @@ require_once(__DIR__ . "/../../../../autoload.php");
 
 use src\Domain\Entity\Post;
 use src\Domain\Repository\PostRepositoryInterface;
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
 class PostGetService
 {

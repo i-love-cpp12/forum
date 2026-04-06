@@ -14,8 +14,6 @@ class PostCategory extends Entity
     public readonly string $categoryName;
     public static $categoryNameMinLenght = 1;
     public static $categoryNameMaxLenght = 100;
-    public static $categoryNameValidateMessage =
-        "be (" . self::$categoryNameMinLenght . " - " . self::$categoryNameMaxLenght . ") long";
 
     public function __construct
     (
@@ -32,7 +30,7 @@ class PostCategory extends Entity
     public function setCategoryName(string $categoryName): void
     {
         if(!self::validateCategoryName($categoryName))
-            throw new InvalidArgumentException("categoryName: $categoryName must " . self::$categoryNameValidateMessage);
+            throw new InvalidArgumentException("categoryName: $categoryName must " . self::getCategoryNameValidateMessage());
         
         $this->categoryName = $categoryName;
     }
@@ -40,7 +38,10 @@ class PostCategory extends Entity
     {
         return Validator::validateLenght($categoryName, self::$categoryNameMinLenght, self::$categoryNameMaxLenght);
     }
-
+    public static function getCategoryNameValidateMessage(): string
+    {
+        return "be (" . self::$categoryNameMinLenght . " - " . self::$categoryNameMaxLenght . ") long";
+    }
     public function __toString(): string
     {
         return

@@ -13,8 +13,7 @@ use src\Application\Service\ServiceHelper;
 use src\Domain\Repository\PostRepositoryInterface;
 use src\Application\DTO\Post\PostDeleteDTO;
 
-use src\Shared\Exception\BussinessException\AuthException;
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
 class PostDeleteService
 {

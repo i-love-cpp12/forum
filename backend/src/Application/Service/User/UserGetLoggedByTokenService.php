@@ -9,8 +9,8 @@ use src\Domain\Entity\User;
 
 use src\Domain\Repository\UserRepositoryInterface;
 
-use src\Shared\Exception\BussinessException\BusinessException;
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\BusinessException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
 class UserGetLoggedByTokenService
 {

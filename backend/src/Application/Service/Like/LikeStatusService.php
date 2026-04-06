@@ -9,7 +9,7 @@ use src\Domain\Repository\LikeRepositoryInterface;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Domain\Repository\PostRepositoryInterface;
 
-use src\Shared\Exception\BussinessException\EntityNotFoundException;
+use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
 require_once(__DIR__ . "/../../../../autoload.php");
 
