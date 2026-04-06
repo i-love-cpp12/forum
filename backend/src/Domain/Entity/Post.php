@@ -163,6 +163,16 @@ class Post extends Entity
             throw new LogicException("dislikeCount: $this->dislikeCount can not be negative");
     }
 
+    public function getLikeCount(): int
+    {
+        return $this->likeCount;
+    }
+
+    public function getDislikeCount(): int
+    {
+        return $this->dislikeCount;
+    }
+
     public function incrementCommentCount(): void
     {
         ++$this->commentCount;
@@ -172,6 +182,11 @@ class Post extends Entity
     {
         if(--$this->commentCount < 0)
             throw new LogicException("commentCount: $this->commentCount can not be negative");
+    }
+
+    public function getCommentCount(): int
+    {
+        return $this->commentCount;
     }
 
     public static function validateHeader(string $header): bool

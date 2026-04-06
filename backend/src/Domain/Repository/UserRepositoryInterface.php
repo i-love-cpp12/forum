@@ -14,6 +14,7 @@ interface UserRepositoryInterface
     /** @return User[]*/
     public function getAllUsers(): array;
     public function getUserById(int $id): ?User;
+    public function getUserByUsername(string $username): ?User;
     public function getUserByEmail(string $email): ?User;
 
     public function deleteUser(int $id): void;

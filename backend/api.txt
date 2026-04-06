@@ -197,13 +197,7 @@ Body: none
 DELETE /api/posts/{id}/dislike - Remove dislike from post
 Body: none
 
-POST /api/comments/{id}/dislike - dislike a comment
-Body: none
-
-DELETE /api/comments/{id}/dislike - Remove dislike from comment
-Body: none
-
-5. Categories / Tags (optional)
+5. Categories
 
 GET /api/categories - Get all categories
 Body: none
@@ -217,7 +211,6 @@ Body: { "name": "New name" }
 DELETE /api/categories/{id} - Delete category
 Body: none
 
-6. Search / Filters
+6. Filters
 
-GET /api/posts?authorId=1&category=tech&sort=latest
-GET /api/posts?search=react
+GET /api/posts?

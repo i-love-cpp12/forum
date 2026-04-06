@@ -26,9 +26,9 @@ class AuthMiddleware
         {
             
             $token = $this->getUserAuthTokenService->execute();
-            $DTO = new UserGetLoggedDTO($token);
 
-            $this->request->setStateItem("user", $this->userGetLoggedByTokenService->execute($DTO));
+            $this->request->setStateItem
+                ("user", $this->userGetLoggedByTokenService->execute($token));
         }
         catch(Throwable $e)
         {
