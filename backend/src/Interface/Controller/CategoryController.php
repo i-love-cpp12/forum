@@ -61,7 +61,7 @@ class CategoryController
             ]
         );
     }
-    public function addCategory(): void
+    public function createCategory(): void
     {
         /** @var User $loggedUser */
         $loggedUser = $this->request->getFromState("user");

@@ -11,7 +11,10 @@ index add endpoints after conterolers and test
 
 better and mopre consistant responce msg
 
-dummy repo like post category
+dummy repo like, post, category
+
+make request "user" more strict
+
 db repo implementation
 
 

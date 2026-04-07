@@ -60,7 +60,7 @@ class LikeController
         );
 
     }
-    public function likePost(string $postId): void
+    public function like(string $postId): void
     {
         $this->addLikeHelper($postId, LikeType::like);
     }
@@ -68,7 +68,7 @@ class LikeController
     {
         $this->removeLikeHelper($postId, LikeType::like);
     }
-    public function dislikePost(string $postId): void
+    public function dislike(string $postId): void
     {
         $this->addLikeHelper($postId, LikeType::dislike);
     }

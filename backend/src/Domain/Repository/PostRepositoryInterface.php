@@ -14,6 +14,7 @@ interface PostRepositoryInterface
     public function getAllPosts(PostGetAllDTO $DTO): array;
     public function getPostById(int $id): ?Post;
     public function deletePost(int $id): void;
+    /** @return Post[]*/
     public function getCommentsForPost(int $postId): array;
     public function likePost(LikeType $likeType): void;
     public function deleteLike(LikeType $likeType): void;
