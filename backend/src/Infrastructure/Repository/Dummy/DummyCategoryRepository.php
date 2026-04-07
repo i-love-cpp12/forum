@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace src\Infrastructure\Repository\Dummy;
 
 use src\Domain\Repository\CategoryRepositoryInterface;
+use src\Domain\Entity\PostCategory;
 
 class DummyCategoryRepository implements CategoryRepositoryInterface
 {

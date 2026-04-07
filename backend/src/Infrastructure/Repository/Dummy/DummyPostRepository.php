@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace src\Infrastructure\Repository\Dummy;
 
 use src\Domain\Repository\PostRepositoryInterface;
+use src\Domain\Entity\Post;
+use src\Application\DTO\Post\PostGetAllDTO;
+use src\Domain\Entity\LikeType;
 
 class DummyPostRepository implements PostRepositoryInterface
 {

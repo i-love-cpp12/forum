@@ -22,7 +22,7 @@ use src\Domain\Entity\User;
 use src\Domain\Entity\Comment;
 use Throwable;
 
-class PostContoller
+class PostController
 {
     public function __construct
     (
@@ -49,17 +49,17 @@ class PostContoller
 
         try
         {
-            if(!$page && !is_int($page))
+            if($page !== null && !is_int($page))
                 throw new RequestDataFormatException("page", "int", true);
-            if(!$limit && !is_int($limit))
+            if($limit !== null && !is_int($limit))
                 throw new RequestDataFormatException("limit", "int", true);
-            if(!$search && !is_string($search))
+            if($search !== null && !is_string($search))
                 throw new RequestDataFormatException("search", "string", true);
-            if(!$category && !is_string($category))
+            if($category !== null && !is_string($category))
                 throw new RequestDataFormatException("category", "string", true);
-            if(!$author && !is_string($author))
+            if($author !== null && !is_string($author))
                 throw new RequestDataFormatException("author", "string", true);
-            if(!$sort && !is_string($sort))
+            if($sort !== null && !is_string($sort))
                 throw new RequestDataFormatException("sort", "string", true);
 
             $DTO = new PostGetAllDTO

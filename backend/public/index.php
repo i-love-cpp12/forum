@@ -35,7 +35,7 @@ use src\Infrastructure\Repository\Dummy\DummyPostRepository;
 use src\Infrastructure\Repository\Dummy\DummyUserRepository;
 use src\Interface\Controller\CategoryController;
 use src\Interface\Controller\LikeController;
-use src\Interface\Controller\PostContoller;
+use src\Interface\Controller\PostController;
 use src\Interface\Controller\UserContoller;
 use src\Interface\Middleware\AuthMiddleware;
 use src\Interface\Router\Router;
@@ -107,7 +107,7 @@ $userController = new UserContoller(
     $userGetTokenByValueService
 );
 
-$postController = new PostContoller(
+$postController = new PostController(
     $request,
     $postGetAllService,
     $postGetService,

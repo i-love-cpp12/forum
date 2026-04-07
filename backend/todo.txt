@@ -1,13 +1,4 @@
-post controler | done
-like controler | done
-category conteoler | done
-
-adopt update service and controller post to comment | done
-adopt create service and controller post to comment | done
-
-wywalic z wszytkich plikow autoload | done
-
-index add endpoints after conterolers and test
+test endpoints
 
 better and mopre consistant responce msg
 
@@ -15,8 +6,11 @@ dummy repo like, post, category
 
 make request "user" more strict
 
+router query params 
+
 db repo implementation
 
 
 db
+
 like no id as priamry key just 2 fileds (postId, userId) in php emualte id to in save update or insert
