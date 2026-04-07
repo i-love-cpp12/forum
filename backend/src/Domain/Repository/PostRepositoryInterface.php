@@ -7,7 +7,7 @@ require_once(__DIR__ . "/../../../autoload.php");
 
 use src\Domain\Entity\Post;
 use src\Application\DTO\Post\PostGetAllDTO;
-use src\Domain\Entity\Like;
+use src\Domain\Entity\LikeType;
 
 interface PostRepositoryInterface
 {
@@ -17,6 +17,6 @@ interface PostRepositoryInterface
     public function getPostById(int $id): ?Post;
     public function deletePost(int $id): void;
     public function getCommentsForPost(int $postId): array;
-    public function likePost(Like $like): void;
-    public function deleteLikePost(int $userId, int $postId): void;
+    public function likePost(LikeType $likeType): void;
+    public function deleteLike(LikeType $likeType): void;
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace src\Application\DTO\Like;
 
-class LikeAddDTO
+class LikeDTO
 {
     public function __construct
     (

@@ -36,8 +36,19 @@ class PostUpdateService
 
         if($parentPostId === null && $DTO->newHeader === null)
             throw new BusinessException("Post must contain header");
-        if($parentPostId !== null && ($DTO->newHeader !== null || ($DTO->newCategories !== null && $DTO->newCategories !== [] && $DTO->categoriesToDelete !== null && $DTO->categoriesToDelete !== [])))
+
+        $hasHeaderOrCatgories =
+            $DTO->newHeader !== null ||
+            (
+                ($DTO->newCategories !== null && $DTO->newCategories !== []) || ($DTO->categoriesToDelete !== null && $DTO->categoriesToDelete !== [])
+            );
+        if
+        (
+            $parentPostId !== null && $hasHeaderOrCatgories
+        )
+        {
             throw new BusinessException("Comment can not have header or category");
+        }
 
         if
         (
