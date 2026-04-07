@@ -11,8 +11,6 @@ use src\Domain\Repository\PostRepositoryInterface;
 
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
 class LikeStatusService
 {
     public function __construct

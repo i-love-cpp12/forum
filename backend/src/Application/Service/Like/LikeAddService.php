@@ -15,8 +15,6 @@ use src\Domain\Entity\Like;
 use PDO;
 use Throwable;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
 class LikeAddService
 {
     public function __construct

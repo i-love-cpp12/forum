@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace src\Application\Service;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 use InvalidArgumentException;
 use src\Domain\Entity\User;
 use src\Domain\Entity\UserRole;
-use src\Shared\Exception\BussinessException\AuthException;
+use src\Shared\Exception\BusinessException\AuthException;
 
 class ServiceHelper
 {

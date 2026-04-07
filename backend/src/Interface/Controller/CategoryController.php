@@ -2,8 +2,6 @@
 declare(strict_types=1);
 namespace src\Interface\Controller;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 use src\Application\DTO\Category\CategoryCreateDTO;
 use src\Application\DTO\Category\CategoryDeleteDTO;
 use src\Application\DTO\Category\CategoryUpdateDTO;

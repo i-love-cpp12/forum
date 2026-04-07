@@ -6,8 +6,6 @@ namespace src\Domain\Entity;
 use InvalidArgumentException;
 use LogicException;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 class Entity
 {
     private ?int $id;

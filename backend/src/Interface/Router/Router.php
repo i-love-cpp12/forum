@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace src\Interface\Router;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 use Exception;
 use src\Infrastructure\Http\Respond;
 

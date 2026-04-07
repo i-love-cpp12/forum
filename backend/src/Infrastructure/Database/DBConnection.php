@@ -5,8 +5,6 @@ namespace src\Infrastructure\Database;
 use PDO;
 use src\config\DBConfig;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 class DBConnection
 {
     private PDO $conn;

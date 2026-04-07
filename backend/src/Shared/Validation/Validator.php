@@ -6,8 +6,6 @@ namespace src\Shared\Validation;
 use Countable;
 use InvalidArgumentException;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 class Validator
 {
     static function validateLenght(Countable | string $countable, ?int $min, ?int $max): bool

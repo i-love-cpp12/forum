@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace src\Domain\Repository;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 use src\Domain\Entity\Post;
 use src\Application\DTO\Post\PostGetAllDTO;
 use src\Domain\Entity\LikeType;

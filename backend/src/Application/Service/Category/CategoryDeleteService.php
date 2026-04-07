@@ -12,8 +12,6 @@ use src\Application\DTO\Category\CategoryDeleteDTO;
 
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
 class CategoryDeleteService
 {
     public function __construct

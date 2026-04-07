@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace src\Application\Service\Post;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
-use src\Domain\Entity\User;
 use src\Domain\Entity\UserRole;
 
 use src\Application\Service\ServiceHelper;

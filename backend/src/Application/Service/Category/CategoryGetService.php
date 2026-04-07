@@ -8,8 +8,6 @@ use src\Domain\Repository\CategoryRepositoryInterface;
 
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
 class CategoryGetService
 {
     public function __construct

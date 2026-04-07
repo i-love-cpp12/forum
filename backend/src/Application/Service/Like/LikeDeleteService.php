@@ -6,11 +6,8 @@ namespace src\Application\Service\Like;
 use PDO;
 use src\Domain\Repository\LikeRepositoryInterface;
 use src\Domain\Repository\PostRepositoryInterface;
-use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 use Throwable;
-
-require_once(__DIR__ . "/../../../../autoload.php");
 
 class LikeDeleteService
 {

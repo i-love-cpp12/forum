@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace src\Domain\Entity;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 use InvalidArgumentException;
 use src\Shared\Validation\Validator;
 use src\Domain\Entity\Entity;

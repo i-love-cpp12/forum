@@ -13,8 +13,6 @@ use src\Application\DTO\Category\CategoryCreateDTO;
 
 use src\Shared\Exception\BusinessException\InvalidValueException;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
 class CategoryCreateService
 {
     public function __construct

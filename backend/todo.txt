@@ -1,11 +1,11 @@
 post controler | done
-like controler
+like controler | done
 category conteoler | done
 
 adopt update service and controller post to comment | done
 adopt create service and controller post to comment | done
 
-wywalic z wszytkich plikow autoload
+wywalic z wszytkich plikow autoload | done
 
 index add endpoints after conterolers and test
 

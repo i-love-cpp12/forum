@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace src\Infrastructure\Repository\Dummy;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
-use LogicException;
 use src\Domain\Entity\User;
 use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
@@ -55,6 +52,15 @@ class DummyUserRepository implements UserRepositoryInterface
     public function getUserById(int $id): ?User
     {
         return DummyRepositoryHelper::getEntityById($id, $this->users);
+    }
+    public function getUserByUsername(string $username): ?User
+    {
+        return ArrayHelper::find($this->users,
+            function(User $user) use($username)
+            {
+                return $user->getUsername() === $username;
+            }
+        );
     }
     public function getUserByEmail(string $email): ?User
     {

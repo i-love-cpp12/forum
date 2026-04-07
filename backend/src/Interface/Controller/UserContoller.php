@@ -2,8 +2,6 @@
 declare(strict_types=1);
 namespace src\Interface\Controller;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 use src\Application\DTO\User\UserDeleteDTO;
 use src\Application\DTO\User\UserLoginDTO;
 use src\Application\DTO\User\UserRegisterDTO;

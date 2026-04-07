@@ -2,15 +2,11 @@
 declare(strict_types=1);
 namespace src\Interface\Middleware;
 
-use src\Application\DTO\User\UserGetLoggedDTO;
 use src\Application\Service\User\UserGetLoggedByTokenService;
 use src\Domain\Service\UserGetAuthTokenService;
 use src\Infrastructure\Http\Request;
 use src\Shared\Exception\ExceptionHandler;
 use Throwable;
-
-require_once(__DIR__ . "/../../../autoload.php");
-
 
 class AuthMiddleware
 {

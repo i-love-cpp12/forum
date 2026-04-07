@@ -3,10 +3,8 @@ declare(strict_types=1);
 namespace src\Domain\Service;
 
 use src\Infrastructure\Http\Request;
-use src\Shared\Exception\BusinessException;
+use src\Shared\Exception\BusinessException\BusinessException;
 use src\Shared\Validation\Validator;
-
-require_once(__DIR__ . "/../../../autoload.php");
 
 
 class UserGetAuthTokenService

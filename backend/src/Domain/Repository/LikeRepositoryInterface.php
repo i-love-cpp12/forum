@@ -5,8 +5,6 @@ namespace src\Domain\Repository;
 
 use src\Domain\Entity\Like;
 
-require_once(__DIR__ . "/../../../autoload.php");
-
 
 interface LikeRepositoryInterface
 {

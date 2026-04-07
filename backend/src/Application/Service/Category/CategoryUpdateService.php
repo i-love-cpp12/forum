@@ -15,8 +15,6 @@ use src\Shared\Exception\BusinessException\EntityNotFoundException;
 use src\Shared\Exception\BusinessException\InvalidValueException;
 use src\Shared\Exception\BusinessException\BusinessException;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
 class CategoryUpdateService
 {
     public function __construct

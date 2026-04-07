@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace src\Infrastructure\Repository\Dummy;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
 use src\Domain\Entity\Entity;
 use src\Shared\Array\ArrayHelper;
 

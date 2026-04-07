@@ -17,8 +17,6 @@ use src\Shared\Exception\BusinessException\BusinessException;
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 use src\Shared\Exception\BusinessException\InvalidValueException;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
 class PostUpdateService
 {
     public function __construct

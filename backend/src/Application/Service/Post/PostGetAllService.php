@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace src\Application\Service\Post;
 
-require_once(__DIR__ . "/../../../../autoload.php");
-
 use src\Application\DTO\Post\PostGetAllDTO;
 use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Entity\Post;
