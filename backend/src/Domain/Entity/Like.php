@@ -19,9 +19,10 @@ class Like extends Entity
         int $postId,
         int $userId,
         LikeType $type,
+        ?int $createdAtTimeStamp = null
     )
     {
-        parent::__construct($id);
+        parent::__construct($id, $createdAtTimeStamp);
 
         if($postId < 0)
             throw new InvalidArgumentException("postId: $postId can not be negative");

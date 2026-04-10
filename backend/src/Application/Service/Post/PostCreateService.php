@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace src\Application\Service\Post;
 
+use src\Domain\Entity\Comment;
 use src\Application\DTO\Post\PostCreateDTO;
 use src\Domain\Entity\Post;
 
@@ -31,7 +32,7 @@ class PostCreateService
         if($DTO->parentPostId !== null && ($DTO->header !== null || ($DTO->categories !== null && $DTO->categories !== [])))
             throw new BusinessException("Comment can not have header or category");
 
-        if($DTO->parentPostId !== null && !Post::validateHeader($DTO->header))
+        if($DTO->parentPostId === null && !Post::validateHeader($DTO->header))
             throw new InvalidValueException("Header", $DTO->header, Post::getHeaderValidateMessage());
         if(!Post::validateContent($DTO->content))
             throw new InvalidValueException("Content", $DTO->content, Post::getContentValidateMessage());
@@ -42,7 +43,9 @@ class PostCreateService
         if($DTO->parentPostId !== null && !$this->postRepo->getPostById($DTO->parentPostId))
             throw new BusinessException("Comment parentPostId not found in posts", 404);
 
-        $post = new Post(null, $DTO->parentPostId, $DTO->userId, $DTO->header, $DTO->content, []);
+        $post = $DTO->parentPostId === null ?
+            new Post(null, null, $DTO->userId, $DTO->header, $DTO->content, []) :
+            new Comment(null, $DTO->parentPostId, $DTO->userId, $DTO->content);
 
         foreach($DTO->categories as $categoryId)
         {

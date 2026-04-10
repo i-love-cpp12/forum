@@ -134,10 +134,12 @@ $categoryController = new CategoryController(
 
 $router->bind("POST", "api/register", [$userController, "register"]);
 $router->bind("POST", "api/login", [$userController, "login"]);
-$router->bind("POST", "api/logout", [$userController, "logout"]);
+$router->bind("POST", "api/logout", [$userController, "logout"],[
+    [$authMiddleware, "execute"]
+]);
 $router->bind("GET", "api/users/{id}", [$userController, "getUser"]);
 $router->bind("GET", "api/users", [$userController, "getAllUsers"]);
-$router->bind("GET", "api/me", [$userController, "getLoggedUser"], [
+$router->bind("GET", "api/me", [$userController, "getLoggedUser"],[
     [$authMiddleware, "execute"]
 ]);
 $router->bind("PUT", "api/users/{id}", [$userController, "updateUser"], [

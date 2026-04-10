@@ -32,13 +32,10 @@ class PostUpdateService
 
         $parentPostId = $post->parentPostId;
 
-        if($parentPostId === null && $DTO->newHeader === null)
-            throw new BusinessException("Post must contain header");
-
         $hasHeaderOrCatgories =
             $DTO->newHeader !== null ||
             (
-                ($DTO->newCategories !== null && $DTO->newCategories !== []) || ($DTO->categoriesToDelete !== null && $DTO->categoriesToDelete !== [])
+                ($DTO->categoriesToAdd !== null && $DTO->categoriesToAdd !== []) || ($DTO->categoriesToDelete !== null && $DTO->categoriesToDelete !== [])
             );
         if
         (
@@ -52,18 +49,18 @@ class PostUpdateService
         (
             $DTO->newHeader === null &&
             $DTO->newContent === null &&
-            $DTO->newCategories === null &&
+            $DTO->categoriesToAdd === null &&
             $DTO->categoriesToDelete === null
         )
         {
-            throw new BusinessException("To update post you have to provide some of allowed data: newHeader (string), newContent(string), newCategories(array<int>), categoriesToDelete (array<int>)");
+            throw new BusinessException("To update post you have to provide some of allowed data: newHeader (string), newContent(string), categoriesToAdd(array<int>), categoriesToDelete (array<int>)");
         }
 
 
         ServiceHelper::authorizeAction(
             UserRole::from($DTO->loggedUserRole),
             $DTO->loggedUserId,
-            $post->getId()
+            $post->userId
         );
 
         
@@ -76,26 +73,28 @@ class PostUpdateService
             throw new InvalidValueException("New content", $DTO->newContent, Post::getContentValidateMessage());
 
 
-        $post->setHeader($DTO->newHeader);
-        $post->setContent($DTO->newContent);
+        if($DTO->newHeader !== null)
+            $post->setHeader($DTO->newHeader);
+        if($DTO->newContent !== null)
+            $post->setContent($DTO->newContent);
         
-        foreach($DTO->newCategories as $categoryId)
+        foreach($DTO->categoriesToAdd ?? [] as $categoryId)
         {
-            $category = "";
+            $category = $this->categoryRepo->getCategoryById($categoryId);
             if
             (
                 !is_int($categoryId) ||
                 $categoryId < 0 ||
-                ($category = $this->categoryRepo->getCategoryById($categoryId)) === null
+                $category === null
             )
             {
-                throw new InvalidValueException("CategoryId", $category);   
+                throw new InvalidValueException("CategoryId", $categoryId);   
             }
 
             $post->addCategory($category);
         }
 
-        foreach($DTO->categoriesToDelete as $categoryId)
+        foreach($DTO->categoriesToDelete ?? [] as $categoryId)
         {
             if
             (
@@ -104,7 +103,7 @@ class PostUpdateService
                 !$post->deleteCategory($categoryId)
             )
             {
-                throw new InvalidValueException("CategoryId", $category);  
+                throw new InvalidValueException("CategoryId", $categoryId);  
             }
         }
             

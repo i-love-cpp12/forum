@@ -127,8 +127,9 @@ class PostController
             ]
         );
     }
-    public function createPost(?string $parentPostId = null): void
+    public function createPost(): void
     {
+        $parentPostId = $this->request->body["parentPostId"] ?? null;
         $header = $this->request->body["header"] ?? null;
         $content = $this->request->body["content"] ?? null;
         $categories = $this->request->body["categories"] ?? null;
@@ -138,17 +139,14 @@ class PostController
 
         try
         {
-         
-            if($parentPostId !== null && !ctype_digit($parentPostId))
-                throw new RequestDataFormatException("parentPostId", "int", true);
 
-            $parentPostId = intval($parentPostId);
-
-            if(!$header && !is_string($header))
+            if($parentPostId !== null && !is_int($parentPostId))
+                throw new RequestDataFormatException("parentPostId", "int");
+            if($header !== null && !is_string($header))
                 throw new RequestDataFormatException("header", "string");
-            if(!$content || !is_string($content))
+            if($content === null || !is_string($content))
                 throw new RequestDataFormatException("content", "string");
-            if(!$categories && !is_array($categories))
+            if($categories !== null && !is_array($categories))
                 throw new RequestDataFormatException("categories", "array");
 
             foreach($categories as $category)
@@ -178,7 +176,7 @@ class PostController
                 "error" => "",
                 "data" =>
                     [
-                        "message" => "Post with header: $header created successfully"
+                        "message" => ($parentPostId === null ? "Post with header: $header created successfully": "Comment with content: $content created successfully")
                     ]
             ]
         );
@@ -187,7 +185,7 @@ class PostController
     {
         $header = $this->request->body["header"] ?? null;
         $content = $this->request->body["content"] ?? null;
-        $newCategories = $this->request->body["newCategories"] ?? null;
+        $newCategories = $this->request->body["categoriesToAdd"] ?? null;
         $categoriesToDelete = $this->request->body["categoriesToDelete"] ?? null;
 
         /** @var User $user */
@@ -200,16 +198,16 @@ class PostController
 
             $postId = intval($postId);
 
-            if(!$header && !is_string($header))
+            if($header !== null && !is_string($header))
                 throw new RequestDataFormatException("header", "string");
-            if(!$content || !is_string($content))
+            if($content !== null && !is_string($content))
                 throw new RequestDataFormatException("content", "string");
-            if(!$newCategories && !is_array($newCategories))
+            if($newCategories !== null && !is_array($newCategories))
                 throw new RequestDataFormatException("newCategories", "array");
-            if(!$categoriesToDelete && !is_array($categoriesToDelete))
+            if($categoriesToDelete !== null && !is_array($categoriesToDelete))
                 throw new RequestDataFormatException("categoriesToDelete", "array");
 
-            foreach([...$newCategories, ...$categoriesToDelete] as $category)
+            foreach([...($newCategories !== null ?$newCategories : []), ...($categoriesToDelete !== null ?$categoriesToDelete : [])] as $category)
             {
                 if(!is_int($category))
                     throw new RequestDataFormatException("category item", "int");

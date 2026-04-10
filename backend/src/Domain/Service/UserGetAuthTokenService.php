@@ -12,16 +12,18 @@ class UserGetAuthTokenService
     public static function execute(): string
     {
         //Authorization: Bearer TOKEN_CONTENT
-        $authHeader = explode(" ", (new Request())->headers["Authorization"] ?? "");
+        $authHeader = (new Request())->headers["Authorization"] ?? "";
+
+        preg_match("/^(Bearer) ([0-9a-f]{64})$/", $authHeader, $args);
+        // die(json_encode($args));
         if
         (
-            count($authHeader) !== 2 ||
-            $authHeader[0] !== "Bearer" ||
-            !Validator::validateSha256($authHeader[1])
+            count($args) !== 3 ||
+            !Validator::validateSha256($args[2])
         )
         {
-            throw new BusinessException("Authentication falied, invalid authentication headers: " . implode(" ", $authHeader), 401);
+            throw new BusinessException("Authentication falied, invalid authentication headers: " . $authHeader, 401);
         }
-        return $authHeader[1];
+        return $args[2];
     }
 }

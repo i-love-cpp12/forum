@@ -120,7 +120,7 @@ class User extends Entity
         return Validator::validateSha256($passwordHash);
     }
 
-    public static function validatePassword(string $password)
+    public static function validatePassword(string $password): bool
     {
         $password = trim($password);
 

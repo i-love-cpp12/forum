@@ -14,11 +14,11 @@ class UserGetLoggedByTokenService
 {
     public function __construct(private UserRepositoryInterface $userRepo){}
 
-    public function execute(string $token): User
+    public function execute(string $rawToken): User
     {
-        $token = $this->userRepo->getActiveTokenByValue($token);
+        $token = $this->userRepo->getActiveTokenByValue($rawToken);
         if($token === null)
-            throw new BusinessException("Token: $token is not active");
+            throw new BusinessException("Token: $rawToken is not active");
 
         $user = $this->userRepo->getUserById($token->userId);
 

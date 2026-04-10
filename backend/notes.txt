@@ -9,3 +9,5 @@ add like on post/commnet
 delte like on post/commnet
 
 repo delete post -> commnet -> othercomment soft
+
+checked to post update

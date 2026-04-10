@@ -29,7 +29,7 @@ class UserRegisterService
         if($this->userRepo->getUserByEmail($DTO->email) !== null)
             throw new BusinessException("User with this email: $DTO->email already exist", 409);
 
-        $paswordHash = password_hash($DTO->password, "sha256");
+        $paswordHash = hash("sha256", $DTO->password);
 
         $user = new User(null, $DTO->username, $DTO->email, $paswordHash);
         $this->userRepo->saveUser($user);

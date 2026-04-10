@@ -51,6 +51,6 @@ class Validator
 
        $regExp = "/^" . $lowerCaseLettersRegExp . $upperCaseLettersRegExp . $specialCharsRegExp . ".+$/";
 
-       return preg_match($regExp, $string);
+       return preg_match($regExp, $string) !== false;
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace src\Infrastructure\Repository\Dummy;
 
+use LogicException;
 use src\Domain\Entity\User;
 use src\Domain\Entity\Token;
 use src\Domain\Repository\UserRepositoryInterface;
@@ -34,7 +35,7 @@ class DummyUserRepository implements UserRepositoryInterface
 
         for($i = 0; $i < 20; ++$i)
         {
-            $this->activateToken(new Token(null, $this->users[$i]->getId(), hash("sha256", "oliwier$i"), $i * $i * 1000));
+            $this->activateToken(new Token(null, $this->users[$i]->getId(), hash("sha256", "oliwier$i"), time() - 1 + Token::$tokenDurationS * $i));
         }
         $this->activateToken(new Token(null, $this->users[20]->getId(), hash("sha256", "oliwier20"), null));
     }
@@ -79,6 +80,8 @@ class DummyUserRepository implements UserRepositoryInterface
 
     public function activateToken(Token $token): void
     {
+        if($token->getId() !== null)
+            throw new LogicException("Token must be new token");
         DummyRepositoryHelper::saveEntity($token, $this->tokens, $this->nextTokenId);
     }
 

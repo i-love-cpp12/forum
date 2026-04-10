@@ -150,15 +150,163 @@ Response:
 
 GET /api/posts - Get list of all posts
 Query: ?page=1&limit=20
+Response:
+{
+  "error": "",
+  "data": {
+    "message": "Getting all posts successful",
+    "posts": [
+      {
+        "id": 0,
+        "createdAtTimeStamp": null,
+        "parentPostId": null,
+        "userId": 0,
+        "header": "Nowy post 0",
+        "content": "Content nowego postu 0",
+        "categories": [
+          {
+            "id": 0,
+            "createdAtTimeStamp": null,
+            "name": "category 0"
+          }
+        ],
+        "likeCount": 3,
+        "dislikeCount": 4,
+        "commentCount": 2
+      },
+      {
+        "id": 1,
+        "createdAtTimeStamp": null,
+        "parentPostId": null,
+        "userId": 0,
+        "header": "Nowy post 1",
+        "content": "Content nowego postu 1",
+        "categories": [
+          {
+            "id": 1,
+            "createdAtTimeStamp": null,
+            "name": "category 1"
+          },
+          {
+            "id": 2,
+            "createdAtTimeStamp": null,
+            "name": "category 2"
+          }
+        ],
+        "likeCount": 0,
+        "dislikeCount": 0,
+        "commentCount": 0
+      },
+      {
+        "id": 2,
+        "createdAtTimeStamp": null,
+        "parentPostId": null,
+        "userId": 1,
+        "header": "Nowy post 2",
+        "content": "Content nowego postu 2",
+        "categories": [
+          {
+            "id": 1,
+            "createdAtTimeStamp": null,
+            "name": "category 1"
+          },
+          {
+            "id": 2,
+            "createdAtTimeStamp": null,
+            "name": "category 2"
+          }
+        ],
+        "likeCount": 0,
+        "dislikeCount": 0,
+        "commentCount": 0
+      },
+      {
+        "id": 3,
+        "createdAtTimeStamp": null,
+        "parentPostId": 0,
+        "userId": 1,
+        "header": null,
+        "content": "Comment 1",
+        "categories": [],
+        "likeCount": 0,
+        "dislikeCount": 0,
+        "commentCount": 0
+      },
+      {
+        "id": 4,
+        "createdAtTimeStamp": null,
+        "parentPostId": 0,
+        "userId": 2,
+        "header": null,
+        "content": "Comment 2",
+        "categories": [],
+        "likeCount": 0,
+        "dislikeCount": 0,
+        "commentCount": 0
+      }
+    ]
+  }
+}
 
 GET /api/posts/{id} - Get post details
 Body: none
+Response:
+{
+  "error": "",
+  "data": {
+    "message": "Getting post with id: 0 successful",
+    "user": {
+      "id": 0,
+      "createdAtTimeStamp": null,
+      "parentPostId": null,
+      "userId": 0,
+      "header": "Nowy post 0",
+      "content": "Content nowego postu 0",
+      "categories": [
+        {
+          "id": 0,
+          "createdAtTimeStamp": null,
+          "name": "category 0"
+        }
+      ],
+      "likeCount": 3,
+      "dislikeCount": 4,
+      "commentCount": 2
+    }
+  }
+}
 
 POST /api/posts - Create a new post
-Body: { "title": "Title", "content": "Post content" }
+Body: {
+    "parentPostId": null,
+    "header": "header",
+    "content": "content",
+    "categories": [0, 1, 2]
+}
+Responce:
+{
+    "error":"",
+    "data":
+        {
+            "message":"Post with header: header created successfully"
+        }
+}
 
 PUT /api/posts/{id} - Update post
-Body: { "title": "New title", "content": "New content" }
+Body: {
+    "header": "new header",
+    "content": "new content",
+    "categoriesToAdd": [1, 2, 4],
+    "categoriesToDelete": [0]
+}
+Responce:
+{
+    "error":"",
+    "data":
+        {
+            "message":"Post with id: 0 updated successfully"
+        }
+}
 
 DELETE /api/posts/{id} - Delete post
 Body: none

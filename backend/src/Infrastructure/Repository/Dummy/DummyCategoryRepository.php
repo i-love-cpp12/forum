@@ -19,7 +19,7 @@ class DummyCategoryRepository implements CategoryRepositoryInterface
         $this->nextCategoryId = 0;
         
         for($i = 0; $i < 10; ++$i)
-            $this->saveCategory(new PostCategory($i, "category $i"));
+            $this->saveCategory(new PostCategory(null, "category $i"));
     }
 
     public function saveCategory(PostCategory $category): void

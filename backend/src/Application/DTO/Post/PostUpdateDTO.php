@@ -15,7 +15,7 @@ class PostUpdateDTO
         readonly public int $loggedUserRole,
         readonly public ?string $newHeader,
         readonly public ?string $newContent,
-        readonly public ?array $newCategories,
+        readonly public ?array $categoriesToAdd,
         readonly public ?array $categoriesToDelete
     )
     {

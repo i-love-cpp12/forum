@@ -20,7 +20,6 @@ use src\Infrastructure\Http\Request;
 use src\Infrastructure\Http\Respond;
 use src\Interface\Mapper\TokenMapper;
 use src\Interface\Mapper\UserMapper;
-use src\Shared\Exception\BusinessException\BusinessException;
 use src\Shared\Exception\BusinessException\RequestDataFormatException;
 use src\Shared\Exception\ExceptionHandler;
 use Throwable;

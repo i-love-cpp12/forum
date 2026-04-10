@@ -10,6 +10,7 @@ use src\Domain\Repository\UserRepositoryInterface;
 use src\Application\DTO\User\UserLoginDTO;
 
 use src\Shared\Exception\BusinessException\BusinessException;
+use src\Shared\Exception\BusinessException\InvalidValueException;
 
 class UserLoginService
 {
@@ -17,6 +18,8 @@ class UserLoginService
 
     public function execute(UserLoginDTO $DTO): void
     {
+        if(!User::validateEmail($DTO->email))
+            throw new InvalidValueException("email", $DTO->email);
         $user = $this->userRepo->getUserByEmail($DTO->email);
 
         if($user === null || !$user->isPasswordCorrect($DTO->password))

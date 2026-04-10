@@ -16,10 +16,11 @@ class PostCategory extends Entity
     public function __construct
     (
         ?int $id,
-        string $categoryName
+        string $categoryName,
+        ?int $createdAtTimeStamp = null
     )
     {
-        parent::__construct($id);
+        parent::__construct($id, $createdAtTimeStamp);
         
         if(!self::validateCategoryName($categoryName))
             throw new InvalidArgumentException("categoryName: $categoryName must " . self::getCategoryNameValidateMessage());

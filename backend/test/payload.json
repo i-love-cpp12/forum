@@ -1,0 +1,6 @@
+{
+    "header": "new header",
+    "content": "new content",
+    "categoriesToAdd": [1, 2, 4],
+    "categoriesToDelete": [0]
+}
