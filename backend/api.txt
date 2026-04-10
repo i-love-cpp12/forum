@@ -41,7 +41,7 @@ Response:
         ]
 }
 
-POST /api/logout - Logout
+POST /api/users/logout - Logout
 Body: none
 Response:
 {
@@ -102,7 +102,7 @@ Response:
         ]
 }
 
-GET /api/me - Show currently logged-in user
+GET /api/users/me - Show currently logged-in user
 Body: none
 Response:
 {
@@ -179,6 +179,9 @@ Body: none
 
 4. Likes
 
+GET /api/posts/{id}/like - Get like state
+Body: none
+
 POST /api/posts/{id}/like - Like a post
 Body: none
 
@@ -192,6 +195,8 @@ DELETE /api/posts/{id}/dislike - Remove dislike from post
 Body: none
 
 
+GET /api/posts/comments/{id}/like - Get like state
+Body: none
 
 POST /api/posts/comments/{id}/like - Like a post
 Body: none

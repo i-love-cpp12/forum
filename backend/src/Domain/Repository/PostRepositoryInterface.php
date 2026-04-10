@@ -16,6 +16,6 @@ interface PostRepositoryInterface
     public function deletePost(int $id): void;
     /** @return Post[]*/
     public function getCommentsForPost(int $postId): array;
-    public function likePost(LikeType $likeType): void;
-    public function deleteLike(LikeType $likeType): void;
+    public function likePost(int $postId, LikeType $likeType): void;
+    public function deleteLike(int $postId, LikeType $likeType): void;
 }

@@ -247,8 +247,9 @@ class PostController
     {
         try
         {
-            if(!is_int($postId))
+            if(!ctype_digit($postId))
                 throw new RequestDataFormatException("postId", "int", true);
+
             $postId = intval($postId);
 
             /** @var User $loggedUser */
@@ -287,8 +288,9 @@ class PostController
 
         try
         {
-            if(!is_int($postId))
+            if(!ctype_digit($postId))
                 throw new RequestDataFormatException("postId", "int", true);
+
             $postId = intval($postId);
 
             $comments = $this->postGetCommentsService->execute($postId);
@@ -310,7 +312,7 @@ class PostController
                 "error" => "",
                 "data" =>
                     [
-                        "message" => "Getting all comments successful",
+                        "message" => "Getting all comments for postId: $postId successful",
                         "comments" => $commentsMapped
                     ]
             ]

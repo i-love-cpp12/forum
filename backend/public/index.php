@@ -171,7 +171,9 @@ $router->bind("DELETE", "api/posts/comments/{id}", [$postController, "deletePost
     [$authMiddleware, "execute"]
 ]);
 
-
+$router->bind("GET", "api/posts/{id}/like", [$likeController, "likeStatus"], [
+    [$authMiddleware, "execute"]
+]);
 $router->bind("POST", "api/posts/{id}/like", [$likeController, "like"], [
     [$authMiddleware, "execute"]
 ]);
@@ -185,6 +187,9 @@ $router->bind("DELETE", "api/posts/{id}/dislike", [$likeController, "removeDisli
     [$authMiddleware, "execute"]
 ]);
 
+$router->bind("GET", "api/posts/comments/{id}/like", [$likeController, "likeStatus"], [
+    [$authMiddleware, "execute"]
+]);
 $router->bind("POST", "api/posts/comments/{id}/like", [$likeController, "like"], [
     [$authMiddleware, "execute"]
 ]);

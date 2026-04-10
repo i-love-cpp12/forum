@@ -145,6 +145,8 @@ class Post extends Entity
     {
         if($like->getId() !== null)
             throw new InvalidArgumentException("Like can not have id");
+        if($like->postId !== $this->getId())
+            throw new LogicException("Like must have same postId as post");
         if($like->type === LikeType::like)
             ++$this->likeCount;
         else if($like->type === LikeType::dislike)
@@ -155,6 +157,8 @@ class Post extends Entity
     {
         if($like->getId() !== null)
             throw new InvalidArgumentException("Like can not have id");
+        if($like->postId !== $this->getId())
+            throw new LogicException("Like must have same postId as post");
         if($like->type === LikeType::like && --$this->likeCount < 0)
             throw new LogicException("likeCount: $this->likeCount can not be negative");
         if($like->type === LikeType::dislike && --$this->dislikeCount < 0)

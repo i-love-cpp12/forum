@@ -6,8 +6,6 @@ dummy repo like, post, category
 
 make request "user" more strict
 
-router query params 
-
 db repo implementation
 
 

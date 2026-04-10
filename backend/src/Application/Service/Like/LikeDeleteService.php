@@ -31,7 +31,7 @@ class LikeDeleteService
         try
         {
             $this->likeRepo->deleteLike($userId, $postId);
-            $this->postRepo->deleteLike($like->type);
+            $this->postRepo->deleteLike($postId, $like->type);
             $this->conn->commit();
         }
         catch(Throwable $e)

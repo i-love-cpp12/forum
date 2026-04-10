@@ -5,6 +5,7 @@ namespace src\Interface\Middleware;
 use src\Application\Service\User\UserGetLoggedByTokenService;
 use src\Domain\Service\UserGetAuthTokenService;
 use src\Infrastructure\Http\Request;
+use src\Infrastructure\Http\Respond;
 use src\Shared\Exception\ExceptionHandler;
 use Throwable;
 

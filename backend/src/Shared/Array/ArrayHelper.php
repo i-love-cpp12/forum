@@ -28,13 +28,13 @@ class ArrayHelper
         return false;
     }
 
-    public static function &find(array& $array, callable $callback, ?int &$index = null): mixed
+    public static function &find(array& $array, callable $found, ?int &$index = null): mixed
     {
         $lenght = count($array);
 
         for($i = 0; $i < $lenght; ++$i)
         {
-            if($callback($array[$i]))
+            if($found($array[$i]))
             {
                 $index = $i;
                 return $array[$i];
@@ -45,13 +45,13 @@ class ArrayHelper
         return $null;
     }
 
-    public static function findAll(array& $array, callable $callback): array
+    public static function findAll(array& $array, callable $found): array
     {
         $lenght = count($array);
         $result = [];
         for($i = 0; $i < $lenght; ++$i)
         {
-            if($callback($array[$i]))
+            if($found($array[$i]))
             {
                 $result[] = $array[$i];
             }

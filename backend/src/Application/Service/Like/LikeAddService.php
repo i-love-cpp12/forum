@@ -46,7 +46,7 @@ class LikeAddService
         try
         {
             $this->likeRepo->saveLike($like);
-            $this->postRepo->likePost($like->type);
+            $this->postRepo->likePost($DTO->postId, $like->type);
             $this->conn->commit();
         }
         catch(Throwable $e)
