@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace src\Interface\Router;
 
 use Exception;
+use src\Infrastructure\Http\Request;
 use src\Infrastructure\Http\Respond;
 
 //uri example /api/users/{id} where id is placeholder -> /api/users/1
@@ -60,6 +61,6 @@ class Router
     private static function pathToRegexp(string $path): string
     {
         $path = str_replace("/", "\/", $path);
-        return "/" . preg_replace("/\{[a-z]+\}/i", "([A-Za-z0-9]+)", $path) . "$/";
+        return "/" . preg_replace("/\{[a-z]+\}/i", "([A-Za-z0-9]+)", $path) . "(?:\?.*)?$/";
     }
 }
