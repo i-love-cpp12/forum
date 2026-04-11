@@ -85,7 +85,7 @@ class CategoryController
                 "error" => "",
                 "data" =>
                     [
-                        "message" => "Category with categoryNane: $categoryName created successfully"
+                        "message" => "Category with categoryName: $categoryName created successfully"
                     ]
             ]
         );

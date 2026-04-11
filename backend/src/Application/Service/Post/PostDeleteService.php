@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace src\Application\Service\Post;
 
+use InvalidArgumentException;
 use src\Domain\Entity\UserRole;
 
 use src\Application\Service\ServiceHelper;
@@ -26,7 +27,7 @@ class PostDeleteService
             throw new EntityNotFoundException("Post", $DTO->postToDeleteId);
 
         if(($postType = PostType::tryFrom($DTO->postType)) === null)
-            throw new InvalidValueException("postType", $DTO->postType);
+            throw new InvalidArgumentException("Post type $DTO->postType is not valid");
 
         ServiceHelper::validatePostType($postType, $post);
 

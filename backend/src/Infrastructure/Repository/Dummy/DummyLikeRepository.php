@@ -26,6 +26,9 @@ class DummyLikeRepository implements LikeRepositoryInterface
         $this->saveLike(new Like(null, 0, 5, LikeType::dislike));
         $this->saveLike(new Like(null, 0, 6, LikeType::dislike));
         $this->saveLike(new Like(null, 0, 7, LikeType::dislike));
+
+        $this->saveLike(new Like(null, 4, 8, LikeType::like));
+        $this->saveLike(new Like(null, 4, 9, LikeType::dislike));
     }
     public function saveLike(Like $like): void
     {

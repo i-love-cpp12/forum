@@ -9,7 +9,7 @@ use src\Shared\Validation\Validator;
 
 class PostCategory extends Entity
 {
-    public readonly string $categoryName;
+    private string $categoryName;
     public static $categoryNameMinLenght = 1;
     public static $categoryNameMaxLenght = 100;
 
@@ -22,13 +22,19 @@ class PostCategory extends Entity
     {
         parent::__construct($id, $createdAtTimeStamp);
         
-        if(!self::validateCategoryName($categoryName))
-            throw new InvalidArgumentException("categoryName: $categoryName must " . self::getCategoryNameValidateMessage());
-        
-        $this->categoryName = $categoryName;
-        
+        $this->categoryName = "";
+        $this->setCategoryName($categoryName);
     }
-
+    public function getCateogryName(): string
+    {
+        return $this->categoryName;
+    }
+    public function setCategoryName(string $categoryName): void
+    {
+        if(!self::validateCategoryName($categoryName))
+            throw new InvalidArgumentException("CategoryName must " . self::getCategoryNameValidateMessage());
+        $this->categoryName = $categoryName;
+    }
     public static function validateCategoryName(string $categoryName): bool
     {
         return Validator::validateLenght($categoryName, self::$categoryNameMinLenght, self::$categoryNameMaxLenght);

@@ -389,48 +389,195 @@ Responce:
 
 GET /api/posts/{id}/like - Get like state
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Geting like status for postId: 0 and userId: 3 successfull",
+      "like":
+        {
+          "id":2,
+          "createdAtTimeStamp":null,
+          "postId":0,
+          "userId":3,
+          "type":"like"
+        }
+    }
+}
 
 POST /api/posts/{id}/like - Like a post
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Post with postId: 1 liked by userId: 3 successfully"
+    }
+}
 
 DELETE /api/posts/{id}/like - Remove like from post
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Removed like from post with postId: 0 by userId: 3 successfully"
+    }
+}
 
 POST /api/posts/{id}/dislike - dislike a post
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Post with postId: 0 disliked by userId: 3 successfully"
+    }
+}
 
 DELETE /api/posts/{id}/dislike - Remove dislike from post
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Removed dislike from post with postId: 0 by userId: 4 successfully"
+    }
+}
 
 
 GET /api/comments/{id}/like - Get like state
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Geting like status for comment with id: 4 and userId: 4 successfull"
+    }
+}
 
 POST /api/comments/{id}/like - Like a post
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Comment with id: 4 liked by userId: 4 successfully"
+    }
+}
 
 DELETE /api/comments/{id}/like - Remove like from post
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Removed like from comment with postId: 4 by userId: 8 successfully"
+    }
+}
 
 POST /api/comments/{id}/dislike - dislike a post
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Comment with id: 3 disliked by userId: 8 successfully"
+    }
+}
 
 DELETE /api/comments/{id}/dislike - Remove dislike from post
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Removed dislike from comment with postId: 4 by userId: 9 successfully"
+    }
+}
 
 5. Categories
 
 GET /api/categories - Get all categories
 Body: none
+Responce:
+{
+  "error": "",
+  "data": {
+    "message": "Getting all categories successful",
+    "categories": [
+      {
+        "id": 0,
+        "createdAtTimeStamp": null,
+        "name": "category 0"
+      },
+      {
+        "id": 1,
+        "createdAtTimeStamp": null,
+        "name": "category 1"
+      },
+      {
+        "id": 2,
+        "createdAtTimeStamp": null,
+        "name": "category 2"
+      },
+      {
+        "id": 3,
+        "createdAtTimeStamp": null,
+        "name": "category 3"
+      }
+    ]
+  }
+}
 
 POST /api/categories - Add a category
-Body: { "name": "Technology" }
+Body:
+{
+    "categoryName": "new category"
+}
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Removed dislike from comment with postId: 4 by userId: 9 successfully"
+    }
+}
 
 PUT /api/categories/{id} - Edit category
-Body: { "name": "New name" }
+Body:
+{
+    "categoryName": "new category"
+}
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Category with categoryId: 1 updated successfully"
+    }
+}
 
 DELETE /api/categories/{id} - Delete category
 Body: none
+Responce:
+{
+  "error":"",
+  "data":
+    {
+      "message":"Category with categoryId: 1 deleted successfully"
+    }
+}
 
 6. Filters
 

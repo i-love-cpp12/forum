@@ -2,8 +2,6 @@ test endpoints
 
 better and mopre consistant responce msg
 
-dummy repo like, post, category
-
 make request "user" more strict
 
 db repo implementation

@@ -33,7 +33,7 @@ class DummyPostRepository implements PostRepositoryInterface
         $this->savePost(new Post(null, null, 11, "Nowy post $i", "Content nowego postu $i", [new PostCategory(1, "category 1"), new PostCategory(2, "category 2")]));
         ++$i;
         $this->savePost(new Comment(null, 0, 11, "Comment 1"));
-        $this->savePost(new Comment(null, 0, 12, "Comment 2"));
+        $this->savePost(new Comment(null, 0, 12, "Comment 2", 1, 1));
 
     }
     public function savePost(Post $post): void

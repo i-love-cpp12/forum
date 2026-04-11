@@ -33,18 +33,21 @@ class LikeAddService
     public function execute(LikeDTO $DTO): void
     {
         if(($likeType = LikeType::tryFrom($DTO->likeType)) === null)
-            throw new InvalidValueException("Like type", $DTO->likeType);
+            throw new InvalidArgumentException("Like type $DTO->likeType is not valid");
 
         if(($postType = PostType::tryFrom($DTO->postType)) === null)
-            throw new InvalidValueException("postType", $DTO->postType);
+            throw new InvalidArgumentException("Post type $DTO->postType is not valid");
 
         $like = $this->likeRepo->getLike($DTO->userId, $DTO->postId);
+        $likeId = null;
+
         if($like !== null)
         {
             if($like->type === $likeType)
-                throw new BusinessException("you already" . $likeType->value . "d this post");
+                throw new BusinessException("you already " . Like::likeTypeToString($likeType) . "d this post");
             $likeId = $like->getId();
         }
+
         if($this->userRepo->getUserById($DTO->userId) === null)
             throw new EntityNotFoundException("User", $DTO->userId);
 

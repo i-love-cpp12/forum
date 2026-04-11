@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace src\Application\Service\Post;
 
+use InvalidArgumentException;
 use src\Domain\Entity\Post;
 use src\Domain\Entity\User;
 use src\Domain\Entity\UserRole;
@@ -31,7 +32,7 @@ class PostUpdateService
         $post = $this->postRepo->getPostById($DTO->postToUpdateId);
 
         if(($postType = PostType::tryFrom($DTO->postType)) === null)
-            throw new InvalidValueException("postType", $DTO->postType);
+            throw new InvalidArgumentException("Post type $DTO->postType is not valid");
 
         ServiceHelper::validatePostType($postType, $post);
         

@@ -203,6 +203,12 @@ class Post extends Entity
     {
         return "be string (" . self::$contentMinLenght . " - " . self::$contentMaxLenght . ") long";
     }
+    public static function postTypeToString(PostType $type): string
+    {
+        $postTypes = ["post", "comment"];
+        return $postTypes[$type->value];
+    }
+
     public function __toString(): string
     {
         return

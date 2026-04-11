@@ -11,6 +11,3 @@ delte like on post/commnet
 repo delete post -> commnet -> othercomment soft
 
 checked to post update
-
-enum postType as string not int to get value from "coomemt" "post"
-no deduction if post is comment or post in delete post in api/posts or api/comemnt

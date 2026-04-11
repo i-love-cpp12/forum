@@ -41,21 +41,9 @@ class ServiceHelper
         $postType2 = $post->getPostType();
         if($postType !== $postType2)
             throw new BusinessException(
-                $postType2 === PostType::post ?
+                $postType === PostType::post ?
                 "Post with id: $postId is a comment" : 
                 "Comment with id: $postId is a post"
-            );
-    }
-
-    public static function validateLikeType(LikeType $likeType, Like $like): void
-    {
-        $likeId = $like->getId();
-        $likeType2 = $like->type;
-        if($likeType !== $likeType2)
-            throw new BusinessException(
-                $likeType2 === LikeType::like ?
-                "Like with id: $likeId is a dislike" : 
-                "Dislike with id: $likeId is a like"
             );
     }
 }

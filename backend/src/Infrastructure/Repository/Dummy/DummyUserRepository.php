@@ -6,6 +6,7 @@ namespace src\Infrastructure\Repository\Dummy;
 use LogicException;
 use src\Domain\Entity\User;
 use src\Domain\Entity\Token;
+use src\Domain\Entity\UserRole;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Array\ArrayHelper;
 use src\Infrastructure\Repository\Dummy\DummyRepositoryHelper;
@@ -33,11 +34,14 @@ class DummyUserRepository implements UserRepositoryInterface
             $this->saveUser(new User(null, "oliwier$i", "oliwier$i@gmail.com", hash("sha256", "oliwier$i")));
         }
 
+        $this->saveUser(new User(null, "admin", "admin@gmail.com", hash("sha256", "admin123"), UserRole::admin));
+
         for($i = 0; $i < 20; ++$i)
         {
             $this->activateToken(new Token(null, $this->users[$i]->getId(), hash("sha256", "oliwier$i"), time() - 1 + Token::$tokenDurationS * $i));
         }
         $this->activateToken(new Token(null, $this->users[20]->getId(), hash("sha256", "oliwier20"), null));
+        $this->activateToken(new Token(null, $this->users[30]->getId(), hash("sha256", "admin123"), null));
     }
 
     public function saveUser(User $user): void

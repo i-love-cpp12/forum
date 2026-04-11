@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace src\Application\Service\Post;
 
+use InvalidArgumentException;
 use src\Domain\Entity\Comment;
 use src\Application\DTO\Post\PostCreateDTO;
 use src\Domain\Entity\Post;
@@ -34,7 +35,7 @@ class PostCreateService
             throw new EntityNotFoundException("User", $DTO->userId);
 
         if(($postType = PostType::tryFrom($DTO->postType)) === null)
-            throw new InvalidValueException("postType", $DTO->postType);
+            throw new InvalidArgumentException("Post type $DTO->postType is not valid");
         
         /** @var Post $post */
         $post = null;

@@ -11,7 +11,7 @@ class CategoryMapper
     {
         return [
             ...EntityMapper::map($category),
-            "name" => $category->categoryName
+            "name" => $category->getCateogryName()
         ];
     }
 }

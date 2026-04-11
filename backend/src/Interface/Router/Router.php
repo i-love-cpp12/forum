@@ -39,7 +39,6 @@ class Router
         {
             if(!preg_match($route["path"], $uri, $match))
                 continue;
-
             if(count($match) > 1)
                 $match = [$match[1]];
 
@@ -61,6 +60,6 @@ class Router
     private static function pathToRegexp(string $path): string
     {
         $path = str_replace("/", "\/", $path);
-        return "/" . preg_replace("/\{[a-z]+\}/i", "([A-Za-z0-9]+)", $path) . "(?:\?.*)?$/";
+        return "/" . preg_replace("/\{[a-z]+\}/i", "([0-9]+)", $path) . "(?:\?.*)?$/";
     }
 }
