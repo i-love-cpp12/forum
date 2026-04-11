@@ -7,6 +7,7 @@ class PostDeleteDTO
 {
     public function __construct
     (
+        readonly public int $postType,
         readonly public int $postToDeleteId,
         readonly public int $loggedUserId,
         readonly public int $loggedUserRole

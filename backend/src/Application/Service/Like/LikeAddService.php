@@ -13,6 +13,10 @@ use src\Shared\Exception\BusinessException\EntityNotFoundException;
 use InvalidArgumentException;
 use src\Domain\Entity\Like;
 use PDO;
+use src\Application\Service\ServiceHelper;
+use src\Domain\Entity\PostType;
+use src\Shared\Exception\BusinessException\BusinessException;
+use src\Shared\Exception\BusinessException\InvalidValueException;
 use Throwable;
 
 class LikeAddService
@@ -28,19 +32,28 @@ class LikeAddService
 
     public function execute(LikeDTO $DTO): void
     {
-        if(LikeType::tryFrom($DTO->likeType) === null)
-            throw new InvalidArgumentException("Like type is not valid");
+        if(($likeType = LikeType::tryFrom($DTO->likeType)) === null)
+            throw new InvalidValueException("Like type", $DTO->likeType);
+
+        if(($postType = PostType::tryFrom($DTO->postType)) === null)
+            throw new InvalidValueException("postType", $DTO->postType);
 
         $like = $this->likeRepo->getLike($DTO->userId, $DTO->postId);
-        $likeId = $like !== null ? $like->getId() : null;
-
+        if($like !== null)
+        {
+            if($like->type === $likeType)
+                throw new BusinessException("you already" . $likeType->value . "d this post");
+            $likeId = $like->getId();
+        }
         if($this->userRepo->getUserById($DTO->userId) === null)
             throw new EntityNotFoundException("User", $DTO->userId);
 
-        if($this->postRepo->getPostById($DTO->postId) === null)
+        if(($post = $this->postRepo->getPostById($DTO->postId)) === null)
             throw new EntityNotFoundException("Post", $DTO->postId);
 
-        $like = new Like($likeId, $DTO->postId, $DTO->userId, LikeType::from($DTO->likeType));
+        ServiceHelper::validatePostType($postType, $post);
+        
+        $like = new Like($likeId, $DTO->postId, $DTO->userId, $likeType);
 
         $this->conn->beginTransaction();
         try

@@ -9,7 +9,8 @@ class LikeDTO
     (
         readonly public int $postId,
         readonly public int $userId,
-        readonly public int $likeType
+        readonly public int $likeType,
+        readonly public int $postType
     )
     {
         

@@ -11,6 +11,7 @@ use src\Shared\Exception\ExceptionHandler;
 use src\Domain\Entity\User;
 use src\Domain\Entity\Like;
 use src\Domain\Entity\LikeType;
+use src\Domain\Entity\PostType;
 use src\Infrastructure\Http\Respond;
 use src\Interface\Mapper\LikeMapper;
 use src\Shared\Exception\BusinessException\RequestDataFormatException;
@@ -60,24 +61,43 @@ class LikeController
         );
 
     }
-    public function like(string $postId): void
+    public function likePost(string $postId): void
     {
-        $this->addLikeHelper($postId, LikeType::like);
+        $this->addLikeHelper($postId, LikeType::like, PostType::post);
     }
-    public function removeLike(string $postId): void
+    public function likeComment(string $postId): void
     {
-        $this->removeLikeHelper($postId, LikeType::like);
-    }
-    public function dislike(string $postId): void
-    {
-        $this->addLikeHelper($postId, LikeType::dislike);
-    }
-    public function removeDislike(string $postId): void
-    {
-        $this->removeLikeHelper($postId, LikeType::dislike);
+        $this->addLikeHelper($postId, LikeType::like, PostType::comment);
     }
 
-    private function addLikeHelper(string $postId, LikeType $likeType)
+    public function removePostLike(string $postId): void
+    {
+        $this->removeLikeHelper($postId, LikeType::like, PostType::post);
+    }
+    public function removeCommentLike(string $postId): void
+    {
+        $this->removeLikeHelper($postId, LikeType::like, PostType::comment);
+    }
+
+    public function dislikePost(string $postId): void
+    {
+        $this->addLikeHelper($postId, LikeType::dislike, PostType::post);
+    }
+    public function dislikeComment(string $postId): void
+    {
+        $this->addLikeHelper($postId, LikeType::dislike, PostType::comment);
+    }
+
+    public function removePostDislike(string $postId): void
+    {
+        $this->removeLikeHelper($postId, LikeType::dislike, PostType::post);
+    }
+    public function removeCommentDislike(string $postId): void
+    {
+        $this->removeLikeHelper($postId, LikeType::dislike, PostType::comment);
+    }
+
+    private function addLikeHelper(string $postId, LikeType $likeType, PostType $postType)
     {
         /** @var User $loggedUser */
         $loggedUser = $this->request->getFromState("user");
@@ -90,7 +110,7 @@ class LikeController
 
             $postId = intval($postId);
 
-            $likeDTO = new LikeDTO($postId, $userId, $likeType->value);
+            $likeDTO = new LikeDTO($postId, $userId, $likeType->value, $postType->value);
             $this->likeAddService->execute($likeDTO);
         }
         catch(Throwable $e)
@@ -110,7 +130,7 @@ class LikeController
         );
     }
 
-    private function removeLikeHelper(string $postId, LikeType $likeType)
+    private function removeLikeHelper(string $postId, LikeType $likeType, PostType $postType)
     {
         /** @var User $loggedUser */
         $loggedUser = $this->request->getFromState("user");
@@ -123,7 +143,8 @@ class LikeController
 
             $postId = intval($postId);
 
-            $this->likeDeleteService->execute($userId, $postId);
+            $likeDTO = new LikeDTO($postId, $userId, $likeType->value, $postType->value);
+            $this->likeDeleteService->execute($likeDTO);
         }
         catch(Throwable $e)
         {

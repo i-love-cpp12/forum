@@ -310,20 +310,80 @@ Responce:
 
 DELETE /api/posts/{id} - Delete post
 Body: none
+Responce:
+{
+    "error":"",
+    "data":
+        {
+            "message":"Deleting post with id: 0 successful"
+        }
+}
 
 3. Comments
 
 GET /api/posts/{postId}/comments - Get comments for a post
 Body: none
+Responce:
+{
+  "error": "",
+  "data": {
+    "message": "Getting all comments for postId: 0 successful",
+    "comments": [
+      {
+        "id": 3,
+        "createdAtTimeStamp": null,
+        "parentPostId": 0,
+        "userId": 11,
+        "header": null,
+        "content": "Comment 1",
+        "categories": [],
+        "likeCount": 0,
+        "dislikeCount": 0,
+        "commentCount": 0
+      },
+      {
+        "id": 4,
+        "createdAtTimeStamp": null,
+        "parentPostId": 0,
+        "userId": 12,
+        "header": null,
+        "content": "Comment 2",
+        "categories": [],
+        "likeCount": 0,
+        "dislikeCount": 0,
+        "commentCount": 0
+      }
+    ]
+  }
+}
 
 POST /api/posts/{postId}/comments - Add a comment
-Body: { "content": "Great post!" }
+Body: {
+    "parentPostId": 0,
+    "content": "comment content"
+}
+Responce:
+{
+    "error":"",
+    "data":
+        {
+            "message":"Comment with content: comment content created successfully"
+        }
+}
 
 PUT /api/comments/{id} - Edit comment
 Body: { "content": "Updated comment" }
 
 DELETE /api/comments/{id} - Delete comment
 Body: none
+Responce:
+{
+    "error":"",
+    "data":
+        {
+            "message":"Deleting comment with id: 3 successful"
+        }
+}
 
 4. Likes
 
@@ -343,19 +403,19 @@ DELETE /api/posts/{id}/dislike - Remove dislike from post
 Body: none
 
 
-GET /api/posts/comments/{id}/like - Get like state
+GET /api/comments/{id}/like - Get like state
 Body: none
 
-POST /api/posts/comments/{id}/like - Like a post
+POST /api/comments/{id}/like - Like a post
 Body: none
 
-DELETE /api/posts/comments/{id}/like - Remove like from post
+DELETE /api/comments/{id}/like - Remove like from post
 Body: none
 
-POST /api/posts/comments/{id}/dislike - dislike a post
+POST /api/comments/{id}/dislike - dislike a post
 Body: none
 
-DELETE /api/posts/comments/{id}/dislike - Remove dislike from post
+DELETE /api/comments/{id}/dislike - Remove dislike from post
 Body: none
 
 5. Categories

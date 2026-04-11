@@ -163,45 +163,45 @@ $router->bind("DELETE", "api/posts/{id}", [$postController, "deletePost"], [
 ]);
 
 $router->bind("GET", "api/posts/{id}/comments", [$postController, "getComments"]);
-$router->bind("POST", "api/posts/{id}/comments", [$postController, "createPost"], [
+$router->bind("POST", "api/posts/{id}/comments", [$postController, "createComment"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("PUT", "api/posts/comments/{id}", [$postController, "updatePost"], [
+$router->bind("PUT", "api/comments/{id}", [$postController, "updateComment"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("DELETE", "api/posts/comments/{id}", [$postController, "deletePost"], [
+$router->bind("DELETE", "api/comments/{id}", [$postController, "deleteComment"], [
     [$authMiddleware, "execute"]
 ]);
 
 $router->bind("GET", "api/posts/{id}/like", [$likeController, "likeStatus"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("POST", "api/posts/{id}/like", [$likeController, "like"], [
+$router->bind("POST", "api/posts/{id}/like", [$likeController, "likePost"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("DELETE", "api/posts/{id}/like", [$likeController, "removeLike"], [
+$router->bind("DELETE", "api/posts/{id}/like", [$likeController, "removePostLike"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("POST", "api/posts/{id}/dislike", [$likeController, "dislike"], [
+$router->bind("POST", "api/posts/{id}/dislike", [$likeController, "dislikePost"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("DELETE", "api/posts/{id}/dislike", [$likeController, "removeDislike"], [
+$router->bind("DELETE", "api/posts/{id}/dislike", [$likeController, "removePostDislike"], [
     [$authMiddleware, "execute"]
 ]);
 
-$router->bind("GET", "api/posts/comments/{id}/like", [$likeController, "likeStatus"], [
+$router->bind("GET", "api/comments/{id}/like", [$likeController, "likeStatus"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("POST", "api/posts/comments/{id}/like", [$likeController, "like"], [
+$router->bind("POST", "api/comments/{id}/like", [$likeController, "likeComment"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("DELETE", "api/posts/comments/{id}/like", [$likeController, "removeLike"], [
+$router->bind("DELETE", "api/comments/{id}/like", [$likeController, "removeCommentLike"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("POST", "api/posts/comments/{id}/dislike", [$likeController, "dislike"], [
+$router->bind("POST", "api/comments/{id}/dislike", [$likeController, "dislikeComment"], [
     [$authMiddleware, "execute"]
 ]);
-$router->bind("DELETE", "api/posts/comments/{id}/dislike", [$likeController, "removeDislike"], [
+$router->bind("DELETE", "api/comments/{id}/dislike", [$likeController, "removeCommentDislike"], [
     [$authMiddleware, "execute"]
 ]);
 

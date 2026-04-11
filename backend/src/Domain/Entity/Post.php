@@ -5,6 +5,7 @@ namespace src\Domain\Entity;
 
 use InvalidArgumentException;
 use LogicException;
+use src\Application\DTO\Like\LikeDTO;
 use src\Domain\Entity\Entity;
 use src\Shared\Array\ArrayHelper;
 use src\Shared\Validation\Validator;
@@ -141,27 +142,19 @@ class Post extends Entity
         return $this->categories;
     }
 
-    public function like(Like $like): void
+    public function like(LikeType $likeType): void
     {
-        if($like->getId() !== null)
-            throw new InvalidArgumentException("Like can not have id");
-        if($like->postId !== $this->getId())
-            throw new LogicException("Like must have same postId as post");
-        if($like->type === LikeType::like)
+        if($likeType === LikeType::like)
             ++$this->likeCount;
-        else if($like->type === LikeType::dislike)
+        else if($likeType === LikeType::dislike)
             ++$this->dislikeCount;
     }
 
-    public function deleteLike(Like $like): void
+    public function deleteLike(LikeType $likeType): void
     {
-        if($like->getId() !== null)
-            throw new InvalidArgumentException("Like can not have id");
-        if($like->postId !== $this->getId())
-            throw new LogicException("Like must have same postId as post");
-        if($like->type === LikeType::like && --$this->likeCount < 0)
+        if($likeType === LikeType::like && --$this->likeCount < 0)
             throw new LogicException("likeCount: $this->likeCount can not be negative");
-        if($like->type === LikeType::dislike && --$this->dislikeCount < 0)
+        if($likeType === LikeType::dislike && --$this->dislikeCount < 0)
             throw new LogicException("dislikeCount: $this->dislikeCount can not be negative");
     }
 
@@ -190,7 +183,10 @@ class Post extends Entity
     {
         return $this->commentCount;
     }
-
+    public function getPostType(): PostType
+    {
+        return $this->parentPostId === null ? PostType::post : PostType::comment;   
+    }
     public static function validateHeader(string $header): bool
     {
         return Validator::validateLenght($header, self::$headerMinLenght, self::$headerMaxLenght);

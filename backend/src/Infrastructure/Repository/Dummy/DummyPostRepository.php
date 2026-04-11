@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace src\Infrastructure\Repository\Dummy;
 
+use src\Application\DTO\Like\LikeDTO;
 use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Entity\Post;
 use src\Application\DTO\Post\PostGetAllDTO;
@@ -62,7 +63,7 @@ class DummyPostRepository implements PostRepositoryInterface
         /** @var Post */
         $post = DummyRepositoryHelper::getEntityById($postId, $this->posts);
 
-        $post->like(new Like(0, $postId, 0, $likeType));
+        $post->like($likeType);
 
     }
     public function deleteLike(int $postId, LikeType $likeType): void
@@ -70,6 +71,6 @@ class DummyPostRepository implements PostRepositoryInterface
         /** @var Post */
         $post = DummyRepositoryHelper::getEntityById($postId, $this->posts);
 
-        $post->deleteLike(new Like(0, $postId, 0, $likeType));
+        $post->deleteLike($likeType);
     }
 }

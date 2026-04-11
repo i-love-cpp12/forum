@@ -8,6 +8,7 @@ class PostCreateDTO
     /** @param int[] $categories */
     public function __construct
     (
+        readonly public int $postType,
         readonly public ?int $parentPostId,
         readonly public int $userId,
         readonly public ?string $header,

@@ -12,7 +12,7 @@ use src\Application\Service\ServiceHelper;
 use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Application\DTO\Post\PostUpdateDTO;
-
+use src\Domain\Entity\PostType;
 use src\Shared\Exception\BusinessException\BusinessException;
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 use src\Shared\Exception\BusinessException\InvalidValueException;
@@ -30,19 +30,17 @@ class PostUpdateService
     {
         $post = $this->postRepo->getPostById($DTO->postToUpdateId);
 
-        $parentPostId = $post->parentPostId;
+        if(($postType = PostType::tryFrom($DTO->postType)) === null)
+            throw new InvalidValueException("postType", $DTO->postType);
 
-        $hasHeaderOrCatgories =
-            $DTO->newHeader !== null ||
-            (
-                ($DTO->categoriesToAdd !== null && $DTO->categoriesToAdd !== []) || ($DTO->categoriesToDelete !== null && $DTO->categoriesToDelete !== [])
-            );
-        if
-        (
-            $parentPostId !== null && $hasHeaderOrCatgories
-        )
+        ServiceHelper::validatePostType($postType, $post);
+        
+        if($postType === PostType::comment)
         {
-            throw new BusinessException("Comment can not have header or category");
+            if($DTO->newHeader !== null)
+                throw new BusinessException("Comment can not have header");
+            if($DTO->categoriesToAdd !== null || $DTO->categoriesToDelete !== null)
+                throw new BusinessException("Comment can not have category");
         }
 
         if

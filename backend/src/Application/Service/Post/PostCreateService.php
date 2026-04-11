@@ -6,7 +6,7 @@ namespace src\Application\Service\Post;
 use src\Domain\Entity\Comment;
 use src\Application\DTO\Post\PostCreateDTO;
 use src\Domain\Entity\Post;
-
+use src\Domain\Entity\PostType;
 use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Domain\Repository\UserRepositoryInterface;
@@ -27,27 +27,41 @@ class PostCreateService
 
     public function execute(PostCreateDTO $DTO): void
     {
-        if($DTO->parentPostId === null && $DTO->header === null)
-            throw new BusinessException("Post must contain header");
-        if($DTO->parentPostId !== null && ($DTO->header !== null || ($DTO->categories !== null && $DTO->categories !== [])))
-            throw new BusinessException("Comment can not have header or category");
-
-        if($DTO->parentPostId === null && !Post::validateHeader($DTO->header))
-            throw new InvalidValueException("Header", $DTO->header, Post::getHeaderValidateMessage());
         if(!Post::validateContent($DTO->content))
             throw new InvalidValueException("Content", $DTO->content, Post::getContentValidateMessage());
 
         if(!$this->userRepo->getUserById($DTO->userId))
             throw new EntityNotFoundException("User", $DTO->userId);
 
-        if($DTO->parentPostId !== null && !$this->postRepo->getPostById($DTO->parentPostId))
-            throw new BusinessException("Comment parentPostId not found in posts", 404);
+        if(($postType = PostType::tryFrom($DTO->postType)) === null)
+            throw new InvalidValueException("postType", $DTO->postType);
+        
+        /** @var Post $post */
+        $post = null;
+        if($postType === PostType::post) //is post
+        {
+            if($DTO->parentPostId !== null)
+                throw new BusinessException("Post can not have parentPostId");
+            if($DTO->header === null)
+                throw new BusinessException("Post must contain header");
+            if(!Post::validateHeader($DTO->header))
+                throw new InvalidValueException("Header", $DTO->header, Post::getHeaderValidateMessage());
+            if($DTO->categories === null)
+                throw new BusinessException("Post must contain categories");
+            $post = new Post(null, null, $DTO->userId, $DTO->header, $DTO->content, []);
+        }
+        else //is comment
+        {
+            if($DTO->parentPostId === null)
+                throw new BusinessException("Comment must contain parentPostId");
+            if($DTO->header !== null || $DTO->categories !== null)
+                throw new BusinessException("Comment can not have header or category");
+            if(!$this->postRepo->getPostById($DTO->parentPostId))
+                throw new EntityNotFoundException("Parent post", $DTO->parentPostId);
+            $post = new Comment(null, $DTO->parentPostId, $DTO->userId, $DTO->content);
+        }            
 
-        $post = $DTO->parentPostId === null ?
-            new Post(null, null, $DTO->userId, $DTO->header, $DTO->content, []) :
-            new Comment(null, $DTO->parentPostId, $DTO->userId, $DTO->content);
-
-        foreach($DTO->categories as $categoryId)
+        foreach($DTO->categories ?? [] as $categoryId)
         {
             $category = $this->categoryRepo->getCategoryById($categoryId);
 

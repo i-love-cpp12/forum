@@ -10,6 +10,7 @@ class PostUpdateDTO
     */
     public function __construct
     (
+        readonly public int $postType,
         readonly public int $postToUpdateId,
         readonly public int $loggedUserId,
         readonly public int $loggedUserRole,

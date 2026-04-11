@@ -20,6 +20,7 @@ use src\Infrastructure\Http\Respond;
 use src\Domain\Entity\Post;
 use src\Domain\Entity\User;
 use src\Domain\Entity\Comment;
+use src\Domain\Entity\PostType;
 use Throwable;
 
 class PostController
@@ -129,154 +130,29 @@ class PostController
     }
     public function createPost(): void
     {
-        $parentPostId = $this->request->body["parentPostId"] ?? null;
-        $header = $this->request->body["header"] ?? null;
-        $content = $this->request->body["content"] ?? null;
-        $categories = $this->request->body["categories"] ?? null;
-
-        /** @var User $user */
-        $loggedUser = $this->request->getFromState("user");
-
-        try
-        {
-
-            if($parentPostId !== null && !is_int($parentPostId))
-                throw new RequestDataFormatException("parentPostId", "int");
-            if($header !== null && !is_string($header))
-                throw new RequestDataFormatException("header", "string");
-            if($content === null || !is_string($content))
-                throw new RequestDataFormatException("content", "string");
-            if($categories !== null && !is_array($categories))
-                throw new RequestDataFormatException("categories", "array");
-
-            foreach($categories as $category)
-            {
-                if(!is_int($category))
-                    throw new RequestDataFormatException("category item", "int");
-            }
-
-            $postCreateDTO = new PostCreateDTO
-            (
-                $parentPostId,
-                $loggedUser->getId(),
-                $header,
-                $content,
-                $categories
-            );
-
-            $this->postCreateService->execute($postCreateDTO);
-        }
-        catch(Throwable $e)
-        {
-            ExceptionHandler::handle($e);
-        }
-
-        Respond::json(
-            [
-                "error" => "",
-                "data" =>
-                    [
-                        "message" => ($parentPostId === null ? "Post with header: $header created successfully": "Comment with content: $content created successfully")
-                    ]
-            ]
-        );
+        $this->createPostHelper(PostType::post);
     }
+    public function createComment(): void
+    {
+        $this->createPostHelper(PostType::comment);
+    }
+
     public function updatePost(string $postId): void
     {
-        $header = $this->request->body["header"] ?? null;
-        $content = $this->request->body["content"] ?? null;
-        $newCategories = $this->request->body["categoriesToAdd"] ?? null;
-        $categoriesToDelete = $this->request->body["categoriesToDelete"] ?? null;
-
-        /** @var User $user */
-        $loggedUser = $this->request->getFromState("user");
-
-        try
-        {
-            if(!ctype_digit($postId))
-                throw new RequestDataFormatException("postId", "int", true);
-
-            $postId = intval($postId);
-
-            if($header !== null && !is_string($header))
-                throw new RequestDataFormatException("header", "string");
-            if($content !== null && !is_string($content))
-                throw new RequestDataFormatException("content", "string");
-            if($newCategories !== null && !is_array($newCategories))
-                throw new RequestDataFormatException("newCategories", "array");
-            if($categoriesToDelete !== null && !is_array($categoriesToDelete))
-                throw new RequestDataFormatException("categoriesToDelete", "array");
-
-            foreach([...($newCategories !== null ?$newCategories : []), ...($categoriesToDelete !== null ?$categoriesToDelete : [])] as $category)
-            {
-                if(!is_int($category))
-                    throw new RequestDataFormatException("category item", "int");
-            }
-
-            $postUpdateDTO = new PostUpdateDTO
-            (
-                $postId,
-                $loggedUser->getId(),
-                $loggedUser->role->value,
-                $header,
-                $content,
-                $newCategories,
-                $categoriesToDelete
-            );
-
-            $this->postUpdateService->execute($postUpdateDTO);
-        }
-        catch(Throwable $e)
-        {
-            ExceptionHandler::handle($e);
-        }
-
-        Respond::json(
-            [
-                "error" => "",
-                "data" =>
-                    [
-                        "message" => "Post with id: $postId updated successfully"
-                    ]
-            ]
-        );
+        $this->updatePostHelper(PostType::post, $postId);
     }
+    public function updateComment(string $postId): void
+    {
+        $this->updatePostHelper(PostType::comment, $postId);
+    }
+
     public function deletePost(string $postId): void
     {
-        try
-        {
-            if(!ctype_digit($postId))
-                throw new RequestDataFormatException("postId", "int", true);
-
-            $postId = intval($postId);
-
-            /** @var User $loggedUser */
-            $loggedUser = $this->request->getFromState("user");
-
-            $postDeleteDTO = new PostDeleteDTO
-            (
-                $postId,
-                $loggedUser->getId(),
-                $loggedUser->role->value
-            );
-            $this->postDeleteService->execute($postDeleteDTO);
-        }
-        catch(Throwable $e)
-        {
-            ExceptionHandler::handle($e);
-        }
-
-
-        Respond::json(
-            [
-                "error" => "",
-                "data" =>
-                    [
-                        "message" =>
-                            "Deleting post with id: $postId successful"
-                    ]
-            ]
-        );
+        $this->deletePostHelper(PostType::post, $postId);
+    }
+    public function deleteComment(string $postId): void
+    {
+        $this->deletePostHelper(PostType::comment, $postId);
     }
 
     public function getComments(string $postId): void
@@ -312,6 +188,161 @@ class PostController
                     [
                         "message" => "Getting all comments for postId: $postId successful",
                         "comments" => $commentsMapped
+                    ]
+            ]
+        );
+    }
+
+    private function createPostHelper(PostType $type): void
+    {
+        $parentPostId = $this->request->body["parentPostId"] ?? null;
+        $header = $this->request->body["header"] ?? null;
+        $content = $this->request->body["content"] ?? null;
+        $categories = $this->request->body["categories"] ?? null;
+
+        /** @var User $user */
+        $loggedUser = $this->request->getFromState("user");
+
+        try
+        {
+
+            if($parentPostId !== null && !is_int($parentPostId))
+                throw new RequestDataFormatException("parentPostId", "int");
+            if($header !== null && !is_string($header))
+                throw new RequestDataFormatException("header", "string");
+            if($content === null || !is_string($content))
+                throw new RequestDataFormatException("content", "string");
+            if($categories !== null && !is_array($categories))
+                throw new RequestDataFormatException("categories", "array");
+
+            foreach($categories ?? [] as $category)
+            {
+                if(!is_int($category))
+                    throw new RequestDataFormatException("category item", "int");
+            }
+
+            $postCreateDTO = new PostCreateDTO
+            (
+                $type->value,
+                $parentPostId,
+                $loggedUser->getId(),
+                $header,
+                $content,
+                $categories
+            );
+
+            $this->postCreateService->execute($postCreateDTO);
+        }
+        catch(Throwable $e)
+        {
+            ExceptionHandler::handle($e);
+        }
+
+        Respond::json(
+            [
+                "error" => "",
+                "data" =>
+                    [
+                        "message" => ($parentPostId === null ? "Post with header: $header created successfully": "Comment with content: $content created successfully")
+                    ]
+            ]
+        );
+    }
+    private function updatePostHelper(PostType $type, string $postId): void
+    {
+        $header = $this->request->body["header"] ?? null;
+        $content = $this->request->body["content"] ?? null;
+        $newCategories = $this->request->body["categoriesToAdd"] ?? null;
+        $categoriesToDelete = $this->request->body["categoriesToDelete"] ?? null;
+
+        /** @var User $user */
+        $loggedUser = $this->request->getFromState("user");
+
+        try
+        {
+            if(!ctype_digit($postId))
+                throw new RequestDataFormatException("postId", "int", true);
+
+            $postId = intval($postId);
+
+            if($header !== null && !is_string($header))
+                throw new RequestDataFormatException("header", "string");
+            if($content !== null && !is_string($content))
+                throw new RequestDataFormatException("content", "string");
+            if($newCategories !== null && !is_array($newCategories))
+                throw new RequestDataFormatException("newCategories", "array");
+            if($categoriesToDelete !== null && !is_array($categoriesToDelete))
+                throw new RequestDataFormatException("categoriesToDelete", "array");
+
+            foreach([...($newCategories !== null ?$newCategories : []), ...($categoriesToDelete !== null ?$categoriesToDelete : [])] as $category)
+            {
+                if(!is_int($category))
+                    throw new RequestDataFormatException("category item", "int");
+            }
+
+            $postUpdateDTO = new PostUpdateDTO
+            (
+                $type->value,
+                $postId,
+                $loggedUser->getId(),
+                $loggedUser->role->value,
+                $header,
+                $content,
+                $newCategories,
+                $categoriesToDelete
+            );
+
+            $this->postUpdateService->execute($postUpdateDTO);
+        }
+        catch(Throwable $e)
+        {
+            ExceptionHandler::handle($e);
+        }
+
+        Respond::json(
+            [
+                "error" => "",
+                "data" =>
+                    [
+                        "message" => ($type === PostType::post ? "Post" : "Comment") . " with id: $postId updated successfully"
+                    ]
+            ]
+        );
+    }
+    private function deletePostHelper(PostType $type, string $postId): void
+    {
+        try
+        {
+            if(!ctype_digit($postId))
+                throw new RequestDataFormatException("postId", "int", true);
+
+            $postId = intval($postId);
+
+            /** @var User $loggedUser */
+            $loggedUser = $this->request->getFromState("user");
+
+            $postDeleteDTO = new PostDeleteDTO
+            (
+                $type->value,
+                $postId,
+                $loggedUser->getId(),
+                $loggedUser->role->value
+            );
+            $this->postDeleteService->execute($postDeleteDTO);
+        }
+        catch(Throwable $e)
+        {
+            ExceptionHandler::handle($e);
+        }
+
+
+        Respond::json(
+            [
+                "error" => "",
+                "data" =>
+                    [
+                        "message" =>
+                            "Deleting " . ($type === PostType::post ? "post" : "comment") . " with id: $postId successful"
                     ]
             ]
         );
