@@ -35,14 +35,12 @@ class ServiceHelper
 
         throw new AuthException(( $userId === null ? User::roleToString($userRole) : ""));
     }
-    public static function validatePostType(PostType $postType, Post $post): void
+    public static function validatePostType(PostType $suposedPostType, Post $post): void
     {
         $postId = $post->getId();
-        $postType2 = $post->getPostType();
-        if($postType !== $postType2)
-            throw new BusinessException(
-                $postType === PostType::post ?
-                "Post with id: $postId is a comment" : 
+        $postType = $post->getPostType();
+        if($suposedPostType !== $postType && $suposedPostType === PostType::comment)
+            throw new BusinessException( 
                 "Comment with id: $postId is a post"
             );
     }
