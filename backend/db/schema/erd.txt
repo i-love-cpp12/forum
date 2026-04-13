@@ -7,12 +7,12 @@ Table user_role {
   deleted_at timestamp [default: null]
 }
 
-Table user {
+Table _user {
   user_id integer [primary key]
   email varchar(320) [not null, unique]
   login varchar(50) [not null]
   password_hash varchar(64) [not null]
-  user_role_id integer [default: 1]
+  user_role_id integer [default: 1, not null]
   created_at timestamp [default: `now()`, not null]
   deleted_at timestamp [default: null]
 }
@@ -20,8 +20,9 @@ Table user {
 Table user_token {
   user_token_id integer [primary key]
   user_id integer [not null]
+  value varchar(64) [not null, unique]
   created_at timestamp [default: `now()`, not null]
-  expire_at timestamp [not null]
+  expire_at timestamp
 }
 
 Table like_type {
@@ -41,7 +42,7 @@ Table _like {
 
 Table post_category {
   post_category_id integer [primary key]
-  post_category_name varchar(256) [not null]
+  post_category_name varchar(100) [not null]
   created_at timestamp [default: `now()`, not null]
   deleted_at timestamp [default: null]
 }
@@ -64,14 +65,16 @@ Table post {
   deleted_at timestamp [default: null]
 }
 
-Ref user_user_role: user.user_role_id > user_role.user_role_id
+Ref _user_user_role: _user.user_role_id > user_role.user_role_id
 
-Ref like_like_type: _like.like_type_id > like_type.like_type_id
-Ref like_user: _like.user_id > user.user_id
+Ref _user_token_user: user_token.user_id > _user.user_id
 
-Ref user_token_user: user_token.user_id > user.user_id
+Ref _like_post: _like.post_id > post.post_id
+Ref _like_like_type: _like.like_type_id > like_type.like_type_id
+Ref _like_user: _like.user_id > _user.user_id
 
-Ref post_user: post.user_id > user.user_id
+Ref post_user: post.user_id > _user.user_id
+Ref post_post: post.parent_post_id > post.post_id
 
-Ref post_post_category: post_post_category.post_id > post.post_id
-Ref post_post_category: post_post_category.post_category_id > post_category.post_category_id
+Ref post_post_category_post: post_post_category.post_id > post.post_id
+Ref post_post_category_post_category: post_post_category.post_category_id > post_category.post_category_id
