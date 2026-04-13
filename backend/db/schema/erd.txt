@@ -1,0 +1,52 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+Table user_role {
+  user_role_id integer [primary key]
+  role_name varchar(50) [not null]
+  created_at timestamp [default: `now()`, not null]
+  deleted_at timestamp [default: null]
+}
+
+Table user {
+  user_id integer [primary key]
+  email varchar(320) [not null, unique]
+  login varchar(50) [not null]
+  password_hash varchar(64) [not null]
+  user_role_id integer [default: 1]
+  created_at timestamp [default: `now()`, not null]
+  deleted_at timestamp [default: null]
+}
+
+Table like_type {
+  like_type_id integer [primary key]
+  like_type_name varchar(50) [not null]
+  created_at timestamp [default: `now()`, not null]
+  deleted_at timestamp [default: null]
+}
+
+Table like {
+  post_id integer [primary key]
+  user_id integer [primary key]
+  like_type_id integer [not null]
+  created_at timestamp [default: `now()`, not null]
+  deleted_at timestamp [default: null]
+}
+
+Table post_category {
+  post_category_id integer [primary key]
+  post_category_name varchar(256) [not null]
+  created_at timestamp [default: `now()`, not null]
+  deleted_at timestamp [default: null]
+}
+//dokonczyc
+Table user_token {
+  user_token_id integer [primary key]
+  user_id integer [not null]
+  created_at timestamp [default: `now()`, not null]
+  deleted_at timestamp [default: null]
+}
+
+Ref user_user_role: user.user_role_id > user_role.user_role_id
+
+Ref like_like_type: like.like_type_id > like_type.like_type_id
+Ref like_user: like.user_id > user.user_id
