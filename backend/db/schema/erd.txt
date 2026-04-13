@@ -17,6 +17,13 @@ Table user {
   deleted_at timestamp [default: null]
 }
 
+Table user_token {
+  user_token_id integer [primary key]
+  user_id integer [not null]
+  created_at timestamp [default: `now()`, not null]
+  expire_at timestamp [not null]
+}
+
 Table like_type {
   like_type_id integer [primary key]
   like_type_name varchar(50) [not null]
@@ -24,7 +31,7 @@ Table like_type {
   deleted_at timestamp [default: null]
 }
 
-Table like {
+Table _like {
   post_id integer [primary key]
   user_id integer [primary key]
   like_type_id integer [not null]
@@ -38,15 +45,33 @@ Table post_category {
   created_at timestamp [default: `now()`, not null]
   deleted_at timestamp [default: null]
 }
-//dokonczyc
-Table user_token {
-  user_token_id integer [primary key]
+Table post_post_category {
+  post_id integer [primary key]
+  post_category_id integer [primary key]
+  created_at timestamp [default: `now()`, not null]
+  deleted_at timestamp [default: null]
+}
+Table post {
+  post_id integer [primary key]
+  parent_post_id integer
   user_id integer [not null]
+  header varchar(100)
+  content varchar(1000) [not null]
+  like_count integer [default: 0, not null]
+  dislike_count integer [default: 0, not null]
+  comment_count integer [default: 0, not null]
   created_at timestamp [default: `now()`, not null]
   deleted_at timestamp [default: null]
 }
 
 Ref user_user_role: user.user_role_id > user_role.user_role_id
 
-Ref like_like_type: like.like_type_id > like_type.like_type_id
-Ref like_user: like.user_id > user.user_id
+Ref like_like_type: _like.like_type_id > like_type.like_type_id
+Ref like_user: _like.user_id > user.user_id
+
+Ref user_token_user: user_token.user_id > user.user_id
+
+Ref post_user: post.user_id > user.user_id
+
+Ref post_post_category: post_post_category.post_id > post.post_id
+Ref post_post_category: post_post_category.post_category_id > post_category.post_category_id
