@@ -5,6 +5,7 @@ namespace src\Domain\Repository;
 
 use src\Domain\Entity\Post;
 use src\Application\DTO\Post\PostGetAllDTO;
+use src\Application\DTO\Post\PostGetCommentsDTO;
 use src\Domain\Entity\LikeType;
 
 interface PostRepositoryInterface
@@ -15,7 +16,7 @@ interface PostRepositoryInterface
     public function getPostById(int $id): ?Post;
     public function deletePost(int $id): void;
     /** @return Post[]*/
-    public function getCommentsForPost(int $postId): array;
+    public function getCommentsForPost(PostGetCommentsDTO $DTO): array;
     public function likePost(int $postId, LikeType $likeType): void;
     public function deleteLike(int $postId, LikeType $likeType): void;
 }

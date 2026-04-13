@@ -5,6 +5,7 @@ namespace src\Interface\Controller;
 use src\Application\DTO\Post\PostCreateDTO;
 use src\Application\DTO\Post\PostDeleteDTO;
 use src\Application\DTO\Post\PostGetAllDTO;
+use src\Application\DTO\Post\PostGetCommentsDTO;
 use src\Application\DTO\Post\PostUpdateDTO;
 use src\Application\Service\Post\PostCreateService;
 use src\Application\Service\Post\PostDeleteService;
@@ -50,10 +51,19 @@ class PostController
 
         try
         {
-            if($page !== null && !is_int($page))
-                throw new RequestDataFormatException("page", "int", true);
-            if($limit !== null && !is_int($limit))
-                throw new RequestDataFormatException("limit", "int", true);
+            if($page !== null)
+            {
+                if(!is_numeric($page))
+                    throw new RequestDataFormatException("page", "int", true);
+                $page = intval($page);
+            }
+            if($limit !== null)
+            {
+                if(!is_numeric($limit))
+                    throw new RequestDataFormatException("limit", "int", true);
+                $limit = intval($limit);
+            }
+
             if($search !== null && !is_string($search))
                 throw new RequestDataFormatException("search", "string", true);
             if($category !== null && !is_string($category))
@@ -159,15 +169,32 @@ class PostController
     {
         /** @var Comment[] $comments */
         $comments = [];
+        
+        $page = $this->request->body["page"] ?? null;
+        $limit = $this->request->body["limit"] ?? null;
 
         try
         {
             if(!ctype_digit($postId))
                 throw new RequestDataFormatException("postId", "int", true);
+            
+            if($page !== null)
+            {
+                if(!is_numeric($page))
+                    throw new RequestDataFormatException("page", "int", true);
+                $page = intval($page);
+            }
+            if($limit !== null)
+            {
+                if(!is_numeric($limit))
+                    throw new RequestDataFormatException("limit", "int", true);
+                $limit = intval($limit);
+            }
 
             $postId = intval($postId);
 
-            $comments = $this->postGetCommentsService->execute($postId);
+            $postGetCommentDTO = new PostGetCommentsDTO($postId, $page, $limit);
+            $comments = $this->postGetCommentsService->execute($postGetCommentDTO);
         }
         catch(Throwable $e)
         {

@@ -7,6 +7,7 @@ use src\Application\DTO\Like\LikeDTO;
 use src\Domain\Repository\PostRepositoryInterface;
 use src\Domain\Entity\Post;
 use src\Application\DTO\Post\PostGetAllDTO;
+use src\Application\DTO\Post\PostGetCommentsDTO;
 use src\Domain\Entity\Comment;
 use src\Domain\Entity\LikeType;
 use src\Shared\Array\ArrayHelper;
@@ -54,9 +55,9 @@ class DummyPostRepository implements PostRepositoryInterface
         DummyRepositoryHelper::deleteEntity($id, $this->posts);
     }
     /** @return Post[]*/
-    public function getCommentsForPost(int $postId): array
+    public function getCommentsForPost(PostGetCommentsDTO $DTO): array
     {
-        return ArrayHelper::findAll($this->posts, fn(Post $post) => ($post->parentPostId === $postId));
+        return ArrayHelper::findAll($this->posts, fn(Post $post) => ($post->parentPostId === $DTO->postId));
     }
     public function likePost(int $postId, LikeType $likeType): void
     {
