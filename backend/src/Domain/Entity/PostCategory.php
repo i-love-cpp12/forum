@@ -25,7 +25,7 @@ class PostCategory extends Entity
         $this->categoryName = "";
         $this->setCategoryName($categoryName);
     }
-    public function getCateogryName(): string
+    public function getCategoryName(): string
     {
         return $this->categoryName;
     }

@@ -33,6 +33,7 @@ use src\Infrastructure\Repository\Dummy\DummyCategoryRepository;
 use src\Infrastructure\Repository\Dummy\DummyLikeRepository;
 use src\Infrastructure\Repository\Dummy\DummyPostRepository;
 use src\Infrastructure\Repository\Dummy\DummyUserRepository;
+use src\Infrastructure\Repository\PDO\PDOCategoryRepository;
 use src\Interface\Controller\CategoryController;
 use src\Interface\Controller\LikeController;
 use src\Interface\Controller\PostController;
@@ -56,7 +57,7 @@ catch(Throwable $e)
 $userRepository = new DummyUserRepository();
 $postRepository = new DummyPostRepository();
 $likeRepository = new DummyLikeRepository();
-$categoryRepository = new DummyCategoryRepository();
+$categoryRepository = new PDOCategoryRepository($connection);
 
 $userLoginService = new UserLoginService($userRepository);
 $userRegisterService = new UserRegisterService($userRepository);

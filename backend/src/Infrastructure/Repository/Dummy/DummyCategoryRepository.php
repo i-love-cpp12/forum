@@ -30,13 +30,6 @@ class DummyCategoryRepository implements CategoryRepositoryInterface
     {
         return DummyRepositoryHelper::getEntityById($categoryId, $this->categories);
     }
-    public function getCategoryByName(string $name): ?PostCategory
-    {
-        return ArrayHelper::find(
-            $this->categories,
-            fn(PostCategory $category) =>
-                ($category->categoryName === $name));
-    }
     /** @return PostCategory[] */
     public function getAllCategories(): array
     {

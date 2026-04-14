@@ -11,3 +11,5 @@ delte like on post/commnet
 repo delete post -> commnet -> othercomment soft
 
 checked to post update
+
+change from datetime to timestamp in db

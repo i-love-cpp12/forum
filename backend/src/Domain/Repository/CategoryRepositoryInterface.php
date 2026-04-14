@@ -9,7 +9,6 @@ interface CategoryRepositoryInterface
 {
     public function saveCategory(PostCategory $category): void;
     public function getCategoryById(int $categoryId): ?PostCategory;
-    public function getCategoryByName(string $name): ?PostCategory;
     /** @return PostCategory[] */
     public function getAllCategories(): array;
     public function deleteCategory(int $categoryId): void;
