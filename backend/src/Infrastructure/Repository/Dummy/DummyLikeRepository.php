@@ -55,8 +55,4 @@ class DummyLikeRepository implements LikeRepositoryInterface
                     $item->postId === $postId
                 ));
     }
-    public function getLikeById(int $likeId): ?Like
-    {
-        return DummyRepositoryHelper::getEntityById($likeId, $this->likes);
-    }
 }

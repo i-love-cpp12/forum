@@ -26,7 +26,7 @@ class PDOCategoryRepository implements CategoryRepositoryInterface
         //update
         else
         {
-            $sql = "UPDATE post_category SET post_category_name = :category_name WHERE post_category_id = :id;";
+            $sql = "UPDATE post_category SET post_category_name = :category_name WHERE post_category_id = :id AND deleted_at IS NULL;";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute(["category_name" => $category->getCategoryName(), "id" => $id]);
         }
@@ -60,7 +60,7 @@ class PDOCategoryRepository implements CategoryRepositoryInterface
     }
     public function deleteCategory(int $categoryId): void
     {
-        $sql = "UPDATE post_category SET deleted_at = NOW() WHERE post_category_id = :id;";
+        $sql = "UPDATE post_category SET deleted_at = NOW() WHERE post_category_id = :id AND deleted_at IS NULL;";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(["id" => $categoryId]);
     }

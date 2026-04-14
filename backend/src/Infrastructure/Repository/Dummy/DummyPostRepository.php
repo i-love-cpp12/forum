@@ -27,9 +27,9 @@ class DummyPostRepository implements PostRepositoryInterface
         
         $i = 0;
 
-        $this->savePost(new Post(null, null, 10, "Nowy post $i", "Content nowego postu $i", [new PostCategory(0, "category 0")], 3, 4, 2));
-        ++$i;
         $this->savePost(new Post(null, null, 10, "Nowy post $i", "Content nowego postu $i", [new PostCategory(1, "category 1"), new PostCategory(2, "category 2")]));
+        ++$i;
+        $this->savePost(new Post(null, null, 10, "Nowy post $i", "Content nowego postu $i", [new PostCategory(0, "category 0")], 3, 4, 2));
         ++$i;
         $this->savePost(new Post(null, null, 11, "Nowy post $i", "Content nowego postu $i", [new PostCategory(1, "category 1"), new PostCategory(2, "category 2")]));
         ++$i;

@@ -33,8 +33,9 @@ Table like_type {
 }
 
 Table _like {
-  post_id integer [primary key]
-  user_id integer [primary key]
+  like_id integer [primary key]
+  post_id integer [not null]
+  user_id integer [not null]
   like_type_id integer [not null]
   created_at timestamp [default: `now()`, not null]
   deleted_at timestamp [default: null]

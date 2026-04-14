@@ -23,14 +23,16 @@ DROP TABLE IF EXISTS `_like`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `_like` (
+  `like_id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `like_type_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`post_id`,`user_id`),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`like_id`),
   KEY `_like_user` (`user_id`),
   KEY `_like_like_type` (`like_type_id`),
+  KEY `_like_post` (`post_id`),
   CONSTRAINT `_like_like_type` FOREIGN KEY (`like_type_id`) REFERENCES `like_type` (`like_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `_like_post` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `_like_user` FOREIGN KEY (`user_id`) REFERENCES `_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -59,8 +61,8 @@ CREATE TABLE `_user` (
   `login` varchar(50) NOT NULL,
   `password_hash` varchar(64) NOT NULL,
   `user_role_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`),
   KEY `_user_user_role` (`user_role_id`),
@@ -87,8 +89,8 @@ DROP TABLE IF EXISTS `like_type`;
 CREATE TABLE `like_type` (
   `like_type_id` int(11) NOT NULL AUTO_INCREMENT,
   `like_type_name` varchar(50) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`like_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -118,8 +120,8 @@ CREATE TABLE `post` (
   `like_count` int(11) NOT NULL DEFAULT 0,
   `dislike_count` int(11) NOT NULL DEFAULT 0,
   `comment_count` int(11) NOT NULL DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`post_id`),
   KEY `post_user` (`user_id`),
   KEY `post_post` (`parent_post_id`),
@@ -147,8 +149,8 @@ DROP TABLE IF EXISTS `post_category`;
 CREATE TABLE `post_category` (
   `post_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `post_category_name` varchar(100) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`post_category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -172,8 +174,8 @@ DROP TABLE IF EXISTS `post_post_category`;
 CREATE TABLE `post_post_category` (
   `post_id` int(11) NOT NULL,
   `post_category_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`post_id`,`post_category_id`),
   KEY `post_post_category_post_category` (`post_category_id`),
   CONSTRAINT `post_post_category_post` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -200,8 +202,8 @@ DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
   `user_role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(50) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -226,8 +228,8 @@ CREATE TABLE `user_token` (
   `user_token_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `value` varchar(64) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `expire_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `expire_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_token_id`),
   UNIQUE KEY `value` (`value`),
   KEY `user_token_user` (`user_id`),
@@ -254,4 +256,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-13 19:40:27
+-- Dump completed on 2026-04-14 21:55:46

@@ -12,8 +12,11 @@ class ExceptionHandler
 {
     public static function handle(Throwable $exception): void
     {
-        if($exception instanceof BusinessException || $exception instanceof PDOException)
+        if($exception instanceof BusinessException)
             Respond::json(["error" => $exception->getMessage(), "data" => []], $exception->getCode());
+        if($exception instanceof PDOException)
+            Respond::json(["error" => $exception->getMessage(), "data" => []], 500);
+        
         throw $exception;
     }
 }
