@@ -25,7 +25,7 @@ class UserLoginService
         if($user === null || !$user->isPasswordCorrect($DTO->password))
             throw new BusinessException("Invalid credentials email: $DTO->email password: " . User::hidePassword($DTO->password), 401);
 
-        $token = new Token(null, $user->getId(), $DTO->token, time() + Token::$tokenDurationS);
+        $token = new Token(null, $user->getId(), $DTO->token, time() + Token::$tokenDurationS, time());
         $this->userRepo->activateToken($token);
     }
 }

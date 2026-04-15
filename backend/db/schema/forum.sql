@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `_user`;
 CREATE TABLE `_user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(320) NOT NULL,
-  `login` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `password_hash` varchar(64) NOT NULL,
   `user_role_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -225,9 +225,10 @@ DROP TABLE IF EXISTS `user_token`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_token` (
-  `user_token_id` int(11) NOT NULL,
+  `user_token_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `value` varchar(64) NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `expire_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_token_id`),

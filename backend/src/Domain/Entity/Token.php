@@ -25,10 +25,11 @@ class Token extends Entity
         int $userId,
         string $value,
         ?int $expireTimeStamp = null,
+        ?int $createdTimeStamp = null,
         bool $isActive = true
     )
     {
-        parent::__construct($id, ($expireTimeStamp !== null) ? $expireTimeStamp - self::$tokenDurationS: null);
+        parent::__construct($id, $createdTimeStamp);
 
         if($userId < 0)
             throw new InvalidArgumentException("user: $userId id must not be negative");

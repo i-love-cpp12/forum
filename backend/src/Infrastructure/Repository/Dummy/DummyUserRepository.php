@@ -59,15 +59,6 @@ class DummyUserRepository implements UserRepositoryInterface
     {
         return DummyRepositoryHelper::getEntityById($id, $this->users);
     }
-    public function getUserByUsername(string $username): ?User
-    {
-        return ArrayHelper::find($this->users,
-            function(User $user) use($username)
-            {
-                return $user->getUsername() === $username;
-            }
-        );
-    }
     public function getUserByEmail(string $email): ?User
     {
         return ArrayHelper::find($this->users,

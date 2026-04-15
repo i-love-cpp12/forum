@@ -10,7 +10,7 @@ Table user_role {
 Table _user {
   user_id integer [primary key]
   email varchar(320) [not null, unique]
-  login varchar(50) [not null]
+  username varchar(50) [not null]
   password_hash varchar(64) [not null]
   user_role_id integer [default: 1, not null]
   created_at timestamp [default: `now()`, not null]

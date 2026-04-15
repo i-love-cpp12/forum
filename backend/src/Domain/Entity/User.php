@@ -74,6 +74,10 @@ class User extends Entity
         $this->username = $username;
     }
 
+    public function getPasswordHash(): string
+    {
+        return $this->passwordHash;
+    }
     public function setPassword(string $password): void
     {
         $password = trim($password);
