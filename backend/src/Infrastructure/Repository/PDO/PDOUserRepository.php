@@ -10,6 +10,7 @@ use src\Domain\Entity\Token;
 use src\Domain\Entity\UserRole;
 use src\Domain\Repository\UserRepositoryInterface;
 use src\Interface\Mapper\TokenMapper;
+use Throwable;
 
 class PDOUserRepository implements UserRepositoryInterface
 {
@@ -76,10 +77,63 @@ class PDOUserRepository implements UserRepositoryInterface
 
     public function deleteUser(int $id): void
     {
-        $sql = "UPDATE _user SET deleted_at = NOW() WHERE user_id = :id AND deleted_at IS NULL;";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute(["id" => $id]);
+        $this->conn->beginTransaction();
+
+        try
+        {
+            $stmt = $this->conn->prepare("
+                WITH RECURSIVE post_tree AS (
+                    SELECT post_id
+                    FROM post
+                    WHERE user_id = :id AND deleted_at IS NULL
+
+                    UNION ALL
+
+                    SELECT p.post_id
+                    FROM post p
+                    INNER JOIN post_tree pt ON p.parent_post_id = pt.post_id
+                    WHERE p.deleted_at IS NULL
+                )
+                UPDATE post
+                SET deleted_at = NOW()
+                WHERE post_id IN (SELECT post_id FROM post_tree)
+            ");
+            $stmt->execute(["id" => $id]);
+
+            // like
+            $stmt = $this->conn->prepare("
+                UPDATE _like 
+                SET deleted_at = NOW() 
+                WHERE user_id = :id AND deleted_at IS NULL
+            ");
+            $stmt->execute(["id" => $id]);
+
+            // token
+            $stmt = $this->conn->prepare("
+                UPDATE user_token 
+                SET is_active = 0 
+                WHERE user_id = :id
+            ");
+            $stmt->execute(["id" => $id]);
+
+            // user
+            $stmt = $this->conn->prepare("
+                UPDATE _user 
+                SET deleted_at = NOW() 
+                WHERE user_id = :id AND deleted_at IS NULL
+            ");
+            $stmt->execute(["id" => $id]);
+
+            $this->conn->commit();
+        }
+        catch (Throwable $e)
+        {
+            $this->conn->rollBack();
+            throw $e;
+        }
     }
+
+
 
     public function activateToken(Token $token): void
     {

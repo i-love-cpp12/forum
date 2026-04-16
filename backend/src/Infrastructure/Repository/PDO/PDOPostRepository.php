@@ -14,7 +14,9 @@ use src\Domain\Entity\LikeType;
 use src\Shared\Array\ArrayHelper;
 use src\Domain\Entity\Like;
 use src\Domain\Entity\PostCategory;
+use src\Domain\Entity\SortType;
 use src\Interface\Mapper\PostMapper;
+use Throwable;
 
 class PDOPostRepository implements PostRepositoryInterface
 {
@@ -41,27 +43,142 @@ class PDOPostRepository implements PostRepositoryInterface
             //categories
         }
     }
-    /** @return Post[]*/
+
     public function getAllPosts(PostGetAllDTO $DTO): array
     {
-        $data = $this->conn->query("SELECT p.post_id as post_id, parent_post_id, user_id, header, content, like_count, dislike_count, comment_count, pc.post_category_id AS post_category_id, pc.post_category_name AS post_category_name, UNIX_TIMESTAMP(p.created_at) AS post_created_at, UNIX_TIMESTAMP(pc.created_at) AS post_category_created_at FROM post AS p LEFT JOIN post_post_category AS ppc ON p.post_id = ppc.post_id AND ppc.deleted_at IS NULL LEFT JOIN post_category AS pc ON ppc.post_category_id = pc.post_category_id AND pc.deleted_at IS NULL WHERE p.deleted_at IS NULL;")->fetchAll(PDO::FETCH_ASSOC);
+        $this->conn->beginTransaction();
 
-        /** @var Post[] $result */
-        $result = [];
-
-        foreach($data as $row)
+        try
         {
-            if(!isset($result[$row["post_id"]]))
+            $sql = "
+                SELECT DISTINCT p.post_id
+                FROM post p
+                JOIN _user u ON u.user_id = p.user_id
+                LEFT JOIN post_post_category ppc ON p.post_id = ppc.post_id AND ppc.deleted_at IS NULL
+                LEFT JOIN post_category pc ON ppc.post_category_id = pc.post_category_id AND pc.deleted_at IS NULL
+                WHERE p.deleted_at IS NULL
+            ";
+
+            $params = [];
+
+            if($DTO->search)
             {
-                $result[$row["post_id"]] = new Post($row["post_id"], $row["parent_post_id"], $row["user_id"], $row["header"], $row["content"], [], $row["like_count"], $row["like_count"], $row["comment_count"], $row["post_created_at"]);      
+                $sql .= " AND (p.header LIKE :search OR p.content LIKE :search)";
+                $params["search"] = "%{$DTO->search}%";
             }
 
-            if($row["post_category_id"] !== null)
-                $result[$row["post_id"]]->addCategory(new PostCategory($row["post_category_id"], $row["post_category_name"], $row["post_category_created_at"]));
-            
-        }
+            if($DTO->author)
+            {
+                $sql .= " AND (u.username LIKE :author OR u.email LIKE :author)";
+                $params["author"] = "%{$DTO->author}%";
+            }
 
-        return $result;
+            if($DTO->category)
+            {
+                $sql .= " AND pc.post_category_name LIKE :category";
+                $params["category"] = "%{$DTO->category}%";
+            }
+
+            $sortMap = [
+                "latest" => " ORDER BY p.created_at DESC",
+                "eldest" => " ORDER BY p.created_at ASC",
+                "mostLiked" => " ORDER BY p.like_count DESC",
+                "leastLiked" => " ORDER BY p.like_count ASC",
+                "mostDisliked" => " ORDER BY p.dislike_count DESC",
+                "leastDisliked" => " ORDER BY p.dislike_count ASC",
+            ];
+
+            $sort = $DTO->sort ?? "latest";
+            $sql .= $sortMap[$sort] ?? $sortMap["latest"];
+
+            if($DTO->limit !== null)
+            {
+                $limit = $DTO->limit;
+                $offset = ($DTO->page - 1) * $limit;
+
+                $sql .= " LIMIT $limit OFFSET $offset";
+            }
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute($params);
+
+            $ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+            if (!$ids) {
+                return [];
+            }
+
+            $in = implode(',', array_fill(0, count($ids), '?'));
+
+            $sql2 = "
+                SELECT
+                    p.post_id,
+                    p.parent_post_id,
+                    p.user_id,
+                    p.header,
+                    p.content,
+                    p.like_count,
+                    p.dislike_count,
+                    p.comment_count,
+                    UNIX_TIMESTAMP(p.created_at) AS created_at,
+                    pc.post_category_id,
+                    pc.post_category_name,
+                    UNIX_TIMESTAMP(pc.created_at) AS category_created_at
+                FROM post p
+                JOIN _user u ON u.user_id = p.user_id
+                LEFT JOIN post_post_category ppc ON p.post_id = ppc.post_id AND ppc.deleted_at IS NULL
+                LEFT JOIN post_category pc ON ppc.post_category_id = pc.post_category_id AND pc.deleted_at IS NULL
+                WHERE p.post_id IN ($in)
+            ";
+
+            $stmt = $this->conn->prepare($sql2);
+            $stmt->execute($ids);
+
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $result = [];
+
+            foreach ($data as $row)
+            {
+                $id = $row["post_id"];
+
+                if (!isset($result[$id]))
+                {
+                    $result[$id] = new Post(
+                        $row["post_id"],
+                        $row["parent_post_id"],
+                        $row["user_id"],
+                        $row["header"],
+                        $row["content"],
+                        [],
+                        $row["like_count"],
+                        $row["dislike_count"],
+                        $row["comment_count"],
+                        $row["created_at"]
+                    );
+                }
+
+                if ($row["post_category_id"] !== null)
+                {
+                    $result[$id]->addCategory(
+                        new PostCategory(
+                            $row["post_category_id"],
+                            $row["post_category_name"],
+                            $row["category_created_at"]
+                        )
+                    );
+                }
+            }
+
+            $this->conn->commit();
+
+            return $result;
+        }
+        catch (Throwable $e)
+        {
+            $this->conn->rollBack();
+            throw $e;
+        }
     }
     public function getPostById(int $id): ?Post
     {
@@ -75,7 +192,7 @@ class PDOPostRepository implements PostRepositoryInterface
 
         $row = $data[0];
         /** @var Post $result */
-        $post = new Post($row["post_id"], $row["parent_post_id"], $row["user_id"], $row["header"], $row["content"], [], $row["like_count"], $row["like_count"], $row["comment_count"], $row["post_created_at"]);
+        $post = new Post($row["post_id"], $row["parent_post_id"], $row["user_id"], $row["header"], $row["content"], [], $row["like_count"], $row["dislike_count"], $row["comment_count"], $row["post_created_at"]);
 
         foreach($data as $row)
         {
@@ -87,6 +204,58 @@ class PDOPostRepository implements PostRepositoryInterface
     }
     public function deletePost(int $id): void
     {
+        $this->conn->beginTransaction();
+
+        try
+        {
+            $stmt = $this->conn->prepare("
+                WITH RECURSIVE post_tree AS (
+                    SELECT post_id
+                    FROM post
+                    WHERE post_id = :id AND deleted_at IS NULL
+
+                    UNION ALL
+
+                    SELECT p.post_id
+                    FROM post p
+                    INNER JOIN post_tree pt ON p.parent_post_id = pt.post_id
+                    WHERE p.deleted_at IS NULL
+                )
+                UPDATE post
+                SET deleted_at = NOW()
+                WHERE post_id IN (SELECT post_id FROM post_tree)
+            ");
+            $stmt->execute(["id" => $id]);
+
+            $stmt = $this->conn->prepare("
+                UPDATE _like
+                SET deleted_at = NOW()
+                WHERE post_id IN (
+                    SELECT post_id FROM post
+                    WHERE post_id = :id OR parent_post_id IS NOT NULL
+                )
+                AND deleted_at IS NULL
+            ");
+            $stmt->execute(["id" => $id]);
+
+            $stmt = $this->conn->prepare("
+                UPDATE post_post_category
+                SET deleted_at = NOW()
+                WHERE post_id IN (
+                    SELECT post_id FROM post
+                    WHERE post_id = :id OR parent_post_id IS NOT NULL
+                )
+                AND deleted_at IS NULL
+            ");
+            $stmt->execute(["id" => $id]);
+
+            $this->conn->commit();
+        }
+        catch (Throwable $e)
+        {
+            $this->conn->rollBack();
+            throw $e;
+        }
     }
     /** @return Post[]*/
     public function getCommentsForPost(PostGetCommentsDTO $DTO): array
@@ -97,8 +266,8 @@ class PDOPostRepository implements PostRepositoryInterface
         $sql = "SELECT p.post_id as post_id, parent_post_id, user_id, header, content, like_count, dislike_count, comment_count, pc.post_category_id AS post_category_id, pc.post_category_name AS post_category_name, UNIX_TIMESTAMP(p.created_at) AS post_created_at, UNIX_TIMESTAMP(pc.created_at) AS post_category_created_at FROM post AS p LEFT JOIN post_post_category AS ppc ON p.post_id = ppc.post_id AND ppc.deleted_at IS NULL LEFT JOIN post_category AS pc ON ppc.post_category_id = pc.post_category_id AND pc.deleted_at IS NULL WHERE parent_post_id = :parent_post_id AND p.deleted_at IS NULL";
 
         if($limit !== null)
-            $sql .= " LIMIT $limit OFFSET $offset;";
-        else $sql .= ";";
+            $sql .= " LIMIT $limit OFFSET $offset";
+        $sql .= ";";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(["parent_post_id" => $DTO->postId]);
@@ -111,7 +280,7 @@ class PDOPostRepository implements PostRepositoryInterface
         {
             if(!isset($result[$row["post_id"]]))
             {
-                $result[$row["post_id"]] = new Post($row["post_id"], $row["parent_post_id"], $row["user_id"], $row["header"], $row["content"], [], $row["like_count"], $row["like_count"], $row["comment_count"], $row["post_created_at"]);      
+                $result[$row["post_id"]] = new Post($row["post_id"], $row["parent_post_id"], $row["user_id"], $row["header"], $row["content"], [], $row["like_count"], $row["dislike_count"], $row["comment_count"], $row["post_created_at"]);      
             }
 
             if($row["post_category_id"] !== null)

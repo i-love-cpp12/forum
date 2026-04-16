@@ -3,16 +3,6 @@ declare(strict_types=1);
 
 namespace src\Application\DTO\Post;
 
-enum Sort: string
-{
-    case latest = "latest";
-    case eldest = "eldest";
-    case mostLiked = "mostLiked";
-    case leastLiked = "leastLiked";
-    case mostDisliked = "mostDisliked";
-    case leastDisliked = "leastDisliked";
-}
-
 class PostGetAllDTO
 {
     public function __construct
