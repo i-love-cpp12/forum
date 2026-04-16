@@ -105,6 +105,7 @@ class PostUpdateService
                 throw new InvalidValueException("CategoryId", $categoryId);  
             }
         }
-            
+        
+        $this->postRepo->savePost($post);
     }
 }

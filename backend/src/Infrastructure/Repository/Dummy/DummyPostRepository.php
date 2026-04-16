@@ -74,4 +74,18 @@ class DummyPostRepository implements PostRepositoryInterface
 
         $post->deleteLike($likeType);
     }
+    public function addComment(int $postId): void
+    {
+        /** @var Post */
+        $post = DummyRepositoryHelper::getEntityById($postId, $this->posts);
+
+        $post->incrementCommentCount();
+    }
+    public function deleteComment(int $postId): void
+    {
+        /** @var Post */
+        $post = DummyRepositoryHelper::getEntityById($postId, $this->posts);
+
+        $post->decrementCommentCount();
+    }
 }

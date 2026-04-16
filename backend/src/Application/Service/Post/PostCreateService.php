@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace src\Application\Service\Post;
 
 use InvalidArgumentException;
+use PDO;
 use src\Domain\Entity\Comment;
 use src\Application\DTO\Post\PostCreateDTO;
 use src\Domain\Entity\Post;
@@ -15,11 +16,13 @@ use src\Domain\Repository\UserRepositoryInterface;
 use src\Shared\Exception\BusinessException\BusinessException;
 use src\Shared\Exception\BusinessException\EntityNotFoundException;
 use src\Shared\Exception\BusinessException\InvalidValueException;
+use Throwable;
 
 class PostCreateService
 {
     public function __construct
     (
+        private PDO $conn,
         private PostRepositoryInterface $postRepo,
         private UserRepositoryInterface $userRepo,
         private CategoryRepositoryInterface $categoryRepo
@@ -62,6 +65,7 @@ class PostCreateService
             $post = new Comment(null, $DTO->parentPostId, $DTO->userId, $DTO->content);
         }            
 
+
         foreach($DTO->categories ?? [] as $categoryId)
         {
             $category = $this->categoryRepo->getCategoryById($categoryId);
@@ -70,7 +74,18 @@ class PostCreateService
                 throw new InvalidValueException("CategoryId", $categoryId);
             $post->addCategory($category);
         }
-
-        $this->postRepo->savePost($post);
+        $this->conn->beginTransaction();
+        try
+        {
+            if($DTO->postType === PostType::comment)
+                $this->postRepo->addComment($post->parentPostId);
+            $this->postRepo->savePost($post);
+            $this->conn->commit();
+        }
+        catch(Throwable $e)
+        {
+            $this->conn->rollBack();
+            throw $e;
+        }
     }
 }

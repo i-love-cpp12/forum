@@ -17,7 +17,8 @@ class PostGetAllService
     {
         if($DTO->page !== $DTO->limit && ($DTO->limit === null || $DTO->page === null))
             throw new BusinessException("Page and limit must be both provided or not");
-
+        if($DTO->page <= 0 || $DTO->limit <= 0)
+            throw new BusinessException("Page and limit must not be negative");
         return $this->postRepo->getAllPosts($DTO);
     }
 }

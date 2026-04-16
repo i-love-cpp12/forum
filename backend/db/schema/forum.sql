@@ -172,11 +172,12 @@ DROP TABLE IF EXISTS `post_post_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `post_post_category` (
+  `post_post_category_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `post_category_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`post_id`,`post_category_id`),
+  PRIMARY KEY (`post_post_category_id`),
   KEY `post_post_category_post_category` (`post_category_id`),
   CONSTRAINT `post_post_category_post` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `post_post_category_post_category` FOREIGN KEY (`post_category_id`) REFERENCES `post_category` (`post_category_id`) ON DELETE CASCADE ON UPDATE CASCADE

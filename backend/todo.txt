@@ -4,9 +4,5 @@ better and mopre consistant responce msg
 
 make request "user" more strict
 
-db repo implementation
-
-
-db
-post user repo
-like no id as priamry key just 2 fileds (postId, userId) in php emualte id to in save update or insert
+post repo getAll use search params
+post repo delete 

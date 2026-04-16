@@ -1,5 +1,5 @@
 {
-    "email": "testuser@gmail.com",
-    "username": "testuser",
-    "password": "testuser123"
+    "header": "Nowy header",
+    "content": null,
+    "categories": [1, 2, 3, 4]
 }

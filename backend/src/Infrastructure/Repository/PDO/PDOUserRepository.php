@@ -102,7 +102,7 @@ class PDOUserRepository implements UserRepositoryInterface
 
     public function getActiveTokenByValue(string $tokenValue): ?Token
     {
-        $sql = "SELECT user_token_id, user_id, `value`, UNIX_TIMESTAMP(created_at) AS expire_at, UNIX_TIMESTAMP(expire_at) AS expire_at FROM user_token WHERE `value` = :token_value AND (expire_at IS NULL OR expire_at >= NOW()) AND is_active = 1;";
+        $sql = "SELECT user_token_id, user_id, `value`, UNIX_TIMESTAMP(created_at) AS created_at, UNIX_TIMESTAMP(expire_at) AS expire_at FROM user_token WHERE `value` = :token_value AND (expire_at IS NULL OR expire_at >= NOW()) AND is_active = 1;";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(["token_value" => $tokenValue]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);

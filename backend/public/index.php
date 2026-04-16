@@ -35,6 +35,7 @@ use src\Infrastructure\Repository\Dummy\DummyPostRepository;
 use src\Infrastructure\Repository\Dummy\DummyUserRepository;
 use src\Infrastructure\Repository\PDO\PDOCategoryRepository;
 use src\Infrastructure\Repository\PDO\PDOLikeRepository;
+use src\Infrastructure\Repository\PDO\PDOPostRepository;
 use src\Infrastructure\Repository\PDO\PDOUserRepository;
 use src\Interface\Controller\CategoryController;
 use src\Interface\Controller\LikeController;
@@ -57,7 +58,7 @@ catch(Throwable $e)
 }
 
 $userRepository = new PDOUserRepository($connection);
-$postRepository = new DummyPostRepository();
+$postRepository = new PDOPostRepository($connection);
 $likeRepository = new PDOLikeRepository($connection);
 $categoryRepository = new PDOCategoryRepository($connection);
 
@@ -75,7 +76,7 @@ $userGetAuthTokenService = new UserGetAuthTokenService($userRepository);
 
 $postGetAllService = new PostGetAllService($postRepository);
 $postGetService = new PostGetService($postRepository);
-$postCreateService = new PostCreateService($postRepository, $userRepository, $categoryRepository);
+$postCreateService = new PostCreateService($connection, $postRepository, $userRepository, $categoryRepository);
 $postUpdateService = new PostUpdateService($postRepository, $categoryRepository);
 $postDeleteService = new PostDeleteService($postRepository);
 $postGetCommentsService = new PostGetCommentsService($postRepository);

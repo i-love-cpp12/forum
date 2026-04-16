@@ -19,4 +19,6 @@ interface PostRepositoryInterface
     public function getCommentsForPost(PostGetCommentsDTO $DTO): array;
     public function likePost(int $postId, LikeType $likeType): void;
     public function deleteLike(int $postId, LikeType $likeType): void;
+    public function addComment(int $postId): void;
+    public function deleteComment(int $postId): void;
 }

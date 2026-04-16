@@ -1,17 +1,3 @@
-
-getAllPosts
-getOnePost / comment
-getALlcomments for post
-deletePost / comment
-createPost / createComment
-updatepost / comment
-add like on post/commnet
-delte like on post/commnet
-
 repo delete post -> commnet -> othercomment soft
 
-checked to post update
-
-
 like add like_id and chane like repo pdo
-change from datetime to timestamp in db

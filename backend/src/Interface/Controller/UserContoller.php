@@ -248,7 +248,7 @@ class UserContoller
 
         try
         {
-            if(!is_int($userId))
+            if(!is_numeric($userId))
                 throw new RequestDataFormatException("userId", "int", true);
             $userId = intval($userId);
 
