@@ -24,23 +24,127 @@ class PDOPostRepository implements PostRepositoryInterface
     public function __construct(private PDO $conn)
     {
     }
+
     public function savePost(Post $post): void
     {
-        //insert
-        if(($id = $post->getId()) === null)
+        try
         {
-            $sql = "INSERT INTO post (parent_post_id, user_id, header, content) VALUES (:parent_post_id, :user_id, :header, :content);";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute(["parent_post_id" => $post->parentPostId, "user_id" => $post->userId, "header" => $post->getHeader(), "content" => $post->getContent()]);
-            //cateogies
+            $id = $post->getId();
+
+            if ($id === null)
+            {
+                $stmt = $this->conn->prepare("
+                    INSERT INTO post (parent_post_id, user_id, header, content)
+                    VALUES (:parent_post_id, :user_id, :header, :content)
+                ");
+
+                $stmt->execute([
+                    "parent_post_id" => $post->parentPostId,
+                    "user_id" => $post->userId,
+                    "header" => $post->getHeader(),
+                    "content" => $post->getContent()
+                ]);
+
+                $id = (int)$this->conn->lastInsertId();
+            }
+            else
+            {
+                $stmt = $this->conn->prepare("
+                    UPDATE post
+                    SET header = :header,
+                        content = :content
+                    WHERE post_id = :post_id
+                    AND deleted_at IS NULL
+                ");
+
+                $stmt->execute([
+                    "header" => $post->getHeader(),
+                    "content" => $post->getContent(),
+                    "post_id" => $id
+                ]);
+            }
+
+            $newCategories = $post->getCategories();
+            $newIds = array_map(fn($c) => $c->getId(), $newCategories);
+
+            foreach ($newCategories as $category)
+            {
+                $stmt = $this->conn->prepare("
+                    SELECT post_post_category_id, deleted_at
+                    FROM post_post_category
+                    WHERE post_id = :post_id
+                    AND post_category_id = :category_id
+                    LIMIT 1
+                ");
+
+                $stmt->execute([
+                    "post_id" => $id,
+                    "category_id" => $category->getId()
+                ]);
+
+                $existing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($existing)
+                {
+                    if ($existing["deleted_at"] !== null)
+                    {
+                        $stmt = $this->conn->prepare("
+                            UPDATE post_post_category
+                            SET deleted_at = NULL
+                            WHERE post_id = :post_id
+                            AND post_category_id = :category_id
+                        ");
+
+                        $stmt->execute([
+                            "post_id" => $id,
+                            "category_id" => $category->getId()
+                        ]);
+                    }
+                }
+                else
+                {
+                    $stmt = $this->conn->prepare("
+                        INSERT INTO post_post_category (post_id, post_category_id)
+                        VALUES (:post_id, :category_id)
+                    ");
+
+                    $stmt->execute([
+                        "post_id" => $id,
+                        "category_id" => $category->getId()
+                    ]);
+                }
+            }
+
+            if (!empty($newIds))
+            {
+                $in = implode(',', array_fill(0, count($newIds), '?'));
+
+                $stmt = $this->conn->prepare("
+                    UPDATE post_post_category
+                    SET deleted_at = NOW()
+                    WHERE post_id = ?
+                    AND post_category_id NOT IN ($in)
+                    AND deleted_at IS NULL
+                ");
+
+                $stmt->execute(array_merge([$id], $newIds));
+            }
+            else
+            {
+                $stmt = $this->conn->prepare("
+                    UPDATE post_post_category
+                    SET deleted_at = NOW()
+                    WHERE post_id = ?
+                    AND deleted_at IS NULL
+                ");
+
+                $stmt->execute([$id]);
+            }
+
         }
-        //update
-        else
+        catch (Throwable $e)
         {
-            $sql = "UPDATE post SET header = :header, content = :content WHERE post_id = :post_id AND deleted_at IS NULL;";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute(["header" => $post->getHeader(), "content" => $post->getContent(), "post_id" => $id]);
-            //categories
+            throw $e;
         }
     }
 
@@ -88,8 +192,8 @@ class PDOPostRepository implements PostRepositoryInterface
                 "leastDisliked" => " ORDER BY p.dislike_count ASC",
             ];
 
-            $sort = $DTO->sort ?? "latest";
-            $sql .= $sortMap[$sort] ?? $sortMap["latest"];
+            $sort = SortType::tryFrom($DTO->sort ?? '')?->value ?? 'latest';
+            $sql .= $sortMap[$sort];
 
             if($DTO->limit !== null)
             {

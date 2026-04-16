@@ -171,17 +171,17 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `post_post_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `post_post_category` (
-  `post_post_category_id` int(11) NOT NULL,
+  `post_post_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
   `post_category_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`post_post_category_id`),
-  KEY `post_post_category_post_category` (`post_category_id`),
-  CONSTRAINT `post_post_category_post` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `post_post_category_post_category` FOREIGN KEY (`post_category_id`) REFERENCES `post_category` (`post_category_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `post_post_category_post` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`),
+  CONSTRAINT `post_post_category_post_category` FOREIGN KEY (`post_category_id`) REFERENCES `post_category` (`post_category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
