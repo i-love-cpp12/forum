@@ -6,6 +6,7 @@ namespace src\Infrastructure\Repository\PDO;
 use PDO;
 use src\Domain\Repository\CategoryRepositoryInterface;
 use src\Domain\Entity\PostCategory;
+use Throwable;
 
 class PDOCategoryRepository implements CategoryRepositoryInterface
 {
@@ -60,8 +61,32 @@ class PDOCategoryRepository implements CategoryRepositoryInterface
     }
     public function deleteCategory(int $categoryId): void
     {
-        $sql = "UPDATE post_category SET deleted_at = NOW() WHERE post_category_id = :id AND deleted_at IS NULL;";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute(["id" => $categoryId]);
+        $this->conn->beginTransaction();
+
+        try
+        {
+            $stmt = $this->conn->prepare("
+                UPDATE post_category
+                SET deleted_at = NOW()
+                WHERE post_category_id = :id
+                AND deleted_at IS NULL
+            ");
+            $stmt->execute(["id" => $categoryId]);
+
+            $stmt = $this->conn->prepare("
+                UPDATE post_post_category
+                SET deleted_at = NOW()
+                WHERE post_category_id = :id
+                AND deleted_at IS NULL
+            ");
+            $stmt->execute(["id" => $categoryId]);
+
+            $this->conn->commit();
+        }
+        catch (Throwable $e)
+        {
+            $this->conn->rollBack();
+            throw $e;
+        }
     }
 }
