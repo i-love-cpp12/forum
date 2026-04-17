@@ -581,4 +581,19 @@ Responce:
 
 6. Filters
 
-GET /api/posts?
+GET /api/posts?sort="latest"
+GET /api/posts?sort="eldest"
+GET /api/posts?sort="mostLiked"
+GET /api/posts?sort="leastLiked"
+GET /api/posts?sort="mostDisliked"
+GET /api/posts?sort="leastDisliked"
+
+GET /api/posts?author="autorUsername"
+GET /api/posts?author="autorEmail"
+
+GET /api/posts?page=1&limit=10
+
+GET /api/posts?category="category name"
+
+GET /api/posts?search="part of content"
+GET /api/posts?search="part of header"

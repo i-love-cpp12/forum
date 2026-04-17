@@ -11,4 +11,7 @@ enum SortType: string
     case leastLiked = "leastLiked";
     case mostDisliked = "mostDisliked";
     case leastDisliked = "leastDisliked";
+    case mostCommented = "mostCommented";
+    case leastCommented = "leastCommented";
+
 }

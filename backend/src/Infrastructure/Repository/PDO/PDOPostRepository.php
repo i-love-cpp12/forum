@@ -190,6 +190,8 @@ class PDOPostRepository implements PostRepositoryInterface
                 "leastLiked" => " ORDER BY p.like_count ASC",
                 "mostDisliked" => " ORDER BY p.dislike_count DESC",
                 "leastDisliked" => " ORDER BY p.dislike_count ASC",
+                "mostCommented" => " ORDER BY p.comment_count DESC",
+                "leastCommented" => " ORDER BY p.comment_count ASC"
             ];
 
             $sort = SortType::tryFrom($DTO->sort ?? '')?->value ?? 'latest';
