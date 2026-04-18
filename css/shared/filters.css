@@ -1,0 +1,40 @@
+.filters
+{
+    background-color: var(--foreground-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px;
+    gap: 7px;
+}
+.filters > div > *
+{
+    height: 30px;
+}
+.filters .search
+{
+    position: relative;
+}
+.filters .search input
+{
+    padding-left: 30px;
+}
+.filters .search .search-button
+{
+    z-index: 50;
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    padding-left: 4px;
+}
+.filters .search .search-button svg
+{
+    fill: var(--text-color-primary);
+}

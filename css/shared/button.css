@@ -1,0 +1,42 @@
+button.accent
+{
+    transition: all 100ms ease-in-out;
+    color: var(--btn-color);
+    background-color: var(--btn-bg);
+    border-radius: 7px;
+    border: none;
+}
+
+button.accent:hover, button.accent.active
+{
+    color: var(--btn-hover-color);
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-border-color);
+}
+
+button.accent svg
+{
+    fill: currentColor;
+}
+
+button.accent
+{
+    --btn-color: var(--text-primary-color);
+    --btn-bg: transparent;
+    --btn-hover-color: var(--accent-color);
+    --btn-hover-bg: var(--sublime-color);
+    --btn-border-color: var(--btn-color);
+}
+button.accent.inverse-colors
+{
+    --btn-hover-bg: var(--btn-color);
+    --btn-hover-color: var(--btn-bg);
+    --btn-border-color: var(--btn-hover-color);
+}
+button.accent.red
+{
+    --btn-color: var(--text-primary-color);
+    --btn-bg: transparent;
+    --btn-hover-color: var(--red-color);
+    --btn-hover-bg: var(--sublime-red-color);
+}

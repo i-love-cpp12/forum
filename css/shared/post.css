@@ -1,0 +1,63 @@
+.posts
+{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.post
+{
+    background-color: var(--foreground-color);
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+    padding: 15px;
+}
+.post .post-header
+{
+    display: flex;
+    align-items: center;
+    gap: clamp(5px, 0.6vw, 10px);
+    color: var(--text-color-secondary);
+    margin-bottom: 15px;
+}
+.post .post-header .username
+{
+    color: var(--text-color-primary);
+}
+.post .post-header .categories
+{
+    display: flex;
+    gap: 10px;
+}
+.post .post-header .categories > div
+{
+    border: 1px solid var(--border-color);
+    border-radius: 100vw;
+    padding: 3px 10px;
+}
+.post .post-title
+{
+    font-size: 1.3rem;
+    margin-bottom: 13px;
+    font-weight: 500;
+}
+.post .post-content
+{
+    color: var(--text-color-secondary);
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+}
+.post .post-options
+{
+    display: flex;
+    gap: 10px;
+}
+.post .post-options > button
+{
+    --btn-bg: transparent;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+}

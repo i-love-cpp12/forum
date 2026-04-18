@@ -5,14 +5,14 @@
 
 body
 {
-    padding-top: calc(var(--header-height) + 1px);
+    padding-top: calc(var(--header-height));
 }
 
 header
 {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    align-items: stretch;
+    gap: 20px;
 
     position: absolute;
     top: 0;
@@ -23,12 +23,187 @@ header
 
     height: var(--header-height);
     padding-inline: clamp(20px, 6vw, 200px);
-    padding-block: 4px;
+    padding-block: 10px;
 
     border-bottom: 1px solid var(--border-color);
     box-shadow: 0 1px 5px var(--border-color);
 }
-nav
+header .logo
 {
-    margin-right: auto;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 1.1rem;
+}
+header .logo img
+{
+    height: 100%;
+}
+header nav
+{
+    display: flex;
+    gap: 7px;
+}
+header nav button
+{
+    background-color: transparent;
+    border: none;
+    border-radius: 7px;
+    padding-inline: 7px;
+    /* --btn-color: var(--text-color-secondary) !important; */
+}
+header nav button.accent.active
+{
+    --btn-hover-color: var(--text-color-primary);
+    --btn-hover-bg: var(--foreground-color);
+    --btn-color: var(--text-color-primary);
+    border: 1px solid var(--border-color);
+}
+header nav button.accent.active:hover
+{
+    --btn-hover-color: var(--accent-color);
+    --btn-hover-bg: var(--sublime-color);
+}
+header .right
+{
+    margin-left: auto;
+}
+
+header .right > div
+{
+    display: flex;
+    gap: 10px;
+    height: 100%;
+}
+header .right > div:first-child
+{
+    display: none;
+}
+header .right.logged-in > div:first-child
+{
+    display: flex;
+}
+header .right.logged-in > div:last-child
+{
+    display: none;
+}
+header .right > div > button
+{
+    padding: 0 10px;
+}
+header button.log-in-btn
+{
+    --btn-hover-bg: var(--accent-color);
+    --btn-hover-color: var(--text-color-primary);
+    --btn-border-color: var(--accent-color);
+    border: 1px solid var(--text-color-primary);
+}
+header button.sign-up-btn
+{
+    --btn-bg: var(--text-color-primary);
+    --btn-color: var(--background-color);
+    --btn-hover-bg: rgba(231, 231, 231, 0.947);
+    --btn-hover-color: var(--background-color);
+}
+header button.new-post-btn
+{
+    --btn-bg: var(--text-color-primary);
+    --btn-color: var(--background-color);
+    border: 1px solid var(--text-color-primary);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+header .profile
+{
+    position: relative;
+}
+header .profile .profile-picture
+{
+    background-color: var(--foreground-color);
+    border-radius: 50%;
+    height: 100%;
+    border: none;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 5px transparent;
+    transition: all 200ms ease-in-out;
+}
+header .profile .profile-picture:hover
+{
+    box-shadow: 0 0 5px var(--text-color-primary);
+}
+
+header .profile .profile-options
+{
+    display: none;
+    position: absolute;
+    z-index: 100;
+    top: calc(100% + 5px);
+    right: 0;
+    background-color: var(--foreground-color);
+    min-width: 200px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+}
+header .profile .profile-options.active
+{
+    display: block;
+}
+
+header .profile .profile-options .profile-options-group
+{
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+header .profile .profile-options .profile-options-group:last-child
+{
+    border: none;
+}
+header .profile .profile-options .profile-info
+{
+    padding: 15px;
+}
+header .profile .profile-options .profile-info .email
+{
+    color: var(--text-color-secondary);
+    font-size: 0.8rem;
+}
+header .profile .profile-options .profile-options-group button
+{
+    border-radius: 7px;
+    border: none;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+}
+@media (max-width: 660px)
+{
+    header nav
+    {
+        display: none;
+    }
+}
+@media (max-width: 400px)
+{
+    header button.new-post-btn span
+    {
+        display: none;
+    }
+}
+@media (max-width: 270px)
+{
+    header .logo span
+    {
+        display: none;
+    }
 }

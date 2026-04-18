@@ -1,0 +1,67 @@
+.drop-down-input
+{
+    position: relative;
+    transition: all 200ms ease-in-out;
+}
+.drop-down-input > button
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 160px;
+    padding-right: 0;
+}
+.drop-down-input > button span
+{
+    margin-right: 10px;
+}
+.drop-down-input.expanded > button svg
+{
+    transform: rotate(-90deg);
+}
+.drop-down-input.expanded .options
+{
+    display: flex;
+}
+
+.drop-down-input .options
+{
+    display: none;
+    position: absolute;
+    z-index: 50;
+    top: calc(100% + 5px);
+    background-color: var(--foreground-color);
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+    width: 100%;
+    height: fit-content;
+    padding: 7px;
+    
+    align-items: stretch;
+    flex-direction: column;
+    gap: 2px;
+}
+.drop-down-input .options > button
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 10px;
+    height: 35px;
+    border: none;
+    border-radius: 7px;
+    background-color: transparent;
+    transition: all 100ms ease-in-out;
+}
+.drop-down-input .options > button:hover
+{
+    background-color: var(--accent-color);
+}
+.drop-down-input .options > button svg
+{
+    display: none;
+}
+.drop-down-input .options > button.checked svg
+{
+    display: block;
+}
