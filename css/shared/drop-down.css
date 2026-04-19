@@ -30,9 +30,6 @@
     position: absolute;
     z-index: 50;
     top: calc(100% + 5px);
-    background-color: var(--foreground-color);
-    border: 1px solid var(--border-color);
-    border-radius: 7px;
     width: 100%;
     height: fit-content;
     padding: 7px;

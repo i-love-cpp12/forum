@@ -45,6 +45,11 @@ header nav
     display: flex;
     gap: 7px;
 }
+header nav a
+{
+    display: inline-flex;
+    text-decoration: none;
+}
 header .right
 {
     margin-left: auto;
@@ -103,13 +108,19 @@ header .profile .profile-options
     z-index: 100;
     top: calc(100% + 5px);
     right: 0;
-    background-color: var(--foreground-color);
     min-width: 200px;
     overflow: hidden;
-    border: 1px solid var(--border-color);
-    border-radius: 7px;
+    padding: 0;
 }
-header .profile .profile-options.active
+header .profile .profile-options a
+{
+    text-decoration: none;
+}
+header .profile .profile-options button
+{
+    width: 100%;
+}
+header .profile .profile-options.expanded
 {
     display: block;
 }
@@ -134,16 +145,6 @@ header .profile .profile-options .profile-info .email
 {
     color: var(--text-color-secondary);
     font-size: 0.8rem;
-}
-header .profile .profile-options .profile-options-group button
-{
-    border-radius: 7px;
-    border: none;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 5px;
-    padding: 5px;
 }
 @media (max-width: 660px)
 {
