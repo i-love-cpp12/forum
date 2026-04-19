@@ -49,15 +49,5 @@
 .post .post-options
 {
     display: flex;
-    gap: 10px;
-}
-.post .post-options > button
-{
-    --btn-bg: transparent;
-    border: 1px solid transparent;
-    border-radius: 7px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px;
+    justify-content: space-between;
 }

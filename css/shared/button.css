@@ -1,4 +1,4 @@
-button.accent
+/* button.accent
 {
     transition: all 100ms ease-in-out;
     color: var(--btn-color);
@@ -39,4 +39,124 @@ button.accent.red
     --btn-bg: transparent;
     --btn-hover-color: var(--red-color);
     --btn-hover-bg: var(--sublime-red-color);
+} */
+
+.button
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 7px;
+
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+
+    transition:
+        color 100ms ease-in-out,
+        background-color 100ms ease-in-out,
+        transition 100ms ease-in-out;
+
+    color: var(--btn-color);
+    background-color: var(--btn-bg);
+    border-color: var(--btn-border);
+}
+.button svg
+{
+    fill: currentColor;
+}
+.button:disabled
+{
+    opacity: 0.8;
+}
+.button:active
+{
+    transform: scale(0.96);
+}
+
+.button.active
+{
+    color: var(--btn-active-color);
+    background-color: var(--btn-active-bg);
+    border-color: var(--btn-active-border);
+}
+
+.button:hover
+{
+    color: var(--btn-hover-color);
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-border);
+}
+
+.button.border
+{
+    border: 1px solid var(--btn-border);
+}
+.button.button--blue
+{
+    --btn-color: var(--text-primary-color);
+    --btn-bg: transparent;
+
+    --btn-hover-color: var(--accent-color);
+    --btn-hover-bg: var(--sublime-color);
+
+    --btn-active-color: var(--btn-hover-color);
+    --btn-active-bg: var(--btn-hover-bg);
+
+    --btn-border: var(--btn-color);
+    --btn-hover-border: var(--btn-border);
+    --btn-active-border: var(--btn-hover-border);
+}
+
+.button.button--red
+{
+    --btn-color: var(--text-primary-color);
+    --btn-bg: transparent;
+
+    --btn-hover-color: var(--red-color);
+    --btn-hover-bg: var(--sublime-red-color);
+
+    --btn-active-color: var(--btn-hover-color);
+    --btn-active-bg: var(--btn-hover-bg);
+
+    --btn-border: var(--btn-color);
+    --btn-hover-border: var(--btn-border);
+    --btn-active-border: var(--btn-hover-border);
+}
+
+.button.button--gray-active
+{
+    --btn-color: var(--text-color-secondary);
+
+    --btn-active-color: var(--text-primary-color);
+    --btn-active-bg: var(--foreground-color);
+
+    --btn-active-border: var(--border-color);
+}
+
+.button.button--white-inverse
+{
+    --btn-color: var(--background-color);
+    --btn-bg: var(--text-color-primary);
+
+    --btn-hover-color: var(--text-color-primary);
+    --btn-hover-bg: var(--btn-background-color);
+
+    --btn-border: var(--text-color-primary);
+}
+
+.button.button--hover-fill-blue
+{
+    --btn-color: var(--text-color-primary);
+    --btn-bg: transparent;
+
+    --btn-hover-color: var(--text-color-primary);
+    --btn-hover-bg: var(--accent-color);
+
+    --btn-active-color: var(--btn-hover-color);
+    --btn-active-bg: var(--btn-hover-bg);
+
+    --btn-border: var(--border-color);
+    --btn-hover-border: var(--border-color);
+    --btn-active-border: var(--border-color);
 }

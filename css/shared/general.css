@@ -57,7 +57,3 @@ body, button, input
     font-weight: 400;
     font-size: 15px;
 }
-button, input[type="button"], input[type="submit"], a[role="button"]
-{
-    cursor: pointer;
-}
