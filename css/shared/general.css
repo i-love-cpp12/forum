@@ -45,7 +45,22 @@
     margin: 0;
     padding: 0;
 }
-
+*::-webkit-scrollbar
+{
+    background-color: var(--foreground-color);
+    cursor: default;
+}
+*::-webkit-scrollbar-button
+{
+    display: none;
+}
+*::-webkit-scrollbar-thumb
+{
+    background-color: var(--background-color);
+    border-radius: 7px;
+    border: 1px solid var(--text-color-secondary);
+    cursor: default;
+}
 body
 {
     min-height: 100dvh;

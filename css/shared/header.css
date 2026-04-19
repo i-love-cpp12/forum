@@ -89,7 +89,7 @@ header .profile .profile-picture
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 5px transparent;
-    transition: all 200ms ease-in-out;
+    transition: box-shadow 200ms ease-in-out;
 }
 header .profile .profile-picture:hover
 {
