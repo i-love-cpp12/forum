@@ -1,5 +1,6 @@
 .tile-container
 {
+    /* display: block; */
     background-color: var(--foreground-color);
     border: 1px solid var(--border-color);
     border-radius: 7px;

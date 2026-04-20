@@ -6,7 +6,6 @@
     <title>Forum</title>
     <link rel="shortcut icon" href="assets/img/icons/favicon/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="css/pages/index.css">
     <link rel="stylesheet" href="css/shared/general.css">
     <link rel="stylesheet" href="css/shared/header.css">
     <link rel="stylesheet" href="css/shared/button.css">
@@ -16,6 +15,7 @@
     <link rel="stylesheet" href="css/shared/drop-down.css">
     <link rel="stylesheet" href="css/shared/post.css">
     <link rel="stylesheet" href="css/shared/tile-container.css">
+    <link rel="stylesheet" href="css/shared/logo.css">
 
 </head>
 <body>
@@ -33,7 +33,7 @@
             </a>
         </nav>
         <div class="right logged-in">
-            <div>
+            <div class="logged">
                 <button class="button button--white-inverse border new-post-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M212.31-140Q182-140 161-161q-21-21-21-51.31v-535.38Q140-778 161-799q21-21 51.31-21h346.23l-60 60H212.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v535.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85h535.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46v-288.77l60-60v348.77Q820-182 799-161q-21 21-51.31 21H212.31ZM480-480ZM380-380v-137.31l362.39-362.38q9.3-9.31 20.46-13.58 11.15-4.27 22.69-4.27 11.77 0 22.61 4.27Q819-889 827.92-880.08L878.15-830q8.69 9.31 13.35 20.54 4.65 11.23 4.65 22.77t-3.96 22.38q-3.96 10.85-13.27 20.15L515.38-380H380Zm456.77-406.31-50.23-51.38 50.23 51.38ZM440-440h49.85l249.3-249.31-24.92-24.92-26.69-25.69L440-492.38V-440Zm274.23-274.23-26.69-25.69 26.69 25.69 24.92 24.92-24.92-24.92Z"/></svg>
                     <span>New post</span>
@@ -43,7 +43,7 @@
                         AD
                     </button>
                     <div class="profile-options tile-container grid expanded">
-                        <div class="profile-info profile-options-group">
+                        <div class="profile-info profile-options-group" translate="no">
                             <span class="username">Admin</span>
                             <span class="email">oliwiermoskala2@gmail.com</span>
                         </div>
@@ -70,16 +70,20 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <button class="button border button--hover-fill-blue">Log in</button>
-                <button class="button border button--white-inverse">Sign up</button>
+            <div class="unlogged">
+                <a href="pages/login.html">
+                    <button class="button border button--hover-fill-blue">Log in</button>
+                </a>
+                <a href="pages/signup.html">
+                    <button class="button border button--white-inverse">Sign up</button>
+                </a>
             </div>
         </div>
     </header>
     <main>
-        <div class="title">Forum</div>
-        <div class="subtitle">Discustion with comunity.</div>
-        <div class="filters tile-container">
+        <div class="big">Forum</div>
+        <div class="small">Discustion with comunity.</div>
+        <form class="filters tile-container">
             <div class="search">
                 <button class="button search-button">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M781.69-136.92 530.46-388.16q-30 24.77-69 38.77-39 14-80.69 14-102.46 0-173.54-71.07-71.07-71.08-71.07-173.54t71.07-173.54q71.08-71.07 173.54-71.07t173.54 71.07q71.07 71.08 71.07 173.54 0 42.85-14.38 81.85-14.39 39-38.39 67.84l251.23 251.23-42.15 42.16ZM380.77-395.38q77.31 0 130.96-53.66 53.66-53.65 53.66-130.96t-53.66-130.96q-53.65-53.66-130.96-53.66t-130.96 53.66Q196.15-657.31 196.15-580t53.66 130.96q53.65 53.66 130.96 53.66Z"/></svg>
@@ -121,15 +125,15 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </form>
 
         <div class="posts">
            <div class="post tile-container">
                 <div class="post-header">
                     <div class="username">@oliwier</div>
-                    <div>&middot;</div>
+                    <div class="dot">&middot;</div>
                     <div>2h ago</div>
-                    <div>&middot;</div>
+                    <div class="dot">&middot;</div>
                     <div class="categories">
                         <div>programing</div>
                         <div>linux</div>
@@ -155,36 +159,6 @@
                     <div>
                         <button class="button button--trash">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M292.31-140q-29.92 0-51.12-21.19Q220-182.39 220-212.31V-720h-40v-60h180v-35.38h240V-780h180v60h-40v507.69Q740-182 719-161q-21 21-51.31 21H292.31ZM680-720H280v507.69q0 5.39 3.46 8.85t8.85 3.46h375.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-720ZM376.16-280h59.99v-360h-59.99v360Zm147.69 0h59.99v-360h-59.99v360ZM280-720v520-520Z"/></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="post tile-container">
-                <div class="post-header">
-                    <div class="username">@oliwier</div>
-                    <div>&middot;</div>
-                    <div>2h ago</div>
-                    <div>&middot;</div>
-                    <div class="categories">
-                        <div>programing</div>
-                        <div>linux</div>
-                    </div>
-                </div>
-                <div class="post-title">Post title</div>
-                <div class="post-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis accusamus dolores quasi exercitationem! Quidem natus modi sapiente. Incidunt voluptatem quas similique expedita, minus tempora repellendus fuga ratione consequuntur deleniti dignissimos</div>
-                <div class="post-options">
-                    <div>
-                        <button class="button button--blue active">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M709.23-140H313.08v-480l265.38-263.84L612.3-850q6.24 6.23 10.35 16.5 4.12 10.27 4.12 19.35V-804L584.3-620h243.39q28.54 0 50.42 21.89Q900-576.23 900-547.69v64.61q0 6.23-1.31 13.46t-3.92 13.47L780.15-185.69q-8.61 19.23-28.84 32.46T709.23-140ZM253.08-620v480H100v-480h153.08Z"/></svg>
-                            <span>1</span>
-                        </button>
-                        <button class="button button--red">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M250.77-803.84h420.77v479.99L406.15-60l-33.84-33.85q-6.23-6.23-10.35-16.5-4.11-10.27-4.11-19.34v-10.16l42.46-184h-268q-28.54 0-50.42-21.88Q60-367.62 60-396.15v-64.62q0-6.23 1.62-13.46 1.61-7.23 3.61-13.46l114.62-270.46q8.61-19.23 28.84-32.46t42.08-13.23Zm360.77 60H250.77q-4.23 0-8.65 2.3-4.43 2.31-6.74 7.7L120-463.84v67.69q0 5.38 3.46 8.84 3.46 3.47 8.85 3.47h343.84L426-164.61l185.54-184.77v-394.46Zm0 394.46v-394.46 394.46Zm60 25.53v-59.99H800v-360H671.54v-60H860v479.99H671.54Z"/></svg>
-                            <span>1</span>
-                        </button>
-                        <button class="button button--neutral">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M250-410h460v-60H250v60Zm0-120h460v-60H250v60Zm0-120h460v-60H250v60Zm610 531.54L718.46-260H172.31Q142-260 121-281q-21-21-21-51.31v-455.38Q100-818 121-839q21-21 51.31-21h615.38Q818-860 839-839q21 21 21 51.31v669.23ZM172.31-320H744l56 55.39v-523.08q0-4.62-3.85-8.46-3.84-3.85-8.46-3.85H172.31q-4.62 0-8.46 3.85-3.85 3.84-3.85 8.46v455.38q0 4.62 3.85 8.46 3.84 3.85 8.46 3.85ZM160-320v-480 480Z"/></svg>
-                            <span>1</span>
                         </button>
                     </div>
                 </div>

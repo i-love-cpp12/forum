@@ -11,6 +11,7 @@
     gap: clamp(5px, 0.6vw, 10px);
     color: var(--text-color-secondary);
     margin-bottom: 15px;
+    text-wrap: nowrap;
 }
 .post .post-header .username
 {
@@ -19,6 +20,7 @@
 .post .post-header .categories
 {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
 }
 .post .post-header .categories > div
@@ -43,4 +45,16 @@
 {
     display: flex;
     justify-content: space-between;
+}
+@media (max-width: 460px)
+{
+    .post .post-header
+    {
+        flex-direction: column;
+        align-items: start;
+    }
+    .post .post-header .dot
+    {
+        display: none;
+    }
 }

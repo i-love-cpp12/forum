@@ -72,3 +72,20 @@ body, button, input
     font-weight: 400;
     font-size: 15px;
 }
+a
+{
+    text-decoration: none;
+}
+a:hover
+{
+    text-decoration: underline;
+}
+a button
+{
+    height: 100%;
+    text-decoration: none;
+}
+.accent
+{
+    color: var(--accent-color);
+}

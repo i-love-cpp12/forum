@@ -28,27 +28,10 @@ header
     border-bottom: 1px solid var(--border-color);
     box-shadow: 0 1px 5px var(--border-color);
 }
-header .logo
-{
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 1.1rem;
-    text-wrap: nowrap;
-}
-header .logo img
-{
-    height: 100%;
-}
 header nav
 {
     display: flex;
     gap: 7px;
-}
-header nav a
-{
-    display: inline-flex;
-    text-decoration: none;
 }
 header .right
 {
@@ -61,15 +44,19 @@ header .right > div
     gap: 10px;
     height: 100%;
 }
-header .right > div:first-child
+header .right > .logged
 {
     display: none;
 }
-header .right.logged-in > div:first-child
+header .right > .unlogged
+{
+    display: block;
+}
+header .right.logged-in > .logged
 {
     display: flex;
 }
-header .right.logged-in > div:last-child
+header .right.logged-in > .unlogged
 {
     display: none;
 }

@@ -2,15 +2,31 @@ main
 {
     background-color: var(--background-color);
     min-height: calc(100dvh - var(--header-height));
-    padding-inline: 15%;
+    padding-inline: 10%;
     padding-block: 30px;
 }
 main .back-button
 {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 main .back-button button
 {
     padding: 6px 10px;
     font-size: 1.05rem;
+}
+.big
+{
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.small
+{
+    font-size: 0.85rem;
+    color: var(--text-color-secondary);
+    margin-bottom: 20px;
+}
+main > .filters
+{
+    margin-bottom: 20px;
 }

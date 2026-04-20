@@ -12,6 +12,11 @@ input[type="password"],
     border: 1px solid var(--border-color);
     border-radius: 7px;
 }
+.text-input.error
+{
+    outline: 1px solid var(--red-color);
+    color: var(--red-color);
+}
 
 input[type="text"]::placeholder,
 input[type="search"]::placeholder,
@@ -29,4 +34,8 @@ input[type="password"]:focus,
 .text-input:focus
 {
     outline: 1px solid var(--accent-color);
+}
+input:focus.error
+{
+    outline: 1px solid var(--red-color);
 }

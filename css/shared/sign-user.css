@@ -1,0 +1,47 @@
+.sign-user-tile
+{
+    max-width: 400px;
+    width: 100%;
+    justify-self: center;
+}
+.sign-user-tile .big
+{
+    font-size: 1.4rem;
+}
+.sign-user-tile .logo
+{
+    margin-bottom: 20px;
+}
+.sign-user-tile > .tile-container
+{
+    padding: 30px 20px;
+}
+.sign-user-tile form > div
+{
+    margin-bottom: 10px;
+}
+.sign-user-tile form input
+{
+    margin-block: 7px 5px;
+    width: 100%;
+    font-size: 1.07rem;
+}
+.sign-user-tile form div.error
+{
+    color: var(--red-color);
+    font-size: 0.8rem;
+}
+.sign-user-tile button[type="submit"]
+{
+    width: 100%;
+    justify-content: center;
+    padding: 7px 0;
+    margin-block: 15px 7px;
+}
+.sign-user-tile .redirect
+{
+    display: flex;
+    justify-content: center;
+    color: var(--text-color-secondary);
+    font-size: 0.85rem;
+}
