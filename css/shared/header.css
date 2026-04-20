@@ -125,14 +125,6 @@ header .profile .profile-options.expanded
     display: block;
 }
 
-header .profile .profile-options .profile-options-group
-{
-    border-bottom: 1px solid var(--border-color);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
 header .profile .profile-options .profile-options-group:last-child
 {
     border: none;

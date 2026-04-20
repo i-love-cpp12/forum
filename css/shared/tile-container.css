@@ -5,3 +5,20 @@
     border-radius: 7px;
     padding: 15px;
 }
+.tile-container.grid
+{
+    padding: 0;
+}
+.tile-container.grid > *
+{
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* background-color: blue; */
+}
+.tile-container.grid > *:last-child
+{
+    border: none;
+}
