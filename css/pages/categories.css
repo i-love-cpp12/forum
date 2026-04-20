@@ -1,0 +1,26 @@
+.add-category
+{
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.add-category input[type="text"]
+{
+    flex-grow: 1;
+}
+.categories
+{
+    font-size: 1.1rem;
+}
+.categories .category
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.categories .category .options button:first-child
+{
+    margin-right: clamp(0, 1vw, 7px);
+}

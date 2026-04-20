@@ -2,7 +2,7 @@ main
 {
     background-color: var(--background-color);
     min-height: calc(100dvh - var(--header-height));
-    padding-inline: 20%;
+    padding-inline: 15%;
     padding-block: 30px;
 }
 main .back-button

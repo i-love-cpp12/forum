@@ -14,9 +14,7 @@
     border-bottom: 1px solid var(--border-color);
     padding: 10px;
     display: flex;
-    flex-direction: column;
     gap: 5px;
-    /* background-color: blue; */
 }
 .tile-container.grid > *:last-child
 {

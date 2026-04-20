@@ -112,6 +112,10 @@ header .profile .profile-options
     overflow: hidden;
     padding: 0;
 }
+header .profile .profile-options .profile-options-group
+{
+    flex-direction: column;
+}
 header .profile .profile-options a
 {
     text-decoration: none;
