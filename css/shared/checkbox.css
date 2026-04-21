@@ -1,0 +1,47 @@
+.checkbox-fill-button .label
+{
+    display: inline-flex;
+    background-color: var(--checkbox-bg);
+    color: var(--checkbox-color);
+    border: 1px solid var(--checkbox-border);
+    border-radius: 7px;
+    cursor: pointer;
+    padding: 4px 10px;
+    transition:
+        color 100ms ease-in-out,
+        background-color 100ms ease-in-out,
+        border 100ms ease-in-out,
+        transform 100ms ease-in-out
+    ;
+}
+.checkbox-fill-button input:checked + .label
+{
+    background-color: var(--checkbox-active-bg);
+    color: var(--checkbox-active-color);
+    border: 1px solid var(--checkbox-active-border);
+}
+.checkbox-fill-button .label:hover
+{
+    background-color: var(--checkbox-hover-bg);
+    color: var(--checkbox-hover-color);
+    border: 1px solid var(--checkbox-hover-border);
+}
+.checkbox-fill-button input
+{
+    display: none;
+}
+.checkbox-fill-button.checkbox--fill-accent .label
+{
+    --checkbox-bg: var(--foreground-color);
+    --checkbox-color: var(--text-color-secondary);
+    --checkbox-border: var(--border-color);
+
+    --checkbox-hover-bg: var(--accent-color);
+    --checkbox-hover-color: var(--text-color-primary);
+    --checkbox-hover-border: var(--border-color);
+
+    --checkbox-active-bg: var(--sublime-color);
+    --checkbox-active-color: var(--accent-color);
+    --checkbox-active-border: var(--checkbox-hover-border);
+    border-radius: 100vw;
+}

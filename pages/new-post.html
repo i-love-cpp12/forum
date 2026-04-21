@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="../css/shared/text-input.css">
     <link rel="stylesheet" href="../css/shared/tile-container.css">
     <link rel="stylesheet" href="../css/shared/logo.css">
+    <link rel="stylesheet" href="../css/pages/new-post.css">
+    <link rel="stylesheet" href="../css/shared/form.css">
+    <link rel="stylesheet" href="../css/shared/checkbox.css">
 
 </head>
 <body>
@@ -27,7 +30,7 @@
                 <button class="button button--blue button--gray-active">Forum</button>
             </a>
             <a href="categories.html">
-                <button class="button button--blue button--gray-active active border">Categories</button>
+                <button class="button button--blue button--gray-active">Categories</button>
             </a>
         </nav>
         <div class="right logged-in">
@@ -54,7 +57,7 @@
                                     <span>Profile</span>
                                 </button>
                             </a>
-                            <a href="">
+                            <a href="../pages/categories.html">
                                 <button class="button button--blue">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M287.69-535.39 480-850.77l192.31 315.38H287.69ZM700-95.39q-68.85 0-116.73-47.88-47.88-47.88-47.88-116.73t47.88-116.73q47.88-47.88 116.73-47.88t116.73 47.88q47.88 47.88 47.88 116.73t-47.88 116.73Q768.85-95.39 700-95.39Zm-564.61-20v-289.22h289.22v289.22H135.39Zm564.6-39.99q43.93 0 74.28-30.34t30.35-74.27q0-43.93-30.34-74.28t-74.27-30.35q-43.93 0-74.28 30.34t-30.35 74.27q0 43.93 30.34 74.28t74.27 30.35Zm-504.61-20h169.24v-169.24H195.38v169.24Zm198.16-420h172.92L480-734.46l-86.46 139.08Zm86.46 0ZM364.62-344.62ZM700-260Z"/></svg>
                                     <span>Categories</span>
@@ -70,67 +73,62 @@
                     </div>
                 </div>
             </div>
-            <div class="unlogged">
-                <a href="../pages/login.html">
-                    <button class="button border button--hover-fill-blue">Log in</button>
-                </a>
-                <a href="../pages/signup.html">
-                    <button class="button border button--white-inverse">Sign up</button>
-                </a>
-            </div>
         </div>
     </header>
     <main>
-        <div class="back-button">
-            <a href="../index.html">
-                <button class="button button--back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
-                    <span>Forum</span>
-                </button>
-            </a>
-        </div>
-        <div class="big">Categories</div>
-        <div class="small">Browse and change categories</div>
-        <form class="add-category tile-container">
-            <input type="text" class="text-input" placeholder="New category name">
-            <button class="button button--white-inverse border">
-                <span>Add</span>
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M450-450H220v-60h230v-230h60v230h230v60H510v230h-60v-230Z"/></svg>
-            </button>
-        </form>
-        <div class="categories tile-container grid">
-            <div class="category">
-                <div class="title">catgeoriej ojdfo</div>
-                <div class="options">
-                    <button class="button button--blue">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h50.46l409.46-409.46-50.46-50.46L200-250.46V-200Zm-60 60v-135.38l527.62-527.39q9.07-8.24 20.03-12.73 10.97-4.5 23-4.5t23.3 4.27q11.28 4.27 19.97 13.58l48.85 49.46q9.31 8.69 13.27 20 3.96 11.31 3.96 22.62 0 12.07-4.12 23.03-4.12 10.97-13.11 20.04L275.38-140H140Zm620.38-570.15-50.23-50.23 50.23 50.23Zm-126.13 75.9-24.79-25.67 50.46 50.46-25.67-24.79Z"/></svg>
+        <div class="new-post-tile">
+            <div class="big">New post</div>
+            <div class="small">Share something with the community.</div>
+            <div class="back-button">
+                <a href="../index.html">
+                    <button class="button button--back-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                        <span>Forum</span>
                     </button>
-                    <button class="button button--trash">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M292.31-140q-29.92 0-51.12-21.19Q220-182.39 220-212.31V-720h-40v-60h180v-35.38h240V-780h180v60h-40v507.69Q740-182 719-161q-21 21-51.31 21H292.31ZM680-720H280v507.69q0 5.39 3.46 8.85t8.85 3.46h375.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-720ZM376.16-280h59.99v-360h-59.99v360Zm147.69 0h59.99v-360h-59.99v360ZM280-720v520-520Z"/></svg>
-                    </button>
-                </div>
+                </a>
             </div>
-            <div class="category">
-                <div class="title">catgeoriej ojdfo</div>
-                <div class="options">
-                    <button class="button button--blue">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h50.46l409.46-409.46-50.46-50.46L200-250.46V-200Zm-60 60v-135.38l527.62-527.39q9.07-8.24 20.03-12.73 10.97-4.5 23-4.5t23.3 4.27q11.28 4.27 19.97 13.58l48.85 49.46q9.31 8.69 13.27 20 3.96 11.31 3.96 22.62 0 12.07-4.12 23.03-4.12 10.97-13.11 20.04L275.38-140H140Zm620.38-570.15-50.23-50.23 50.23 50.23Zm-126.13 75.9-24.79-25.67 50.46 50.46-25.67-24.79Z"/></svg>
-                    </button>
-                    <button class="button button--trash">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M292.31-140q-29.92 0-51.12-21.19Q220-182.39 220-212.31V-720h-40v-60h180v-35.38h240V-780h180v60h-40v507.69Q740-182 719-161q-21 21-51.31 21H292.31ZM680-720H280v507.69q0 5.39 3.46 8.85t8.85 3.46h375.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-720ZM376.16-280h59.99v-360h-59.99v360Zm147.69 0h59.99v-360h-59.99v360ZM280-720v520-520Z"/></svg>
-                    </button>
-                </div>
-            </div>
-            <div class="category">
-                <div class="title">catgeoriej ojdfo</div>
-                <div class="options">
-                    <button class="button button--blue">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h50.46l409.46-409.46-50.46-50.46L200-250.46V-200Zm-60 60v-135.38l527.62-527.39q9.07-8.24 20.03-12.73 10.97-4.5 23-4.5t23.3 4.27q11.28 4.27 19.97 13.58l48.85 49.46q9.31 8.69 13.27 20 3.96 11.31 3.96 22.62 0 12.07-4.12 23.03-4.12 10.97-13.11 20.04L275.38-140H140Zm620.38-570.15-50.23-50.23 50.23 50.23Zm-126.13 75.9-24.79-25.67 50.46 50.46-25.67-24.79Z"/></svg>
-                    </button>
-                    <button class="button button--trash">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M292.31-140q-29.92 0-51.12-21.19Q220-182.39 220-212.31V-720h-40v-60h180v-35.38h240V-780h180v60h-40v507.69Q740-182 719-161q-21 21-51.31 21H292.31ZM680-720H280v507.69q0 5.39 3.46 8.85t8.85 3.46h375.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-720ZM376.16-280h59.99v-360h-59.99v360Zm147.69 0h59.99v-360h-59.99v360ZM280-720v520-520Z"/></svg>
-                    </button>
-                </div>
+            <div class="tile-container">
+                <form class="form">
+                    <div class="form-field">
+                        <label>
+                            <div class="filed-name">Title</div>
+                            <input type="text" class="text-input" placeholder="A clear specific title">
+                        </label>
+                        <div class="error"></div>
+                    </div>
+                    <div class="form-field">
+                        <label>
+                            <div>Content</div>
+                            <textarea class="text-input" placeholder="Write your post..."></textarea>
+                        </label>
+                        <div class="error"></div>
+                    </div>
+                    <div class="form-field categories">
+                        <div>Cartegories</div>
+                        <div class="options">
+                            <div class="checkbox-fill-button checkbox--fill-accent">
+                                <label>
+                                    <input type="checkbox">
+                                    <div class="label">programing</div>
+                                </label>
+                            </div>
+                            <div class="checkbox-fill-button checkbox--fill-accent">
+                                <label>
+                                    <input type="checkbox">
+                                    <div class="label">linux</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <button type="submit" class="button button--back-button border">
+                            Cancel
+                        </button>
+                        <button type="submit" class="button button--white-inverse border">
+                            Publish
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </main>

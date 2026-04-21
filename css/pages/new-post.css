@@ -1,0 +1,41 @@
+.new-post-tile
+{
+    max-width: 700px;
+    width: 100%;
+    justify-self: center;
+    font-size: 1.05rem;
+}
+.new-post-tile > .tile-container
+{
+    padding: 30px 20px;
+}
+.new-post-tile textarea
+{
+    resize: vertical;
+    height: 200px;
+}
+.new-post-tile .checkbox-fill-button
+{
+    font-size: 0.85rem;
+}
+
+.new-post-tile .categories .options
+{
+    display: flex;
+    align-items: center;
+    gap:5px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.new-post-tile .form-options
+{
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+    gap: 10px;
+}
+.new-post-tile .form-options button
+{
+    height: 40px;
+    padding-inline: 10px;
+}

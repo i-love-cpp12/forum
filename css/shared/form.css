@@ -1,0 +1,15 @@
+.form input, .form textarea
+{
+    margin-block: 7px 5px;
+    width: 100%;
+    font-size: 1.07rem;
+}
+.form div.error
+{
+    color: var(--red-color);
+    font-size: 0.8rem;
+}
+.form > .form-field
+{
+    margin-bottom: 10px;
+}

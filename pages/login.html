@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum - Categories</title>
+    <title>Forum - Log in</title>
     <link rel="shortcut icon" href="../assets/img/icons/favicon/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="../css/pages/categories.css">
@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../css/shared/tile-container.css">
     <link rel="stylesheet" href="../css/shared/logo.css">
     <link rel="stylesheet" href="../css/shared/sign-user.css">
+    <link rel="stylesheet" href="../css/shared/form.css">
 
 </head>
 <body>
@@ -28,7 +29,7 @@
                 <button class="button button--blue button--gray-active">Forum</button>
             </a>
             <a href="categories.html">
-                <button class="button button--blue button--gray-active active border">Categories</button>
+                <button class="button button--blue button--gray-active">Categories</button>
             </a>
         </nav>
         <div class="right">
@@ -53,23 +54,23 @@
                 </a>
             </div>
             <div class="tile-container">
-                 <div class="logo">
+                <div class="logo">
                     <img src="../assets/img/icons/favicon/favicon.png" alt="logo">
                     <span>Forum romanum</span>
                 </div>
                 <div class="big">Welcome back</div>
                 <div class="small">Log in into your Forum romanum account.</div>
-                <form>
-                    <div class="email">
+                <form class="form">
+                    <div class="form-field">
                         <label>
-                            <div class="filed-name">Email</div>
+                            <div>Email</div>
                             <input type="email" class="text-input" placeholder="Type your email">
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="password">
+                    <div class="form-field">
                         <label>
-                            <div class="filed-name">Password</div>
+                            <div>Password</div>
                             <input type="password" class="text-input error" placeholder="Type your password">
                         </label>
                         <div class="error">Password not valid</div>

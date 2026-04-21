@@ -16,21 +16,6 @@
 {
     padding: 30px 20px;
 }
-.sign-user-tile form > div
-{
-    margin-bottom: 10px;
-}
-.sign-user-tile form input
-{
-    margin-block: 7px 5px;
-    width: 100%;
-    font-size: 1.07rem;
-}
-.sign-user-tile form div.error
-{
-    color: var(--red-color);
-    font-size: 0.8rem;
-}
 .sign-user-tile button[type="submit"]
 {
     width: 100%;
