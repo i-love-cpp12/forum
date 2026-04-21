@@ -1,0 +1,26 @@
+.profile-info-tile
+{
+    max-width: 700px;
+    width: 100%;
+    justify-self: center;
+    font-size: 1.05rem;
+}
+.profile-info-tile .tile-container.danger
+{
+    margin-top: 20px;
+}
+.profile-info-tile .form-options
+{
+    display: flex;
+    justify-content: end;
+}
+.profile-info-tile button
+{
+    padding-inline: 10px;
+    height: 40px;
+}
+.profile-info-tile .tile-container.danger .title
+{
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+}

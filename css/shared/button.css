@@ -101,6 +101,16 @@
 
     --btn-border: var(--text-color-primary);
 }
+.button.button--red-inverse
+{
+    --btn-color: var(--text-color-primary);
+    --btn-bg: var(--red-color);
+
+    --btn-hover-color: var(--red-color);
+    --btn-hover-bg: var(--foreground-color);
+
+    --btn-border: var(--red-color);
+}
 
 .button.button--hover-fill-blue
 {

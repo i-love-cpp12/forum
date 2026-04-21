@@ -21,3 +21,7 @@
 {
     border: none;
 }
+.tile-container.danger
+{
+    border-color: var(--red-color);
+}
