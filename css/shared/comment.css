@@ -40,6 +40,10 @@
     gap: clamp(5px, 0.6vw, 10px);
     color: var(--text-color-secondary);
 }
+.comment .header .reply-icon
+{
+    display: none;
+}
 .comment .header svg
 {
     fill: currentColor;
@@ -88,6 +92,10 @@
     padding-left: 40px;
     margin-top: 20px;
     border-left: 1px solid var(--border-color);
+}
+.comment .replies > .comment .header .reply-icon
+{
+    display: block;
 }
 .comment .replies.active
 {

@@ -18,6 +18,7 @@
 .drop-down-input.expanded > button svg
 {
     transform: rotate(-90deg);
+    fill: currentColor;
 }
 .drop-down-input.expanded .options
 {
@@ -57,6 +58,7 @@
 .drop-down-input .options > button svg
 {
     display: none;
+    fill: currentColor;
 }
 .drop-down-input .options > button.checked svg
 {

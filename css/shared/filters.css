@@ -30,7 +30,7 @@
     bottom: 0;
     padding-left: 4px;
 }
-.filters .search .search-button svg
+.filters .search .search-icon svg
 {
     fill: var(--text-color-primary);
 }

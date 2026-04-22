@@ -1,4 +1,4 @@
-import {Post} from "/scripts/components/Post.js";
+import Post from "/scripts/components/Post.js";
 
 const post = Post({
     postId: 1,
