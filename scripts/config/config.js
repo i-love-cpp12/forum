@@ -1,1 +1,1 @@
-export const ROOT_DIR = "";
+export const ROOT_DIR = "http://localhost/forum/";

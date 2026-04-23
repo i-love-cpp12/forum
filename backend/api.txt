@@ -255,7 +255,7 @@ Response:
   "error": "",
   "data": {
     "message": "Getting post with id: 0 successful",
-    "user": {
+    "post": {
       "id": 0,
       "createdAtTimeStamp": null,
       "parentPostId": null,

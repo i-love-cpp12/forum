@@ -133,7 +133,7 @@ class PostController
                 "data" =>
                     [
                         "message" => "Getting post with id: $postId successful",
-                        "user" => $postMapped
+                        "post" => $postMapped
                     ]
             ]
         );

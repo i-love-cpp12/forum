@@ -1,22 +1,35 @@
-export class Post
-{
-    static handleReaction(e, likeType)
-    {
-        const reactionBtnElem = e.target;
-        // console.log(reactionBtnElem.parentElement);
+import { request } from "../api/request.js";
 
-        // console.log(e, likeType);
-    }
-    static handleDislike(e, actionTarget)
-    {
-        // Post.handleReaction(e, "dislike");
-        // document.createElement("div").previousElementSibling
-        // console.log(e.target.closest("[data-action]"));
-        // console.log(e.target.previousElementSibling);
-        
-    }
-    static handleLike(e)
-    {
-        Post.handleReaction(e, "like");
-    }
+export function getPosts(params = {})
+{
+    const query = new URLSearchParams(params).toString();
+    return request(`posts?${query}`);
+}
+
+export function getPost(id)
+{
+    return request(`posts/${id}`);
+}
+
+export function createPost(data)
+{
+    return request("posts", {
+        method: "POST",
+        body: JSON.stringify(data)
+    });
+}
+
+export function updatePost(id, data)
+{
+    return request(`posts/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(data)
+    });
+}
+
+export function deletePost(id)
+{
+    return request(`posts/${id}`, {
+        method: "DELETE"
+    });
 }
