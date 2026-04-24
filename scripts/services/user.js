@@ -23,9 +23,17 @@ export function logoutUser()
     });
 }
 
-export function getUser(id)
+const userCache = new Map();
+
+export async function getUser(id)
 {
-    return request(`users/${id}`);
+    if(userCache.has(id)) return userCache.get(id);
+
+    const res = await request(`users/${id}`);
+    const user = res.user;
+
+    userCache.set(id, user);
+    return user;
 }
 
 export function getAllUsers()
@@ -35,7 +43,7 @@ export function getAllUsers()
 
 export function getMe()
 {
-    return request("users/me");
+    return request("me");
 }
 
 export function updateUser(id, data)

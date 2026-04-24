@@ -56,14 +56,12 @@ export default function Post(
                     </svg>
                     <span></span>
                 </button>
-                <a href="${ROOT_DIR}/pages/post.html?postId=${postId}">
-                    <button class="js-comment button button--neutral">
-                        <svg>
-                            <use href="${ROOT_DIR}/assets/img/icons/icons.svg#comment"><use>
-                        </svg>
-                        <span></span>
-                    </button>
-                </a>
+                <button class="js-comment button button--neutral" data-action="comment-post">
+                    <svg>
+                        <use href="${ROOT_DIR}/assets/img/icons/icons.svg#comment"><use>
+                    </svg>
+                    <span></span>
+                </button>
             </div>
             <div class="js-trash">
                 <button class="button button--trash" data-action="delete-post">

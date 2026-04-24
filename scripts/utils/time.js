@@ -3,9 +3,10 @@ export function getTimeAgo(timestamp)
     const diff = (Date.now() - timestamp) / 1000;
     if(diff < 0)
         throw new Error("timestamp must be past time");
-
+    // console.log(Date.now());
+    // console.log(timestamp);
+    // console.log(diff);
     const rtf = new Intl.RelativeTimeFormat("en", {numeric: 'auto'});
-    console.log(diff)
     if(Math.floor(diff) === 0)
         return "now";
     else if(diff < 60)

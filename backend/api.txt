@@ -101,8 +101,23 @@ Response:
                 ] 
         ]
 }
+GET /api/users/{id} - get user by id
+Body: none
+Responce:
+{
+  "error": "",
+  "data": {
+    "message": "Getting user with id: 1 successful",
+    "user": {
+      "id": 1,
+      "username": "user123",
+      "email": "a@b.com",
+      "role": "admin"
+    }
+  }
+}
 
-GET /api/users/me - Show currently logged-in user
+GET /api/me - Show currently logged-in user
 Body: none
 Response:
 {

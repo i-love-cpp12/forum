@@ -40,15 +40,6 @@ CREATE TABLE `_like` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `_like`
---
-
-LOCK TABLES `_like` WRITE;
-/*!40000 ALTER TABLE `_like` DISABLE KEYS */;
-/*!40000 ALTER TABLE `_like` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `_user`
 --
 
@@ -71,15 +62,6 @@ CREATE TABLE `_user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `_user`
---
-
-LOCK TABLES `_user` WRITE;
-/*!40000 ALTER TABLE `_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `like_type`
 --
 
@@ -94,15 +76,6 @@ CREATE TABLE `like_type` (
   PRIMARY KEY (`like_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `like_type`
---
-
-LOCK TABLES `like_type` WRITE;
-/*!40000 ALTER TABLE `like_type` DISABLE KEYS */;
-/*!40000 ALTER TABLE `like_type` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `post`
@@ -130,14 +103,6 @@ CREATE TABLE `post` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `post`
---
-
-LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `post_category`
@@ -155,14 +120,6 @@ CREATE TABLE `post_category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `post_category`
---
-
-LOCK TABLES `post_category` WRITE;
-/*!40000 ALTER TABLE `post_category` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post_category` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `post_post_category`
@@ -181,17 +138,8 @@ CREATE TABLE `post_post_category` (
   PRIMARY KEY (`post_post_category_id`),
   CONSTRAINT `post_post_category_post` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`),
   CONSTRAINT `post_post_category_post_category` FOREIGN KEY (`post_category_id`) REFERENCES `post_category` (`post_category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `post_post_category`
---
-
-LOCK TABLES `post_post_category` WRITE;
-/*!40000 ALTER TABLE `post_post_category` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post_post_category` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user_role`
@@ -209,14 +157,6 @@ CREATE TABLE `user_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `user_role`
---
-
-LOCK TABLES `user_role` WRITE;
-/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user_token`
@@ -240,14 +180,6 @@ CREATE TABLE `user_token` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `user_token`
---
-
-LOCK TABLES `user_token` WRITE;
-/*!40000 ALTER TABLE `user_token` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_token` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

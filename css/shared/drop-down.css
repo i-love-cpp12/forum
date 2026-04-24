@@ -15,10 +15,14 @@
 {
     margin-right: 10px;
 }
+.drop-down-input > button svg
+{
+    fill: currentColor;
+    transition: transform 100ms ease-in-out;
+}
 .drop-down-input.expanded > button svg
 {
     transform: rotate(-90deg);
-    fill: currentColor;
 }
 .drop-down-input.expanded .options
 {
