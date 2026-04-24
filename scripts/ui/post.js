@@ -4,7 +4,6 @@ export function renderPosts(posts, container)
 {
     container.innerHTML = "";
     posts.forEach(post => {
-        console.log(post);
         container.appendChild(Post(post));
     });
 }

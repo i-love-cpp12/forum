@@ -1,5 +1,7 @@
 import { request } from "../api/request.js";
 
+const userCache = new Map();
+
 export function registerUser(data)
 {
     return request("users/register", {
@@ -8,12 +10,14 @@ export function registerUser(data)
     });
 }
 
-export function loginUser(data)
+export async function loginUser(data)
 {
-    return request("users/login", {
+    const token = await request("users/login", {
         method: "POST",
         body: JSON.stringify(data)
-    });
+    }).then(res => res.token);
+
+    return token;
 }
 
 export function logoutUser()
@@ -23,27 +27,24 @@ export function logoutUser()
     });
 }
 
-const userCache = new Map();
-
 export async function getUser(id)
 {
     if(userCache.has(id)) return userCache.get(id);
 
-    const res = await request(`users/${id}`);
-    const user = res.user;
+    const user = await request(`users/${id}`).then(res => res.user);
 
     userCache.set(id, user);
     return user;
 }
 
-export function getAllUsers()
+export async function getAllUsers()
 {
-    return request("users");
+    return request("users").then(res => res.users);
 }
 
-export function getMe()
+export async function getMe()
 {
-    return request("me");
+    return request("me").then(res => res.user);
 }
 
 export function updateUser(id, data)

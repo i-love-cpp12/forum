@@ -3,7 +3,6 @@ import { capitalize } from "../utils/strHelper.js";
 
 export default function Header(
     {
-        isLoggedIn,
         username,
         email
     } = props)
@@ -23,8 +22,8 @@ export default function Header(
                 <button class="button button--blue button--gray-active">Categories</button>
             </a>
         </nav>
-        <div class="right ${isLoggedIn ? "logged-in" : ""}">
-            ${isLoggedIn ? loggedTemplate(username, email) : unloggedTemplate()}
+        <div class="right">
+            ${username && email ? loggedTemplate(username, email) : unloggedTemplate()}
         </div>
     `;
     return header;

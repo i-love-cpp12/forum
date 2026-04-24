@@ -1,22 +1,111 @@
-// import setGlobalEvents from "../core/events.js"
-// import { getMe } from "../services/user.js";
-// setGlobalEvents();
-// // console.log(getMe());
 import setGlobalEvents from "../core/events.js";
-
 import { getToken } from "../auth/auth.js";
 import { getMe } from "../services/user.js";
 import { getPosts } from "../services/post.js";
-
+import { getCategories } from "../services/category.js";
 import { renderPosts } from "../ui/post.js";
+import DropDown from "../components/DropDown.js";
+import Header from "../components/Header.js";
+import { capitalize } from "../utils/strHelper.js";
 
-async function init() {
+let state =
+{
+    sort: "latest",
+    category: null,
+    search: null,
+    author: null
+}
+
+async function loadPosts(container)
+{
+    const params =
+    {
+        sort: state.sort
+    };
+
+    if(state.category)
+        params.category = state.category;
+
+    if(state.search)
+        params.search = state.search;
+
+    if(state.author)
+        params.author = state.author;
+
+    const data = await getPosts(params);
+
+    renderPosts(data, container);
+}
+async function loadFilters(postsContainer)
+{
+    const sortingElem = document.querySelector(".sorting");
+    const categoriesElem = document.querySelector(".categories");
+
+    sortingElem.replaceWith(
+        DropDown({
+            selectedOptionId: "latest",
+            options:
+            [
+                { id: "latest", value: "Latest" },
+                { id: "eldest", value: "Eldest" },
+                { id: "mostLiked", value: "Most liked" },
+                { id: "leastLiked", value: "Least liked" },
+                { id: "mostDisliked", value: "Most disliked" },
+                { id: "mostCommented", value: "Most commented" },
+                { id: "leastCommented", value: "Least commented" }
+            ],
+            onSelect: async (id) =>
+            {
+                state.sort = id;
+                await loadPosts(postsContainer);
+            }
+        })
+    );
+    const categories = await getCategories();
+    console.log(categories);
+
+    categoriesElem.replaceWith(
+        DropDown({
+            selectedOptionId: "all",
+            options:
+            [
+                { id:"all", value: "All categories"},
+                ...categories.map((category) => {
+                    return { id: category.name.toLowerCase(), value: capitalize(category.name)}
+                })
+            ],
+            onSelect: async (id) =>
+            {
+                if(id === "all")
+                {
+                    state.category = null;
+                }
+                else
+                {
+                    state.category = id;
+                }
+
+                await loadPosts(postsContainer);
+            }
+        })
+    );
+
+    document.querySelector(".filters .search input").addEventListener("input", async (e) => {
+        state.search = e.target.value;
+        await loadPosts(postsContainer);
+    })
+    document.querySelector(".filters .author-search input").addEventListener("input", async (e) => {
+        state.author = e.target.value;
+        await loadPosts(postsContainer);
+    })
+}
+async function init()
+{
     setGlobalEvents();
 
     const postsContainer = document.querySelector(".posts");
 
     let user = null;
-
     const token = getToken();
 
     if(token)
@@ -25,41 +114,30 @@ async function init() {
         {
             user = await getMe();
         }
-        catch(e) {
+        catch(e)
+        {
             console.warn("Invalid token or session expired");
         }
     }
 
     if(user)
     {
-        console.log("Logged as:", user.username);
-        document.body.classList.add("logged-in");
+        console.log(user);
+        document.body.classList.add("logged");
     }
     else
     {
         document.body.classList.add("guest");
     }
 
-    try
-    {
-        const data = await getPosts({
-            page: 1,
-            limit: 20,
-            sort: "latest"
-        });
-        console.log(data);
-        console.log("dsfsdf");
-        renderPosts(data, postsContainer);
-    }
-    catch(e)
-    {
-        console.error("Failed to load posts:", e);
-        postsContainer.innerHTML = `
-            <div class="error">
-                Failed to load posts.
-            </div>
-        `;
-    }
+    const header = document.querySelector("header");
+    header.replaceWith(Header({
+        username: user?.username,
+        email: user?.email
+    }));
+
+    await loadFilters(postsContainer);
+    await loadPosts(postsContainer);
 }
 
 init();

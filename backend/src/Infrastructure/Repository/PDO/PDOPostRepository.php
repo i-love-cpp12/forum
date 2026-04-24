@@ -182,28 +182,7 @@ class PDOPostRepository implements PostRepositoryInterface
                 $sql .= " AND pc.post_category_name LIKE :category";
                 $params["category"] = "%{$DTO->category}%";
             }
-
-            $sortMap = [
-                "latest" => " ORDER BY p.created_at DESC",
-                "eldest" => " ORDER BY p.created_at ASC",
-                "mostLiked" => " ORDER BY p.like_count DESC",
-                "leastLiked" => " ORDER BY p.like_count ASC",
-                "mostDisliked" => " ORDER BY p.dislike_count DESC",
-                "leastDisliked" => " ORDER BY p.dislike_count ASC",
-                "mostCommented" => " ORDER BY p.comment_count DESC",
-                "leastCommented" => " ORDER BY p.comment_count ASC"
-            ];
-
-            $sort = SortType::tryFrom($DTO->sort ?? '')?->value ?? 'latest';
-            $sql .= $sortMap[$sort];
-
-            if($DTO->limit !== null)
-            {
-                $limit = $DTO->limit;
-                $offset = ($DTO->page - 1) * $limit;
-
-                $sql .= " LIMIT $limit OFFSET $offset";
-            }
+            $sql .= ";";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($params);
@@ -236,6 +215,28 @@ class PDOPostRepository implements PostRepositoryInterface
                 LEFT JOIN post_category pc ON ppc.post_category_id = pc.post_category_id AND pc.deleted_at IS NULL
                 WHERE p.post_id IN ($in)
             ";
+            $sortMap = [
+                "latest" => " ORDER BY p.created_at DESC",
+                "eldest" => " ORDER BY p.created_at ASC",
+                "mostLiked" => " ORDER BY p.like_count DESC",
+                "leastLiked" => " ORDER BY p.like_count ASC",
+                "mostDisliked" => " ORDER BY p.dislike_count DESC",
+                "leastDisliked" => " ORDER BY p.dislike_count ASC",
+                "mostCommented" => " ORDER BY p.comment_count DESC",
+                "leastCommented" => " ORDER BY p.comment_count ASC"
+            ];
+
+            $sort = SortType::tryFrom($DTO->sort ?? '')?->value ?? 'latest';
+            $sql2 .= $sortMap[$sort];
+
+            if($DTO->limit !== null)
+            {
+                $limit = $DTO->limit;
+                $offset = ($DTO->page - 1) * $limit;
+
+                $sql2 .= " LIMIT $limit OFFSET $offset";
+            }
+            $sql2 .= ";";
 
             $stmt = $this->conn->prepare($sql2);
             $stmt->execute($ids);

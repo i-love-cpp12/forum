@@ -44,19 +44,23 @@ header .right > div
     gap: 10px;
     height: 100%;
 }
-header .right > .logged
+
+body.guest header .right > .logged
 {
     display: none;
 }
-header .right > .unlogged
+
+body.guest header .right > .unlogged
 {
     display: block;
 }
-header .right.logged-in > .logged
+
+body.logged header .right > .logged
 {
     display: flex;
 }
-header .right.logged-in > .unlogged
+
+body.logged header .right > .unlogged
 {
     display: none;
 }

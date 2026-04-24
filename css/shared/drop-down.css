@@ -2,14 +2,16 @@
 {
     position: relative;
     transition: all 200ms ease-in-out;
+    width: fit-content;
+    min-width: 200px;
 }
 .drop-down-input > button
 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-width: 160px;
     padding-right: 0;
+    width: 100%;
 }
 .drop-down-input > button span
 {
@@ -35,7 +37,8 @@
     position: absolute;
     z-index: 50;
     top: calc(100% + 5px);
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
     height: fit-content;
     padding: 7px;
     
@@ -49,11 +52,17 @@
     align-items: center;
     justify-content: space-between;
     padding-inline: 10px;
+    gap: 10px;
+    flex-shrink: 0;
     height: 35px;
     border: none;
     border-radius: 7px;
     background-color: transparent;
     transition: all 100ms ease-in-out;
+}
+.drop-down-input .options > button span
+{
+    text-wrap: nowrap;
 }
 .drop-down-input .options > button:hover
 {
@@ -61,10 +70,11 @@
 }
 .drop-down-input .options > button svg
 {
-    display: none;
+    opacity: 0;
     fill: currentColor;
 }
 .drop-down-input .options > button.checked svg
 {
-    display: block;
+    opacity: 1;
 }
+ 
