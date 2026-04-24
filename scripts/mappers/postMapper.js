@@ -1,6 +1,5 @@
 export function mapPost(post, user, me, likeStatus)
 {
-    console.log("me", me);
     return {
         postId: post.id,
         username: user.username,

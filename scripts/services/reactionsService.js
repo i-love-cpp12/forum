@@ -1,9 +1,12 @@
 import { request } from "../api/request.js";
+import { getMeContext } from "../auth/authContext.js";
 
 export async function getPostLikeState(postId)
 {
-    return request(`posts/${postId}/like`)
-        .then(res =>  res.like);
+    if(getMeContext())
+        return request(`posts/${postId}/like`)
+            .then(res =>  res.like);
+    return {like: false, dislike: false};
 }
 
 export function likePost(postId)

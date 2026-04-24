@@ -3,7 +3,7 @@ import { mapPost, mapPosts } from "../mappers/postMapper.js";
 import { getUser } from "./userService.js";
 import { getPostLikeState } from "./reactionsService.js"
 
-export async function getPosts(params = {}, me)
+export async function getPosts(params = {}, me = null)
 {
     const query = new URLSearchParams(params).toString();
 
