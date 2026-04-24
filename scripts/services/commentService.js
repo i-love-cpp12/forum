@@ -1,8 +1,9 @@
 import { request } from "../api/request.js";
 
-export function getComments(postId)
+export async function getComments(postId)
 {
-    return request(`posts/${postId}/comments`);
+    return request(`posts/${postId}/comments`)
+        .then(res => res.comments);
 }
 
 export function addComment(postId, content)
@@ -20,7 +21,9 @@ export function updateComment(id, content)
 {
     return request(`comments/${id}`, {
         method: "PUT",
-        body: JSON.stringify({ content })
+        body: JSON.stringify({
+            content
+        })
     });
 }
 

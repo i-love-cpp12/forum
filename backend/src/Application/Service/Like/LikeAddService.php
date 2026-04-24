@@ -39,6 +39,7 @@ class LikeAddService
             throw new InvalidArgumentException("Post type $DTO->postType is not valid");
 
         $like = $this->likeRepo->getLike($DTO->userId, $DTO->postId);
+        $oldLikeType = $like->type ?? null;
         $likeId = null;
 
         if($like !== null)
@@ -63,6 +64,8 @@ class LikeAddService
         {
             $this->likeRepo->saveLike($like);
             $this->postRepo->likePost($DTO->postId, $like->type);
+            if($oldLikeType !== null)
+                $this->postRepo->deleteLike($DTO->postId, $oldLikeType);
             $this->conn->commit();
         }
         catch(Throwable $e)

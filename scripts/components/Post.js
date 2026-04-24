@@ -89,7 +89,7 @@ export default function Post(
     if(likeStatus.like)
     {
         likeElem.classList.add("active");
-        likeElem.querySelector("svg use").setAttribute("href", `${ROOT_DIR}/assets/img/icons/icons.svg#thumb_down_filled`);
+        likeElem.querySelector("svg use").setAttribute("href", `${ROOT_DIR}/assets/img/icons/icons.svg#thumb_up_filled`);
     }
     likeElem.querySelector("span").textContent = reactionsCount.likeCount;
 

@@ -1,12 +1,13 @@
 import setGlobalEvents from "../core/events.js";
 import { getToken } from "../auth/auth.js";
-import { getMe } from "../services/user.js";
-import { getPosts } from "../services/post.js";
-import { getCategories } from "../services/category.js";
-import { renderPosts } from "../ui/post.js";
+import { getMe } from "../services/userService.js";
+import { getPosts } from "../services/postService.js";
+import { getCategories } from "../services/categoryService.js";
+import { renderPosts } from "../ui/postUI.js";
 import DropDown from "../components/DropDown.js";
 import Header from "../components/Header.js";
 import { capitalize } from "../utils/strHelper.js";
+import { setMe } from "../auth/authContext.js";
 
 let state =
 {
@@ -15,6 +16,8 @@ let state =
     search: null,
     author: null
 }
+
+let me = null;
 
 async function loadPosts(container)
 {
@@ -32,10 +35,11 @@ async function loadPosts(container)
     if(state.author)
         params.author = state.author;
 
-    const data = await getPosts(params);
+    const data = await getPosts(params, me);
 
     renderPosts(data, container);
 }
+
 async function loadFilters(postsContainer)
 {
     const sortingElem = document.querySelector(".sorting");
@@ -61,8 +65,8 @@ async function loadFilters(postsContainer)
             }
         })
     );
+
     const categories = await getCategories();
-    console.log(categories);
 
     categoriesElem.replaceWith(
         DropDown({
@@ -71,19 +75,15 @@ async function loadFilters(postsContainer)
             [
                 { id:"all", value: "All categories"},
                 ...categories.map((category) => {
-                    return { id: category.name.toLowerCase(), value: capitalize(category.name)}
+                    return { id: category.name.toLowerCase(), value: capitalize(category.name) }
                 })
             ],
             onSelect: async (id) =>
             {
                 if(id === "all")
-                {
                     state.category = null;
-                }
                 else
-                {
                     state.category = id;
-                }
 
                 await loadPosts(postsContainer);
             }
@@ -93,12 +93,14 @@ async function loadFilters(postsContainer)
     document.querySelector(".filters .search input").addEventListener("input", async (e) => {
         state.search = e.target.value;
         await loadPosts(postsContainer);
-    })
+    });
+
     document.querySelector(".filters .author-search input").addEventListener("input", async (e) => {
         state.author = e.target.value;
         await loadPosts(postsContainer);
-    })
+    });
 }
+
 async function init()
 {
     setGlobalEvents();
@@ -120,15 +122,13 @@ async function init()
         }
     }
 
+    me = user;
+    setMe(user);
+
     if(user)
-    {
-        console.log(user);
         document.body.classList.add("logged");
-    }
     else
-    {
         document.body.classList.add("guest");
-    }
 
     const header = document.querySelector("header");
     header.replaceWith(Header({

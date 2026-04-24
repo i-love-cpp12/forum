@@ -1,8 +1,9 @@
 import { request } from "../api/request.js";
 
-export function getPostLikeState(postId)
+export async function getPostLikeState(postId)
 {
-    return request(`posts/${postId}/like`);
+    return request(`posts/${postId}/like`)
+        .then(res =>  res.like);
 }
 
 export function likePost(postId)
