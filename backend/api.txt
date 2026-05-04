@@ -41,7 +41,7 @@ Response:
         ]
 }
 
-POST /api/users/logout - Logout
+POST /api/logout - Logout
 Body: none
 Response:
 {

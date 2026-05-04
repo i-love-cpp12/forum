@@ -4,7 +4,7 @@ const userCache = new Map();
 
 export function registerUser(data)
 {
-    return request("users/register", {
+    return request("register", {
         method: "POST",
         body: JSON.stringify(data)
     });
@@ -12,7 +12,7 @@ export function registerUser(data)
 
 export async function loginUser(data)
 {
-    const token = await request("users/login", {
+    const token = await request("login", {
         method: "POST",
         body: JSON.stringify(data)
     }).then(res => res.token);
@@ -22,7 +22,8 @@ export async function loginUser(data)
 
 export function logoutUser()
 {
-    return request("users/logout", {
+    console.log("pending ...");
+    return request("logout", {
         method: "POST"
     });
 }

@@ -1,5 +1,6 @@
 import { getPost, deletePost } from "../services/postService.js";
 import { updatePost } from "../ui/postUI.js";
+import { updateHeader } from "../ui/headerUI.js";
 import {
     likePost,
     dislikePost,
@@ -7,7 +8,8 @@ import {
     removeDislike,
     getPostLikeState
 } from "../services/reactionsService.js";
-import { getToken } from "../auth/auth.js";
+import { logoutUser } from "../services/userService.js";
+import { getToken, logout } from "../auth/auth.js";
 import { getMeContext } from "../auth/authContext.js";
 
 export const actions = {
@@ -77,6 +79,18 @@ export const actions = {
         await deletePost(postId);
 
         getPostElem(actionElem).remove();
+    },
+
+    "logout": async (e, actionElem) => {
+        if(!getToken())
+        {
+            console.warn("User is not logged");
+            return;
+        }
+
+        await logoutUser();
+        logout();
+        document.location.reload();
     }
 };
 

@@ -389,8 +389,7 @@ class PDOPostRepository implements PostRepositoryInterface
             $stmt->execute(["id" => $id]);
             $ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-            if(empty($ids))
-            {
+            if (empty($ids)) {
                 $this->conn->commit();
                 return;
             }
@@ -421,9 +420,26 @@ class PDOPostRepository implements PostRepositoryInterface
             ");
             $stmt->execute($ids);
 
+            $stmt = $this->conn->prepare("
+                UPDATE post
+                SET comment_count = (
+                    SELECT COUNT(*)
+                    FROM post p2
+                    WHERE p2.parent_post_id = post.post_id
+                    AND p2.deleted_at IS NULL
+                )
+                WHERE post_id IN (
+                    SELECT DISTINCT parent_post_id
+                    FROM post
+                    WHERE post_id IN ($in)
+                    AND parent_post_id IS NOT NULL
+                )
+            ");
+            $stmt->execute($ids);
+
             $this->conn->commit();
         }
-        catch(Throwable $e)
+        catch (Throwable $e)
         {
             $this->conn->rollBack();
             throw $e;

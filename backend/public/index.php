@@ -48,6 +48,7 @@ use src\Shared\Exception\ExceptionHandler;
 $request = new Request();
 
 $router = new Router();
+$connection = null;
 try
 {
     $connection = DBConnection::getConnection();
@@ -83,7 +84,7 @@ $postGetCommentsService = new PostGetCommentsService($postRepository);
 
 $likeStatusService = new LikeStatusService($likeRepository, $postRepository, $userRepository);
 $likeAddService = new LikeAddService($connection, $likeRepository, $postRepository, $userRepository);
-$likeDeleteService = new LikeDeleteService($connection, $likeRepository, $postRepository, $userRepository);
+$likeDeleteService = new LikeDeleteService($connection, $likeRepository, $postRepository);
 
 $categoryGetAllService = new CategoryGetAllService($categoryRepository);
 $categoryCreateService = new CategoryCreateService($categoryRepository);
