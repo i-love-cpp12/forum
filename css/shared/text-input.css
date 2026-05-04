@@ -16,7 +16,6 @@ input[type="password"],
 .text-input.error
 {
     outline: 1px solid var(--red-color);
-    color: var(--red-color);
 }
 
 input[type="text"]::placeholder,

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="../css/shared/form.css">
 
 </head>
-<body>
+<body class="guest">
     <header>
         <div class="logo">
             <img src="../assets/img/icons/favicon/favicon.png" alt="logo">
@@ -62,20 +62,20 @@
                 </div>
                 <div class="big">Welcome back</div>
                 <div class="small">Log in into your Forum romanum account.</div>
-                <form class="form">
-                    <div class="form-field">
+                <form class="form" data-action="login">
+                    <div class="js-form-field form-field">
                         <label>
                             <div>Email</div>
                             <input type="email" class="text-input" placeholder="Type your email">
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="form-field">
+                    <div class="js-form-field form-field">
                         <label>
                             <div>Password</div>
-                            <input type="password" class="text-input error" placeholder="Type your password">
+                            <input type="password" class="text-input" placeholder="Type your password">
                         </label>
-                        <div class="error">Password not valid</div>
+                        <div class="error"></div>
                     </div>
                     <div>
                         <button type="submit" class="button button--white-inverse border">
@@ -89,5 +89,6 @@
             </div>
         </div>
     </main>
+    <script src="../scripts/pages/login.js" type="module"></script>
 </body>
 </html>

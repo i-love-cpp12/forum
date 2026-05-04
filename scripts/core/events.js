@@ -3,7 +3,7 @@ import { actions } from "./actions.js"
 export default function setGlobalEvents()
 {
     document.addEventListener("click", (e) => {
-        const actionElem = e.target.closest("[data-action]");
+        const actionElem = e.target.closest("button[data-action]");
         if (!actionElem) return;
         const action = actionElem.dataset.action;
     

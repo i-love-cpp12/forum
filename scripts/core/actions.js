@@ -1,6 +1,5 @@
 import { getPost, deletePost } from "../services/postService.js";
 import { updatePost } from "../ui/postUI.js";
-import { updateHeader } from "../ui/headerUI.js";
 import {
     likePost,
     dislikePost,
@@ -8,9 +7,9 @@ import {
     removeDislike,
     getPostLikeState
 } from "../services/reactionsService.js";
-import { logoutUser } from "../services/userService.js";
-import { getToken, logout } from "../auth/auth.js";
-import { getMeContext } from "../auth/authContext.js";
+import { logoutUser, loginUser } from "../services/userService.js";
+import { getToken, setToken, logout } from "../auth/auth.js";
+import { getMeContext, setMe } from "../auth/authContext.js";
 
 export const actions = {
     "like-post": async (e, actionElem) => {
@@ -91,6 +90,33 @@ export const actions = {
         await logoutUser();
         logout();
         document.location.reload();
+    },
+
+    "login": async (e) => {
+        const form = e.target;
+
+        const email = form.querySelector('.js-form-field input[type="email"]')?.value;
+        const password = form.querySelector('.js-form-field input[type="password"]')?.value;
+
+        console.log(email, password);
+        try
+        {
+            const token = (await loginUser({ email, password })).value;
+            console.log(token);
+            setToken(token);
+
+            const user = await getMeContext();
+            setMe(user);
+
+            location.href = "../index.html";
+        }
+        catch
+        {
+            form.querySelectorAll(".js-form-field .error")
+                .forEach(errorElem => errorElem.textContent = "Invalid email or password");
+            form.querySelectorAll(".js-form-field input")
+                .forEach(inputElem => inputElem.classList.add("error"));
+        }
     }
 };
 
