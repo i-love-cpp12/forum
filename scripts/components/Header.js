@@ -10,7 +10,7 @@ export default function Header(
     const header = document.createElement("header");
     header.innerHTML =
     `
-        <div class="logo">
+        <div class="logo" translate="no">
             <img src="${ROOT_DIR}/assets/img/icons/favicon/favicon.png" alt="logo">
             <span>Forum romanum</span>
         </div>
