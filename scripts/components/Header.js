@@ -26,6 +26,7 @@ export default function Header(
             ${username && email ? loggedTemplate(username, email) : unloggedTemplate()}
         </div>
     `;
+    bindHeaderEvents(header);
     return header;
 }
 
@@ -54,11 +55,11 @@ function loggedTemplate(username, email)
                     <span>New post</span>
                 </button>
             </a>
-            <div class="profile">
-                <button class="button profile-picture" translate="no">
+            <div class="js-profile profile">
+                <button class="button profile-picture" data-action="toggle-expand" translate="no">
                     ${username.substring(0, 2).toUpperCase()}
                 </button>
-                <div class="profile-options tile-container grid expanded">
+                <div class="js-profile-options profile-options tile-container grid">
                     <div class="profile-info profile-options-group" translate="no">
                         <span class="username">${capitalize(username)}</span>
                         <span class="email">${email.toLowerCase()}</span>
@@ -93,4 +94,16 @@ function loggedTemplate(username, email)
             </div>
         </div>
     `;
+}
+
+function bindHeaderEvents(headerElem)
+{
+    headerElem.addEventListener("click", (e) => {
+        const actionElem = e.target.closest("button[data-action='toggle-expand']");
+        if(!actionElem)
+            return;
+        const profileOptionsElem = actionElem.closest(".js-profile").querySelector(".js-profile-options");
+
+        profileOptionsElem.classList.toggle("expanded");
+    });
 }

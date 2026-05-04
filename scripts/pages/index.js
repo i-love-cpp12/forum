@@ -1,13 +1,8 @@
-import setGlobalEvents from "../core/events.js";
-import { getToken } from "../auth/auth.js";
-import { getMe } from "../services/userService.js";
 import { getPosts } from "../services/postService.js";
 import { getCategories } from "../services/categoryService.js";
 import { renderPosts } from "../ui/postUI.js";
 import DropDown from "../components/DropDown.js";
-import Header from "../components/Header.js";
 import { capitalize } from "../utils/strHelper.js";
-import { setMe } from "../auth/authContext.js";
 import { me } from "./init.js";
 
 let state =
