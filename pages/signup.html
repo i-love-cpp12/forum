@@ -62,27 +62,27 @@
                 </div>
                 <div class="big">Create your account</div>
                 <div class="small">Join the conversation in seconds.</div>
-                <form class="form">
-                    <div class="form-field">
+                <form class="form" data-action="signup">
+                    <div class="js-form-field form-field">
                         <label>
                             <div>Username</div>
                             <input type="text" class="text-input" placeholder="Type your username">
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="form-field">
+                    <div class="js-form-field form-field">
                         <label>
                             <div>Email</div>
                             <input type="email" class="text-input" placeholder="Type your email">
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="form-field">
+                    <div class="js-form-field form-field">
                         <label>
                             <div class="filed-name">Password</div>
-                            <input type="password" class="text-input error" placeholder="Type your password">
+                            <input type="password" class="text-input" placeholder="Type your password">
                         </label>
-                        <div class="error">Password not valid</div>
+                        <div class="error"></div>
                     </div>
                     <div>
                         <button type="submit" class="button button--white-inverse border">
@@ -96,5 +96,6 @@
             </div>
         </div>
     </main>
+    <script src="../scripts/pages/init.js" type="module"></script>
 </body>
 </html>

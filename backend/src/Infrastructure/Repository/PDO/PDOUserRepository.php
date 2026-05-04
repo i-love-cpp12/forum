@@ -75,6 +75,64 @@ class PDOUserRepository implements UserRepositoryInterface
         return new User($data["user_id"], $data["username"], $data["email"], $data["password_hash"], UserRole::from($data["user_role_id"] - 1), $data["created_at"]);
     }
 
+    // public function deleteUser(int $id): void
+    // {
+    //     $this->conn->beginTransaction();
+
+    //     try
+    //     {
+    //         $stmt = $this->conn->prepare("
+    //             WITH RECURSIVE post_tree AS (
+    //                 SELECT post_id
+    //                 FROM post
+    //                 WHERE user_id = :id AND deleted_at IS NULL
+
+    //                 UNION ALL
+
+    //                 SELECT p.post_id
+    //                 FROM post p
+    //                 INNER JOIN post_tree pt ON p.parent_post_id = pt.post_id
+    //                 WHERE p.deleted_at IS NULL
+    //             )
+    //             UPDATE post
+    //             SET deleted_at = NOW()
+    //             WHERE post_id IN (SELECT post_id FROM post_tree)
+    //         ");
+    //         $stmt->execute(["id" => $id]);
+
+    //         // like
+    //         $stmt = $this->conn->prepare("
+    //             UPDATE _like 
+    //             SET deleted_at = NOW() 
+    //             WHERE user_id = :id AND deleted_at IS NULL
+    //         ");
+    //         $stmt->execute(["id" => $id]);
+
+    //         // token
+    //         $stmt = $this->conn->prepare("
+    //             UPDATE user_token 
+    //             SET is_active = 0 
+    //             WHERE user_id = :id
+    //         ");
+    //         $stmt->execute(["id" => $id]);
+
+    //         // user
+    //         $stmt = $this->conn->prepare("
+    //             UPDATE _user 
+    //             SET deleted_at = NOW() 
+    //             WHERE user_id = :id AND deleted_at IS NULL
+    //         ");
+    //         $stmt->execute(["id" => $id]);
+
+    //         $this->conn->commit();
+    //     }
+    //     catch (Throwable $e)
+    //     {
+    //         $this->conn->rollBack();
+    //         throw $e;
+    //     }
+    // }
+
     public function deleteUser(int $id): void
     {
         $this->conn->beginTransaction();
@@ -82,47 +140,49 @@ class PDOUserRepository implements UserRepositoryInterface
         try
         {
             $stmt = $this->conn->prepare("
-                WITH RECURSIVE post_tree AS (
-                    SELECT post_id
-                    FROM post
-                    WHERE user_id = :id AND deleted_at IS NULL
-
-                    UNION ALL
-
-                    SELECT p.post_id
-                    FROM post p
-                    INNER JOIN post_tree pt ON p.parent_post_id = pt.post_id
-                    WHERE p.deleted_at IS NULL
-                )
-                UPDATE post
-                SET deleted_at = NOW()
-                WHERE post_id IN (SELECT post_id FROM post_tree)
+                CREATE TEMPORARY TABLE tmp_posts AS
+                SELECT post_id FROM post WHERE user_id = :id AND deleted_at IS NULL
             ");
             $stmt->execute(["id" => $id]);
 
-            // like
             $stmt = $this->conn->prepare("
-                UPDATE _like 
-                SET deleted_at = NOW() 
+                INSERT INTO tmp_posts (post_id)
+                SELECT p.post_id
+                FROM post p
+                INNER JOIN tmp_posts t ON p.parent_post_id = t.post_id
+                WHERE p.deleted_at IS NULL
+            ");
+            $stmt->execute();
+
+            $stmt = $this->conn->prepare("
+                UPDATE post
+                SET deleted_at = NOW()
+                WHERE post_id IN (SELECT post_id FROM tmp_posts)
+            ");
+            $stmt->execute();
+
+            $stmt = $this->conn->prepare("
+                UPDATE _like
+                SET deleted_at = NOW()
                 WHERE user_id = :id AND deleted_at IS NULL
             ");
             $stmt->execute(["id" => $id]);
 
-            // token
             $stmt = $this->conn->prepare("
-                UPDATE user_token 
-                SET is_active = 0 
+                UPDATE user_token
+                SET is_active = 0
                 WHERE user_id = :id
             ");
             $stmt->execute(["id" => $id]);
 
-            // user
             $stmt = $this->conn->prepare("
-                UPDATE _user 
-                SET deleted_at = NOW() 
+                UPDATE _user
+                SET deleted_at = NOW()
                 WHERE user_id = :id AND deleted_at IS NULL
             ");
             $stmt->execute(["id" => $id]);
+
+            $this->conn->exec("DROP TEMPORARY TABLE IF EXISTS tmp_posts");
 
             $this->conn->commit();
         }

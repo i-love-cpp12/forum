@@ -8,6 +8,7 @@ import DropDown from "../components/DropDown.js";
 import Header from "../components/Header.js";
 import { capitalize } from "../utils/strHelper.js";
 import { setMe } from "../auth/authContext.js";
+import { me } from "./init.js";
 
 let state =
 {
@@ -17,7 +18,6 @@ let state =
     author: null
 }
 
-let me = null;
 
 async function loadPosts(container)
 {
@@ -103,38 +103,7 @@ async function loadFilters(postsContainer)
 
 async function init()
 {
-    setGlobalEvents();
-
     const postsContainer = document.querySelector(".posts");
-
-    let user = null;
-    const token = getToken();
-
-    if(token)
-    {
-        try
-        {
-            user = await getMe();
-        }
-        catch(e)
-        {
-            console.warn("Invalid token or session expired");
-        }
-    }
-
-    me = user;
-    setMe(user);
-
-    if(user)
-        document.body.classList.add("logged");
-    else
-        document.body.classList.add("guest");
-
-    const header = document.querySelector("header");
-    header.replaceWith(Header({
-        username: user?.username,
-        email: user?.email
-    }));
 
     await loadFilters(postsContainer);
     await loadPosts(postsContainer);

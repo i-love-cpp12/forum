@@ -7,7 +7,7 @@ import {
     removeDislike,
     getPostLikeState
 } from "../services/reactionsService.js";
-import { logoutUser, loginUser } from "../services/userService.js";
+import { logoutUser, loginUser, registerUser } from "../services/userService.js";
 import { getToken, setToken, logout } from "../auth/auth.js";
 import { getMeContext, setMe } from "../auth/authContext.js";
 
@@ -114,6 +114,29 @@ export const actions = {
         {
             form.querySelectorAll(".js-form-field .error")
                 .forEach(errorElem => errorElem.textContent = "Invalid email or password");
+            form.querySelectorAll(".js-form-field input")
+                .forEach(inputElem => inputElem.classList.add("error"));
+        }
+    },
+
+    "signup": async (e) => {
+        const form = e.target;
+
+        const username = form.querySelector('.js-form-field input[type="text"]')?.value;
+        const email = form.querySelector('.js-form-field input[type="email"]')?.value;
+        const password = form.querySelector('.js-form-field input[type="password"]')?.value;
+
+        console.log(email, password, username);
+        try
+        {
+            await registerUser({ username, email, password});
+
+            location.href = "./login.html";
+        }
+        catch
+        {
+            form.querySelectorAll(".js-form-field .error")
+                .forEach(errorElem => errorElem.textContent = "Something went wrong");
             form.querySelectorAll(".js-form-field input")
                 .forEach(inputElem => inputElem.classList.add("error"));
         }
