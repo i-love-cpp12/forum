@@ -309,6 +309,61 @@ class PDOPostRepository implements PostRepositoryInterface
 
         return $post;
     }
+    // public function deletePost(int $id): void
+    // {
+    //     $this->conn->beginTransaction();
+
+    //     try
+    //     {
+    //         $stmt = $this->conn->prepare("
+    //             WITH RECURSIVE post_tree AS (
+    //                 SELECT post_id
+    //                 FROM post
+    //                 WHERE post_id = :id AND deleted_at IS NULL
+
+    //                 UNION ALL
+
+    //                 SELECT p.post_id
+    //                 FROM post p
+    //                 INNER JOIN post_tree pt ON p.parent_post_id = pt.post_id
+    //                 WHERE p.deleted_at IS NULL
+    //             )
+    //             UPDATE post
+    //             SET deleted_at = NOW()
+    //             WHERE post_id IN (SELECT post_id FROM post_tree)
+    //         ");
+    //         $stmt->execute(["id" => $id]);
+
+    //         $stmt = $this->conn->prepare("
+    //             UPDATE _like
+    //             SET deleted_at = NOW()
+    //             WHERE post_id IN (
+    //                 SELECT post_id FROM post
+    //                 WHERE post_id = :id OR parent_post_id IS NOT NULL
+    //             )
+    //             AND deleted_at IS NULL
+    //         ");
+    //         $stmt->execute(["id" => $id]);
+
+    //         $stmt = $this->conn->prepare("
+    //             UPDATE post_post_category
+    //             SET deleted_at = NOW()
+    //             WHERE post_id IN (
+    //                 SELECT post_id FROM post
+    //                 WHERE post_id = :id OR parent_post_id IS NOT NULL
+    //             )
+    //             AND deleted_at IS NULL
+    //         ");
+    //         $stmt->execute(["id" => $id]);
+
+    //         $this->conn->commit();
+    //     }
+    //     catch (Throwable $e)
+    //     {
+    //         $this->conn->rollBack();
+    //         throw $e;
+    //     }
+    // }
     public function deletePost(int $id): void
     {
         $this->conn->beginTransaction();
@@ -328,37 +383,47 @@ class PDOPostRepository implements PostRepositoryInterface
                     INNER JOIN post_tree pt ON p.parent_post_id = pt.post_id
                     WHERE p.deleted_at IS NULL
                 )
+                SELECT post_id FROM post_tree
+            ");
+
+            $stmt->execute(["id" => $id]);
+            $ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+            if(empty($ids))
+            {
+                $this->conn->commit();
+                return;
+            }
+
+            $in = implode(',', array_fill(0, count($ids), '?'));
+
+            $stmt = $this->conn->prepare("
                 UPDATE post
                 SET deleted_at = NOW()
-                WHERE post_id IN (SELECT post_id FROM post_tree)
+                WHERE post_id IN ($in)
+                AND deleted_at IS NULL
             ");
-            $stmt->execute(["id" => $id]);
+            $stmt->execute($ids);
 
             $stmt = $this->conn->prepare("
                 UPDATE _like
                 SET deleted_at = NOW()
-                WHERE post_id IN (
-                    SELECT post_id FROM post
-                    WHERE post_id = :id OR parent_post_id IS NOT NULL
-                )
+                WHERE post_id IN ($in)
                 AND deleted_at IS NULL
             ");
-            $stmt->execute(["id" => $id]);
+            $stmt->execute($ids);
 
             $stmt = $this->conn->prepare("
                 UPDATE post_post_category
                 SET deleted_at = NOW()
-                WHERE post_id IN (
-                    SELECT post_id FROM post
-                    WHERE post_id = :id OR parent_post_id IS NOT NULL
-                )
+                WHERE post_id IN ($in)
                 AND deleted_at IS NULL
             ");
-            $stmt->execute(["id" => $id]);
+            $stmt->execute($ids);
 
             $this->conn->commit();
         }
-        catch (Throwable $e)
+        catch(Throwable $e)
         {
             $this->conn->rollBack();
             throw $e;

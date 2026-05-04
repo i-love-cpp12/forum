@@ -1,4 +1,4 @@
-import { getPost } from "../services/postService.js";
+import { getPost, deletePost } from "../services/postService.js";
 import { updatePost } from "../ui/postUI.js";
 import {
     likePost,
@@ -58,10 +58,33 @@ export const actions = {
         const updatedPost = await getPost(postId, getMeContext());
 
         updatePost(postId, updatedPost);
+    },
+
+    "delete-post": async (e, actionElem) => {
+        if(!getToken())
+        {
+            console.warn("User is not logged");
+            return;
+        }
+
+        const postId = getPostId(actionElem);
+        if(!(await getPost(postId, getMeContext())).isEditor)
+        {
+            console.warn("User is not authenticated");
+            return;
+        }
+
+        await deletePost(postId);
+
+        getPostElem(actionElem).remove();
     }
 };
 
 function getPostId(elem)
 {
     return elem.closest("[data-post-id]").dataset.postId;
+}
+function getPostElem(elem)
+{
+    return elem.closest("[data-post-id]");
 }
