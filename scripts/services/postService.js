@@ -2,9 +2,12 @@ import { request } from "../api/request.js";
 import { mapPost, mapPosts } from "../mappers/postMapper.js";
 import { getUser } from "./userService.js";
 import { getPostLikeState } from "./reactionsService.js"
+import { getMeContext } from "../auth/authContext.js";
 
-export async function getPosts(params = {}, me = null)
+export async function getPosts(params = {})
 {
+    const me = getMeContext();
+
     const query = new URLSearchParams(params).toString();
 
     const res = await request(`posts?${query}`);
@@ -33,8 +36,10 @@ export async function getPosts(params = {}, me = null)
     return mapPosts(posts, usersMap, me, likesMap);
 }
 
-export async function getPost(id, me = null)
+export async function getPost(id)
 {
+    const me = getMeContext();
+    
     const res = await request(`posts/${id}`);
     const post = res.post;
 

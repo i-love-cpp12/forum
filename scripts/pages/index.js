@@ -3,7 +3,11 @@ import { getCategories } from "../services/categoryService.js";
 import { renderPosts } from "../ui/postUI.js";
 import DropDown from "../components/DropDown.js";
 import { capitalize } from "../utils/strHelper.js";
-import { me } from "./init.js";
+import setGlobalEvents from "../core/events.js";
+import { getMe } from "../services/userService.js";
+import { getToken } from "../auth/auth.js";
+import { setMe } from "../auth/authContext.js";
+import Header from "../components/Header.js";
 
 let state =
 {
@@ -12,7 +16,6 @@ let state =
     search: null,
     author: null
 }
-
 
 async function loadPosts(container)
 {
@@ -30,7 +33,7 @@ async function loadPosts(container)
     if(state.author)
         params.author = state.author;
 
-    const data = await getPosts(params, me);
+    const data = await getPosts(params);
 
     renderPosts(data, container);
 }
@@ -98,8 +101,37 @@ async function loadFilters(postsContainer)
 
 async function init()
 {
-    const postsContainer = document.querySelector(".posts");
+    setGlobalEvents();
+    let user = null;
+    const token = getToken();
 
+    if(token)
+    {
+        try
+        {
+            user = await getMe();
+        }
+        catch(e)
+        {
+            console.warn("Invalid token or session expired");
+        }
+    }
+
+    if(user)
+        document.body.classList.add("logged");
+    else
+        document.body.classList.add("guest");
+
+    const header = document.querySelector("header");
+    header.replaceWith(Header({
+        username: user?.username,
+        email: user?.email
+    }));
+
+    setMe(user);
+
+    const postsContainer = document.querySelector(".posts");
+    
     await loadFilters(postsContainer);
     await loadPosts(postsContainer);
 }

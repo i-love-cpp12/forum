@@ -4,7 +4,6 @@ import { getToken } from "../auth/auth.js";
 import { setMe } from "../auth/authContext.js";
 import Header from "../components/Header.js";
 
-export let me = null;
 async function init()
 {
     setGlobalEvents();
@@ -23,19 +22,19 @@ async function init()
         }
     }
 
-    me = user;
-    setMe(user);
-
     if(user)
         document.body.classList.add("logged");
     else
         document.body.classList.add("guest");
 
+    setMe(user);
+    
     const header = document.querySelector("header");
     header.replaceWith(Header({
         username: user?.username,
         email: user?.email
     }));
+
 }
 
 init();
