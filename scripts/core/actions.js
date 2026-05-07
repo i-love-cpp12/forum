@@ -1,4 +1,4 @@
-import { getPost, deletePost } from "../services/postService.js";
+import { getPost, deletePost, createPost } from "../services/postService.js";
 import { updatePost } from "../ui/postUI.js";
 import {
     likePost,
@@ -10,6 +10,7 @@ import {
 import { logoutUser, loginUser, registerUser } from "../services/userService.js";
 import { getToken, setToken, logout } from "../auth/auth.js";
 import { getMeContext, setMe } from "../auth/authContext.js";
+import { ROOT_DIR } from "../config/config.js";
 
 export const actions = {
     "like-post": async (e, actionElem) => {
@@ -89,7 +90,7 @@ export const actions = {
 
         await logoutUser();
         logout();
-        document.location.reload();
+        location.href = `${ROOT_DIR}/index.html`;
     },
 
     "login": async (e) => {
@@ -108,13 +109,13 @@ export const actions = {
             const user = await getMeContext();
             setMe(user);
 
-            location.href = "../index.html";
+            location.href = `${ROOT_DIR}/index.html`;
         }
         catch
         {
             form.querySelectorAll(".js-form-field .error")
                 .forEach(errorElem => errorElem.textContent = "Invalid email or password");
-            form.querySelectorAll(".js-form-field input")
+            form.querySelectorAll(".js-form-field .text-input")
                 .forEach(inputElem => inputElem.classList.add("error"));
         }
     },
@@ -131,23 +132,52 @@ export const actions = {
         {
             await registerUser({ username, email, password});
 
-            location.href = "./login.html";
+            location.href = `${ROOT_DIR}/index.html`;
         }
         catch
         {
             form.querySelectorAll(".js-form-field .error")
                 .forEach(errorElem => errorElem.textContent = "Something went wrong");
-            form.querySelectorAll(".js-form-field input")
+            form.querySelectorAll(".js-form-field .text-input")
+                .forEach(inputElem => inputElem.classList.add("error"));
+        }
+    },
+
+    "add-new-post": async (e) => {
+        const form = e.target;
+        const title = form.querySelector('.js-title input')?.value;
+        const content = form.querySelector('.js-content textarea')?.value;
+        const categories = [...form.querySelectorAll('.js-form-field .js-categories > div')]
+            .reduce((acc, optionElem) => {
+                if(optionElem.querySelector("input[type='checkbox']").checked)
+                    acc.push(parseInt(optionElem.dataset.categoryId));
+
+                return acc;
+            }, []);
+
+        console.log(title, content, categories);
+        try
+        {
+            await createPost({ parentPostId: null, header: title, content, categories });
+
+            location.href = `${ROOT_DIR}/index.html`;
+        }
+        catch
+        {
+            form.querySelectorAll(".js-form-field .error")
+                .forEach(errorElem => errorElem.textContent = "Something went wrong");
+            form.querySelectorAll(".js-form-field .text-input")
                 .forEach(inputElem => inputElem.classList.add("error"));
         }
     }
 };
 
-function getPostId(elem)
-{
-    return elem.closest("[data-post-id]").dataset.postId;
-}
 function getPostElem(elem)
 {
     return elem.closest("[data-post-id]");
+}
+
+function getPostId(elem)
+{
+    return getPostElem(elem).dataset.postId;
 }

@@ -98,24 +98,24 @@
                 </a>
             </div>
             <div class="tile-container">
-                <form class="form">
-                    <div class="form-field">
+                <form class="form" data-action="add-new-post">
+                    <div class="js-form-field form-field js-title">
                         <label>
                             <div class="filed-name">Title</div>
                             <input type="text" class="text-input" placeholder="A clear specific title">
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="form-field">
+                    <div class="js-form-field form-field js-content">
                         <label>
                             <div class="filed-name">Content</div>
                             <textarea class="text-input" placeholder="Write your post..."></textarea>
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="form-field categories">
+                    <div class="js-form-field form-field categories">
                         <div>Cartegories</div>
-                        <div class="options">
+                        <div class="js-categories options">
                             <div class="checkbox-fill-button checkbox--fill-accent">
                                 <label>
                                     <input type="checkbox">
@@ -129,11 +129,14 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="error"></div>
                     </div>
                     <div class="form-options">
-                        <button type="submit" class="button button--back-button border">
-                            Cancel
-                        </button>
+                        <a href="../index.html">
+                            <button type="button" class="button button--back-button border">
+                                Cancel
+                            </button>
+                        </a>
                         <button type="submit" class="button button--white-inverse border">
                             Publish
                         </button>
@@ -142,5 +145,6 @@
             </div>
         </div>
     </main>
+    <script src="../scripts/pages/newPost.js" type="module"></script>
 </body>
 </html>

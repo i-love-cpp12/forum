@@ -4,10 +4,12 @@ import { capitalize } from "../utils/strHelper.js";
 export default function Header(
     {
         username,
-        email
+        email,
+        activePage
     } = props)
 {
     const header = document.createElement("header");
+    const activePageClasses = "active border";
     header.innerHTML =
     `
         <div class="logo" translate="no">
@@ -16,10 +18,10 @@ export default function Header(
         </div>
         <nav>
             <a href="${ROOT_DIR}/index.html">
-                <button class="button button--blue button--gray-active active border">Forum</button>
+                <button class="button button--blue button--gray-active ${activePage?.toLowerCase() === "forum" ? activePageClasses : ""}">Forum</button>
             </a>
             <a href="${ROOT_DIR}/pages/categories.html">
-                <button class="button button--blue button--gray-active">Categories</button>
+                <button class="button button--blue button--gray-active ${activePage?.toLowerCase() === "categories" ? activePageClasses : ""}">Categories</button>
             </a>
         </nav>
         <div class="right">

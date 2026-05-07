@@ -1,4 +1,5 @@
 import Category from "../components/Category.js";
+import NewPostCategory from "../components/NewPostCategories.js";
 
 export function renderCategories(container, categories)
 {
@@ -6,6 +7,15 @@ export function renderCategories(container, categories)
 
     categories.forEach(category => {
         container.appendChild(Category(category));
+    });
+}
+
+export function renderCategoriesNewPost(container, categories)
+{
+    container.innerHTML = "";
+    console.log(categories);
+    categories.forEach(category => {
+        container.appendChild(NewPostCategory(category));
     });
 }
 
