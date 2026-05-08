@@ -60,6 +60,9 @@ CREATE TABLE `_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+CREATE INDEX _user_email ON _user(email);
+CREATE INDEX _user_username ON _user(username);
+
 --
 -- Table structure for table `like_type`
 --

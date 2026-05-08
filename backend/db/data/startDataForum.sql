@@ -70,6 +70,10 @@ CREATE TABLE `_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+CREATE INDEX _user_email ON _user(email);
+CREATE INDEX _user_username ON _user(username);
+
 --
 -- Dumping data for table `_user`
 --
