@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - Categories</title>
+    <link rel="shortcut icon" href="../assets/img/icons/favicon/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../css/pages/categories.css">
+    <link rel="stylesheet" href="../css/shared/general.css">
+    <link rel="stylesheet" href="../css/shared/header.css">
+    <link rel="stylesheet" href="../css/shared/button.css">
+    <link rel="stylesheet" href="../css/shared/page.css">
+    <link rel="stylesheet" href="../css/shared/text-input.css">
+    <link rel="stylesheet" href="../css/shared/tile-container.css">
+    <link rel="stylesheet" href="../css/shared/logo.css">
+
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../assets/img/icons/favicon/favicon.png" alt="logo">
+            <span>Forum romanum</span>
+        </div>
+        <nav>
+            <a href="../index.html">
+                <button class="button button--blue button--gray-active">Forum</button>
+            </a>
+            <a href="categories.html">
+                <button class="button button--blue button--gray-active active border">Categories</button>
+            </a>
+        </nav>
+        <div class="right">
+            <div class="logged">
+                <a href="../pages/new-post.html">
+                    <button class="button button--white-inverse border new-post-btn">
+                        <svg>
+                            <use href="../assets/img/icons/icons.svg#edit_square"></use>
+                        </svg>
+                        <span>New post</span>
+                    </button>
+                </a>
+                <div class="profile">
+                    <button class="button profile-picture" translate="no">
+                        AD
+                    </button>
+                    <div class="profile-options tile-container grid expanded">
+                        <div class="profile-info profile-options-group" translate="no">
+                            <span class="username">Admin</span>
+                            <span class="email">oliwiermoskala2@gmail.com</span>
+                        </div>
+                        <div class="profile-options-group">
+                            <a href="../pages/profile.html">
+                                <button class="button button--blue">
+                                    <svg>
+                                        <use href="../assets/img/icons/icons.svg#profile"></use>
+                                    </svg>
+                                    <span>Profile</span>
+                                </button>
+                            </a>
+                            <a href="categories.html">
+                                <button class="button button--blue">
+                                    <svg>
+                                        <use href="../assets/img/icons/icons.svg#category"></use>
+                                    </svg>
+                                    <span>Categories</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="profile-options-group">
+                            <button class="button button--red">
+                                <svg>
+                                    <use href="../assets/img/icons/icons.svg#logout"></use>
+                                </svg>
+                                <span>Log out</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="unlogged">
+                <a href="../pages/login.html">
+                    <button class="button border button--hover-fill-blue">Log in</button>
+                </a>
+                <a href="../pages/signup.html">
+                    <button class="button border button--white-inverse">Sign up</button>
+                </a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="back-button">
+            <a href="../index.html">
+                <button class="button button--back-button">
+                    <svg>
+                        <use href="../assets/img/icons/icons.svg#arrow_back"></use>
+                    </svg>
+                    <span>Forum</span>
+                </button>
+            </a>
+        </div>
+        <div class="big">Categories</div>
+        <div class="js-subtitle small">Browse and change categories</div>
+        <form class="js-add-category add-category tile-container">
+            <input type="text" class="text-input" placeholder="New category name">
+            <button class="button button--white-inverse border">
+                <span>Add</span>
+                <svg>
+                    <use href="../assets/img/icons/icons.svg#add"></use>
+                </svg>
+            </button>
+        </form>
+        <div class="js-categories categories tile-container grid">
+            <div class="category">
+                <form class="form" data-action="edit-category">
+                    <input type="text" class="text-input" value="programing">
+                    <button class="button button--hover-fill-blue border" data-action="close-edit-category">
+                        <svg>
+                            <use href="../assets/img/icons/icons.svg#close"></use>
+                        </svg>
+                    </button>
+                    <button class="button button--white-inverse border" data-action="accept-edit-category">
+                        <svg>
+                            <use href="../assets/img/icons/icons.svg#check"></use>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            <div class="category">
+                <div class="title">catgeoriej ojdfo</div>
+                <div class="options">
+                    <button class="button button--blue">
+                        <svg>
+                            <use href="../assets/img/icons/icons.svg#edit"></use>
+                        </svg>
+                    </button>
+                    <button class="button button--trash">
+                        <svg>
+                            <use href="../assets/img/icons/icons.svg#delete"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- <script src="../scripts/tests/categoryComponentTest.js" type="module"></script> -->
+    <script src="../scripts/pages/categories.js" type="module"></script>
+</body>
+</html>

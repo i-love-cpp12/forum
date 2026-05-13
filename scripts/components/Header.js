@@ -67,7 +67,7 @@ function loggedTemplate(username, email)
                         <span class="email">${email.toLowerCase()}</span>
                     </div>
                     <div class="profile-options-group">
-                        <a href="pages/profile.html">
+                        <a href="${ROOT_DIR}/pages/profile.html">
                             <button class="button button--blue">
                                 <svg>
                                     <use href="${ROOT_DIR}/assets/img/icons/icons.svg#profile"></use>

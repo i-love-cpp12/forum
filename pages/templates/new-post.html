@@ -33,7 +33,55 @@
                 <button class="button button--blue button--gray-active">Categories</button>
             </a>
         </nav>
-        <div class="right"></div>
+        <div class="right">
+            <div class="logged">
+                <a href="../pages/new-post.html">
+                    <button class="button button--white-inverse border new-post-btn">
+                        <svg>
+                            <use href="../assets/img/icons/icons.svg#edit_square"></use>
+                        </svg>
+                        <span>New post</span>
+                    </button>
+                </a>
+                <div class="profile">
+                    <button class="button profile-picture" translate="no">
+                        AD
+                    </button>
+                    <div class="profile-options tile-container grid expanded">
+                        <div class="profile-info profile-options-group" translate="no">
+                            <span class="username">Admin</span>
+                            <span class="email">oliwiermoskala2@gmail.com</span>
+                        </div>
+                        <div class="profile-options-group">
+                            <a href="../pages/profile.html">
+                                <button class="button button--blue">
+                                    <svg>
+                                        <use href="../assets/img/icons/icons.svg#profile"></use>
+                                    </svg>
+                                    <span>Profile</span>
+                                </button>
+                            </a>
+                            <a href="pages/categories.html">
+                                <button class="button button--blue">
+                                    <svg>
+                                        <use href="../assets/img/icons/icons.svg#category"></use>
+                                    </svg>
+                                    <span>Categories</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="profile-options-group">
+                            <button class="button button--red">
+                                <svg>
+                                    <use href="../assets/img/icons/icons.svg#logout"></use>
+                                </svg>
+                                <span>Log out</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
     <main>
         <div class="new-post-tile">
@@ -67,7 +115,20 @@
                     </div>
                     <div class="js-form-field form-field categories">
                         <div>Cartegories</div>
-                        <div class="js-categories options"></div>
+                        <div class="js-categories options">
+                            <div class="checkbox-fill-button checkbox--fill-accent">
+                                <label>
+                                    <input type="checkbox">
+                                    <div class="label">programing</div>
+                                </label>
+                            </div>
+                            <div class="checkbox-fill-button checkbox--fill-accent">
+                                <label>
+                                    <input type="checkbox">
+                                    <div class="label">linux</div>
+                                </label>
+                            </div>
+                        </div>
                         <div class="error"></div>
                     </div>
                     <div class="form-options">

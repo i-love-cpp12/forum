@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - Categories</title>
+    <link rel="shortcut icon" href="../assets/img/icons/favicon/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../css/shared/general.css">
+    <link rel="stylesheet" href="../css/shared/header.css">
+    <link rel="stylesheet" href="../css/shared/button.css">
+    <link rel="stylesheet" href="../css/shared/page.css">
+    <link rel="stylesheet" href="../css/shared/text-input.css">
+    <link rel="stylesheet" href="../css/shared/tile-container.css">
+    <link rel="stylesheet" href="../css/shared/logo.css">
+    <link rel="stylesheet" href="../css/pages/profile.css">
+    <link rel="stylesheet" href="../css/shared/form.css">
+
+
+</head>
+<body class="logged">
+    <header>
+        <div class="logo">
+            <img src="../assets/img/icons/favicon/favicon.png" alt="logo">
+            <span>Forum romanum</span>
+        </div>
+        <nav>
+            <a href="../index.html">
+                <button class="button button--blue button--gray-active">Forum</button>
+            </a>
+            <a href="../pages/categories.html">
+                <button class="button button--blue button--gray-active">Categories</button>
+            </a>
+        </nav>
+        <div class="right">
+            <div class="logged">
+                <a href="../pages/new-post.html">
+                    <button class="button button--white-inverse border new-post-btn">
+                        <svg>
+                            <use href="../assets/img/icons/icons.svg#edit_square"></use>
+                        </svg>
+                        <span>New post</span>
+                    </button>
+                </a>
+                <div class="profile">
+                    <button class="button profile-picture" translate="no">
+                        AD
+                    </button>
+                    <div class="profile-options tile-container grid expanded">
+                        <div class="profile-info profile-options-group" translate="no">
+                            <span class="username">Admin</span>
+                            <span class="email">oliwiermoskala2@gmail.com</span>
+                        </div>
+                        <div class="profile-options-group">
+                            <a href="../pages/profile.html">
+                                <button class="button button--blue">
+                                    <svg>
+                                        <use href="../assets/img/icons/icons.svg#profile"></use>
+                                    </svg>
+                                    <span>Profile</span>
+                                </button>
+                            </a>
+                            <a href="pages/categories.html">
+                                <button class="button button--blue">
+                                    <svg>
+                                        <use href="../assets/img/icons/icons.svg#category"></use>
+                                    </svg>
+                                    <span>Categories</span>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="profile-options-group">
+                            <button class="button button--red">
+                                <svg>
+                                    <use href="../assets/img/icons/icons.svg#logout"></use>
+                                </svg>
+                                <span>Log out</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="profile-info-tile">
+            <div class="big">Your profile</div>
+            <div class="small">Manage your account</div>
+            <div class="back-button">
+                <a href="../index.html">
+                    <button class="button button--back-button">
+                        <svg>
+                            <use href="../assets/img/icons/icons.svg#arrow_back"></use>
+                        </svg>
+                        <span>Forum</span>
+                    </button>
+                </a>
+            </div>
+            <div class="tile-container">
+                <form class="form">
+                    <div class="form-field">
+                        <label>
+                            <div class="filed-name">Email</div>
+                            <input type="text" class="text-input" value="admin@gmail.com" disabled>
+                        </label>
+                        <div class="error"></div>
+                    </div>
+                    <div class="form-field">
+                        <label>
+                            <div class="filed-name">Username</div>
+                            <input type="text" class="text-input" value="admin">
+                        </label>
+                        <div class="error"></div>
+                    </div>
+                    <div class="form-field">
+                        <label>
+                            <div class="filed-name">New password</div>
+                            <input type="text" class="text-input" placeholder="Leave blank to keep current">
+                        </label>
+                        <div class="error"></div>
+                    </div>
+                    <div class="form-options">
+                        <button type="submit" class="button button--white-inverse border">
+                            Save changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="tile-container danger">
+                <div class="title">Danger zone</div>
+                <div class="small">Premanently delete your account and all your posts.</div>
+                <div class="danger-options">
+                    <button class="button button--red-inverse border">Delete account</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

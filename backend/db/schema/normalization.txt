@@ -1,1 +1,9 @@
-bla bla
+Zaczynam od prostej struktury bazy danych, gdzie wszystko jest zapisane w jednej tabeli. Są tam informacje o użytkownikach, postach, reakcjach, kategoriach i tokenach. Problemem jest to, że dane użytkownika i jego roli się powtarzają, co prowadzi do redundancji.
+
+Pierwszym krokiem jest uporządkowanie danych według reguły 1NF. Oznacza to, że każda kolumna powinna zawierać tylko pojedyncze wartości, a nie listy czy zbiory. Rozdzielam dane, aby uniknąć wielowartościowych pól. Kategorie, typy reakcji i inne elementy stają się osobnymi tabelami.
+
+Następnie przechodzę do 2NF. Tutaj eliminuję zależności częściowe od klucza głównego. Rozdzielam relacje wiele-do-wielu i tworzę osobne tabele dla ról użytkowników, typów reakcji i kategorii postów. Dzięki temu nie przechowuję już tekstowych wartości ról czy kategorii bezpośrednio w tabelach głównych.
+
+W trzecim kroku, czyli 3NF, usuwam zależności przechodnie. Oznacza to, że atrybuty niekluczowe nie powinny zależeć od innych atrybutów niekluczowych. Przykładem jest tabela użytkowników, gdzie rola jest przechowywana jako `user_role_id`, a jej nazwa znajduje się w osobnej tabeli.
+
+Na końcu dochodzę do BCNF. Tutaj każda zależność funkcyjna musi wynikać z klucza kandydującego. Wszystkie zależności w mojej bazie mają jako determinant klucz główny lub unikalny. Baza jest w pełni znormalizowana, bez redundancji i anomalii aktualizacji.

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum - Categories</title>
+    <title>Forum - Log in</title>
     <link rel="shortcut icon" href="../assets/img/icons/favicon/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="../css/pages/categories.css">
@@ -14,12 +14,11 @@
     <link rel="stylesheet" href="../css/shared/text-input.css">
     <link rel="stylesheet" href="../css/shared/tile-container.css">
     <link rel="stylesheet" href="../css/shared/logo.css">
-    <link rel="stylesheet" href="../css/pages/new-post.css">
+    <link rel="stylesheet" href="../css/shared/sign-user.css">
     <link rel="stylesheet" href="../css/shared/form.css">
-    <link rel="stylesheet" href="../css/shared/checkbox.css">
 
 </head>
-<body class="logged">
+<body class="guest">
     <header>
         <div class="logo">
             <img src="../assets/img/icons/favicon/favicon.png" alt="logo">
@@ -29,61 +28,67 @@
             <a href="../index.html">
                 <button class="button button--blue button--gray-active">Forum</button>
             </a>
-            <a href="../pages/categories.html">
+            <a href="categories.html">
                 <button class="button button--blue button--gray-active">Categories</button>
             </a>
         </nav>
-        <div class="right"></div>
+        <div class="right">
+            <div class="unlogged">
+                <a href="../pages/login.html">
+                    <button class="button border button--hover-fill-blue">Log in</button>
+                </a>
+                <a href="../pages/signup.html">
+                    <button class="button border button--white-inverse">Sign up</button>
+                </a>
+            </div>
+        </div>
     </header>
     <main>
-        <div class="new-post-tile">
-            <div class="big">New post</div>
-            <div class="small">Share something with the community.</div>
+        <div class="sign-user-tile">
             <div class="back-button">
                 <a href="../index.html">
                     <button class="button button--back-button">
                         <svg>
-                            <use href="../assets/img/icons/icons.svg#arrow_back"><use>
+                            <use href="../assets/img/icons/icons.svg#arrow_back"></use>
                         </svg>
                         <span>Forum</span>
                     </button>
                 </a>
             </div>
             <div class="tile-container">
-                <form class="form" data-action="add-new-post">
-                    <div class="js-form-field form-field js-title">
+                <div class="logo" translate="no">
+                    <img src="../assets/img/icons/favicon/favicon.png" alt="logo">
+                    <span>Forum romanum</span>
+                </div>
+                <div class="big">Welcome back</div>
+                <div class="small">Log in into your Forum romanum account.</div>
+                <form class="form" data-action="login">
+                    <div class="js-form-field form-field">
                         <label>
-                            <div class="filed-name">Title</div>
-                            <input type="text" class="text-input" placeholder="A clear specific title">
+                            <div>Email</div>
+                            <input type="email" class="text-input" placeholder="Type your email">
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="js-form-field form-field js-content">
+                    <div class="js-form-field form-field">
                         <label>
-                            <div class="filed-name">Content</div>
-                            <textarea class="text-input" placeholder="Write your post..."></textarea>
+                            <div>Password</div>
+                            <input type="password" class="text-input" placeholder="Type your password">
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="js-form-field form-field categories">
-                        <div>Cartegories</div>
-                        <div class="js-categories options"></div>
-                        <div class="error"></div>
-                    </div>
-                    <div class="form-options">
-                        <a href="../index.html">
-                            <button type="button" class="button button--back-button border">
-                                Cancel
-                            </button>
-                        </a>
+                    <div>
                         <button type="submit" class="button button--white-inverse border">
-                            Publish
+                            Log in
                         </button>
+                    </div>
+                    <div class="redirect">
+                        <span>No account? <a class="accent" href="signup.html">Sign in</a></span>
                     </div>
                 </form>
             </div>
         </div>
     </main>
-    <script src="../scripts/pages/newPost.js" type="module"></script>
+    <script src="../scripts/pages/signUser.js" type="module"></script>
 </body>
 </html>
