@@ -2,12 +2,11 @@ To prosta, nowoczesna aplikacja forum, gdzie ludzie mogą normalnie pogadać i w
 
 Startowe dane forum\backend\db\data\startDataForum.sql
 Erd forum\backend\db\schema\erd.png
+Opis normalizacji forum\backend\db\schema\normalization.txt
 API forum\backend\api.txt
 Statystyki forum\stats.png
 
-Aby uruchomic należy: rozpakować zip w folderze htdocs  -> nazwać folder forum o ile juz nie jest tak nazwany -> uruchomić xampp apache i mysql -> wejść w przeglądarce na http://localhost/forum/index.html -> *zalogować się
-
-Aby się zalogowac należy: f12 -> console -> wkleić: localStorage.setItem("token", "2a4a27b4685d2977cd45e9cc3fdea31d7430727f96f56828a227e3ad63f038ea") -> odświerzyć
+Aby uruchomic należy: rozpakować zip w folderze C:/xampp/htdocs  -> nazwać folder forum o ile juz nie jest tak nazwany -> uruchomić C:/xampp/xampp-control.exe a w nim uruchomić apache i mysql -> uruchomić cmd -> wykonać 'copy "C:/xampp/htdocs/forum/backend/db/data/startDataForum.sql" "C:/xampp/mysql/bin"' -> wykonać 'cd C:/xampp/mysql/bin' -> wykonać 'mysql -u root' -> wykonać 'CREATE DATABASE forum;' -> wykonać ctrl + c -> wykonać 'mysql -u root forum < startDataForum.sql' -> wejść w przeglądarce na http://localhost/forum/index.html
 
 github: https://github.com/i-love-cpp12/forum.git
 
