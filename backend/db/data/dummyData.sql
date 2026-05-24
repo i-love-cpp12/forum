@@ -4,8 +4,8 @@
 
 -- user roles
 INSERT INTO user_role (user_role_id, role_name) VALUES
-(1, 'admin'),
-(2, 'normal');
+(1, 'normal'),
+(2, 'admin');
 
 -- like types
 INSERT INTO like_type (like_type_id, like_type_name) VALUES
@@ -14,9 +14,9 @@ INSERT INTO like_type (like_type_id, like_type_name) VALUES
 
 -- users
 INSERT INTO _user (user_id, email, username, password_hash, user_role_id) VALUES
-(1, 'admin@forum.com', 'admin', '2a4a27b4685d2977cd45e9cc3fdea31d7430727f96f56828a227e3ad63f038ea', 1),
-(2, 'user1@forum.com', 'user1', '0a041b9462caa4a31bac3567e0b6e6fd9100787db2ab433d96f6d178cabfce90', 2),
-(3, 'user2@forum.com', 'user2', '9f3c7a1e5b8d4c2a6e7f0a1b2c3d4e5f6a7b8c9d0e1f2233445566778899abcd', 2);
+(1, 'admin@forum.com', 'admin', '2a4a27b4685d2977cd45e9cc3fdea31d7430727f96f56828a227e3ad63f038ea', 2),
+(2, 'user1@forum.com', 'user1', '0a041b9462caa4a31bac3567e0b6e6fd9100787db2ab433d96f6d178cabfce90', 1),
+(3, 'user2@forum.com', 'user2', '9f3c7a1e5b8d4c2a6e7f0a1b2c3d4e5f6a7b8c9d0e1f2233445566778899abcd', 1);
 
 -- categories
 INSERT INTO post_category (post_category_id, post_category_name) VALUES
