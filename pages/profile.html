@@ -32,55 +32,7 @@
                 <button class="button button--blue button--gray-active">Categories</button>
             </a>
         </nav>
-        <div class="right">
-            <div class="logged">
-                <a href="../pages/new-post.html">
-                    <button class="button button--white-inverse border new-post-btn">
-                        <svg>
-                            <use href="../assets/img/icons/icons.svg#edit_square"></use>
-                        </svg>
-                        <span>New post</span>
-                    </button>
-                </a>
-                <div class="profile">
-                    <button class="button profile-picture" translate="no">
-                        AD
-                    </button>
-                    <div class="profile-options tile-container grid expanded">
-                        <div class="profile-info profile-options-group" translate="no">
-                            <span class="username">Admin</span>
-                            <span class="email">oliwiermoskala2@gmail.com</span>
-                        </div>
-                        <div class="profile-options-group">
-                            <a href="../pages/profile.html">
-                                <button class="button button--blue">
-                                    <svg>
-                                        <use href="../assets/img/icons/icons.svg#profile"></use>
-                                    </svg>
-                                    <span>Profile</span>
-                                </button>
-                            </a>
-                            <a href="pages/categories.html">
-                                <button class="button button--blue">
-                                    <svg>
-                                        <use href="../assets/img/icons/icons.svg#category"></use>
-                                    </svg>
-                                    <span>Categories</span>
-                                </button>
-                            </a>
-                        </div>
-                        <div class="profile-options-group">
-                            <button class="button button--red">
-                                <svg>
-                                    <use href="../assets/img/icons/icons.svg#logout"></use>
-                                </svg>
-                                <span>Log out</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="right"></div>
     </header>
     <main>
         <div class="profile-info-tile">
@@ -97,25 +49,25 @@
                 </a>
             </div>
             <div class="tile-container">
-                <form class="form">
-                    <div class="form-field">
+                <form class="form js-profile-form" data-action="edit-profile">
+                    <div class="js-form-field form-field">
                         <label>
                             <div class="filed-name">Email</div>
-                            <input type="text" class="text-input" value="admin@gmail.com" disabled>
+                            <input type="email" class="text-input" value="admin@gmail.com" disabled>
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="form-field">
+                    <div class="js-form-field form-field">
                         <label>
                             <div class="filed-name">Username</div>
                             <input type="text" class="text-input" value="admin">
                         </label>
                         <div class="error"></div>
                     </div>
-                    <div class="form-field">
+                    <div class="js-form-field form-field">
                         <label>
                             <div class="filed-name">New password</div>
-                            <input type="text" class="text-input" placeholder="Leave blank to keep current">
+                            <input type="password" class="text-input" placeholder="Leave blank to keep current">
                         </label>
                         <div class="error"></div>
                     </div>
@@ -135,5 +87,6 @@
             </div>
         </div>
     </main>
+    <script src="../scripts/pages/profile.js" type="module"></script>
 </body>
 </html>

@@ -50,6 +50,7 @@ export async function getMe()
 
 export function updateUser(id, data)
 {
+    console.log(data);
     return request(`users/${id}`, {
         method: "PUT",
         body: JSON.stringify(data)

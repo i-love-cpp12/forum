@@ -63,7 +63,7 @@ function loggedTemplate(username, email)
                 </button>
                 <div class="js-profile-options profile-options tile-container grid">
                     <div class="profile-info profile-options-group" translate="no">
-                        <span class="username">${capitalize(username)}</span>
+                        <span class="username">${username}</span>
                         <span class="email">${email.toLowerCase()}</span>
                     </div>
                     <div class="profile-options-group">

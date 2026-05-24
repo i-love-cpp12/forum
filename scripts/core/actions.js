@@ -7,10 +7,12 @@ import {
     removeDislike,
     getPostLikeState
 } from "../services/reactionsService.js";
-import { logoutUser, loginUser, registerUser } from "../services/userService.js";
+import { logoutUser, loginUser, registerUser, updateUser, getMe } from "../services/userService.js";
 import { getToken, setToken, logout } from "../auth/auth.js";
 import { getMeContext, setMe } from "../auth/authContext.js";
 import { ROOT_DIR } from "../config/config.js";
+import { updateHeader } from "../ui/headerUI.js";
+import renderProfileForm from "../ui/profileUI.js";
 
 export const actions = {
     "like-post": async (e, actionElem) => {
@@ -94,6 +96,7 @@ export const actions = {
     },
 
     "login": async (e) => {
+        e.preventDefault();
         const form = e.target;
 
         const email = form.querySelector('.js-form-field input[type="email"]')?.value;
@@ -121,6 +124,7 @@ export const actions = {
     },
 
     "signup": async (e) => {
+        e.preventDefault();
         const form = e.target;
 
         const username = form.querySelector('.js-form-field input[type="text"]')?.value;
@@ -144,6 +148,7 @@ export const actions = {
     },
 
     "add-new-post": async (e) => {
+        e.preventDefault();
         const form = e.target;
         const title = form.querySelector('.js-title input')?.value;
         const content = form.querySelector('.js-content textarea')?.value;
@@ -161,6 +166,50 @@ export const actions = {
             await createPost({ parentPostId: null, header: title, content, categories });
 
             location.href = `${ROOT_DIR}/index.html`;
+        }
+        catch
+        {
+            form.querySelectorAll(".js-form-field .error")
+                .forEach(errorElem => errorElem.textContent = "Something went wrong");
+            form.querySelectorAll(".js-form-field .text-input")
+                .forEach(inputElem => inputElem.classList.add("error"));
+        }
+    },
+
+    "edit-profile": async (e) => {
+        e.preventDefault();
+            
+        console.log("edited")
+        const form = e.target;
+        
+        form.querySelectorAll(".js-form-field .error")
+                .forEach(errorElem => errorElem.textContent = "");
+        form.querySelectorAll(".js-form-field .text-input")
+            .forEach(inputElem => inputElem.classList.remove("error"));
+
+        const username = form.querySelector('.js-form-field input[type="text"]')?.value?.trim();
+        const password = form.querySelector('.js-form-field input[type="password"]')?.value?.trim();
+       
+        try
+        {
+            let user = getMeContext();
+            const newData = { username };
+
+            if(password.length > 0)
+                newData.password = password;
+
+            console.log(newData);
+            await updateUser(user.id, newData);
+
+            user = await getMe();
+            setMe(user);
+
+            updateHeader({
+                username: user?.username,
+                email: user?.email
+            });
+
+            renderProfileForm(user, form);
         }
         catch
         {
