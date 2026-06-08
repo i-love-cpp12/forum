@@ -42,6 +42,8 @@ export async function getPost(id)
     
     const res = await request(`posts/${id}`);
     const post = res.post;
+    
+    if(!post) return null;
 
     const user = await getUser(post.userId);
 

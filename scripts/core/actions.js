@@ -218,6 +218,12 @@ export const actions = {
             form.querySelectorAll(".js-form-field .text-input")
                 .forEach(inputElem => inputElem.classList.add("error"));
         }
+    },
+
+    "make-comment-post": async (e) => {
+            
+        const postId = getPostId(e.target);
+        location.href = `${ROOT_DIR}/pages/post.html?post-id=${postId}`;
     }
 };
 

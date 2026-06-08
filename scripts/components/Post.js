@@ -11,6 +11,7 @@ import { ROOT_DIR } from "../config/config.js";
  * @param {String} props.content
  * @param {{ like: boolean, dislike: boolean }} props.likeStatus
  * @param {{ likeCount: number, dislikeCount: number, commentCount: number }} props.reactionsCount
+ * @param {boolean} props.renderCommentBtn
  * @param {boolean} props.isEditor
  * @return {Element}
  */
@@ -24,6 +25,7 @@ export default function Post(
         content,
         likeStatus,
         reactionsCount,
+        renderCommentBtn,
         isEditor
     } = props)
 {
@@ -56,12 +58,15 @@ export default function Post(
                     </svg>
                     <span></span>
                 </button>
-                <button class="js-comment button button--neutral" data-action="comment-post">
-                    <svg>
-                        <use href="${ROOT_DIR}/assets/img/icons/icons.svg#comment"><use>
-                    </svg>
-                    <span></span>
-                </button>
+                ${
+                    renderCommentBtn ?
+                    `<button class="js-comment button button--neutral" data-action="make-comment-post">
+                        <svg>
+                            <use href="${ROOT_DIR}/assets/img/icons/icons.svg#comment"><use>
+                        </svg>
+                        <span></span>
+                    </button>` : ""
+                }
             </div>
             <div class="js-trash">
                 <button class="button button--trash" data-action="delete-post">
@@ -101,7 +106,8 @@ export default function Post(
     }
     dislikeElem.querySelector("span").textContent = reactionsCount.dislikeCount;
 
-    post.querySelector(".js-comment span").textContent = reactionsCount.commentCount;
+    if(renderCommentBtn)
+        post.querySelector(".js-comment span").textContent = reactionsCount.commentCount;
     if(!isEditor)
         post.querySelector(".js-trash").remove();
     return post;

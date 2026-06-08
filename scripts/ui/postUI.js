@@ -1,10 +1,10 @@
 import Post from "../components/Post.js";
 
-export function renderPosts(posts, container)
+export function renderPosts(posts, container, renderCommentBtn = true)
 {
     container.innerHTML = "";
     posts.forEach(post => {
-        container.appendChild(Post(post));
+        container.appendChild(Post({...post, renderCommentBtn}));
     });
 }
 
