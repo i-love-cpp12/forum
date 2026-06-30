@@ -35,13 +35,20 @@ export default function Post(
     post.setAttribute("data-post-id", postId);
     post.innerHTML = 
     `
-        <div class="post-header">
-            <div class="js-username username"></div>
-            <div class="dot">&middot;</div>
-            <div class="js-time">2h ago</div>
-            <div class="dot">&middot;</div>
-            <div class="js-categories categories"></div>
-        </div>
+        ${categories.length > 0 ?
+            `<div class="post-header">
+                <div class="js-username username"></div>
+                <div class="dot">&middot;</div>
+                <div class="js-time">2h ago</div>
+                <div class="dot">&middot;</div>
+                <div class="js-categories categories"></div>
+            </div>` :
+            `<div class="post-header">
+                <div class="js-username username"></div>
+                <div class="dot">&middot;</div>
+                <div class="js-time">2h ago</div>
+            </div>`
+        }
         <div class="js-post-title post-title"></div>
         <div class="js-post-content post-content"></div>
         <div class="post-options">

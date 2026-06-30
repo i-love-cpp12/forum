@@ -81,8 +81,8 @@ export const actions = {
         await deletePost(postId);
 
         getPostElem(actionElem).remove();
-        if(document.location.href != ROOT_DIR && document.location.href != ROOT_DIR + "/index.html")
-            document.location.href = `${ROOT_DIR}/index.html`;
+        // if(document.location.href != ROOT_DIR && document.location.href != ROOT_DIR + "/index.html")
+        //     document.location.href = `${ROOT_DIR}/index.html`;
     },
 
     "logout": async (e, actionElem) => {
@@ -226,6 +226,14 @@ export const actions = {
             
         const postId = getPostId(e.target);
         location.href = `${ROOT_DIR}/pages/post.html?post-id=${postId}`;
+    },
+
+    "comment-post": async (e) => {
+        console.log("commenting");
+    },
+
+    "reply-to-post": async (e) => {
+        console.log("repling");
     }
 };
 
