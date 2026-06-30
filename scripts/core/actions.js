@@ -81,6 +81,8 @@ export const actions = {
         await deletePost(postId);
 
         getPostElem(actionElem).remove();
+        if(document.location.href != ROOT_DIR && document.location.href != ROOT_DIR + "/index.html")
+            document.location.href = `${ROOT_DIR}/index.html`;
     },
 
     "logout": async (e, actionElem) => {
