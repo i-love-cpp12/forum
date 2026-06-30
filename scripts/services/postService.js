@@ -11,7 +11,9 @@ export async function getPosts(params = {})
     const query = new URLSearchParams(params).toString();
 
     const res = await request(`posts?${query}`);
-    const posts = res.posts;
+    const posts = res.posts.filter(post => post.parentPostId === null);
+
+    console.log(posts)
 
     const usersMap = new Map();
     const likesMap = new Map();

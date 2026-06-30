@@ -255,8 +255,8 @@ export const actions = {
             form.querySelector(".error").innerText = "Something went wrong";
             inputElem.classList.add("error");
         }
-
-        renderComments(await getComments(postId), document.querySelector(".js-comment"));
+        console.log(document.querySelector(".js-comments"));
+        renderComments(await getComments(postId), document.querySelector(".js-comments"));
 
         form.reset();
     },

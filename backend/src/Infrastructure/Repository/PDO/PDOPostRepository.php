@@ -45,7 +45,26 @@ class PDOPostRepository implements PostRepositoryInterface
                     "content" => $post->getContent()
                 ]);
 
+
                 $id = (int)$this->conn->lastInsertId();
+
+                if($post->parentPostId !== null)
+                {
+                    $stmt = $this->conn->prepare("
+                        UPDATE post
+                        SET comment_count = (
+                            SELECT COUNT(*)
+                            FROM post p2
+                            WHERE p2.parent_post_id = post.post_id
+                            AND p2.deleted_at IS NULL
+                        )
+                        WHERE post_id = :parent_post_id;
+                    ");
+
+                    $stmt->execute([
+                        "parent_post_id" => $post->parentPostId
+                    ]);
+                }
             }
             else
             {
@@ -492,16 +511,16 @@ class PDOPostRepository implements PostRepositoryInterface
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(["post_id" => $postId]);
     }
-    public function addComment(int $postId): void
-    {
-        $sql = "UPDATE post SET comment_count = comment_count + 1 WHERE post_id = :post_id AND deleted_at IS NULL;";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute(["post_id" => $postId]);
-    }
-    public function deleteComment(int $postId): void
-    {
-        $sql = "UPDATE post SET comment_count = comment_count - 1 WHERE post_id = :post_id AND deleted_at IS NULL;";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute(["post_id" => $postId]);
-    }
+    // public function addComment(int $postId): void
+    // {
+    //     $sql = "UPDATE post SET comment_count = comment_count + 1 WHERE post_id = :post_id AND deleted_at IS NULL;";
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->execute(["post_id" => $postId]);
+    // }
+    // public function deleteComment(int $postId): void
+    // {
+    //     $sql = "UPDATE post SET comment_count = comment_count - 1 WHERE post_id = :post_id AND deleted_at IS NULL;";
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->execute(["post_id" => $postId]);
+    // }
 }
