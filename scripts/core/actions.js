@@ -13,7 +13,8 @@ import { getMeContext, setMe } from "../auth/authContext.js";
 import { ROOT_DIR } from "../config/config.js";
 import { updateHeader } from "../ui/headerUI.js";
 import renderProfileForm from "../ui/profileUI.js";
-import { addComment } from "../services/commentService.js";
+import { addComment, getComments } from "../services/commentService.js";
+import { renderComments } from "../ui/commentUI.js";
 
 export const actions = {
     "like-post": async (e, actionElem) => {
@@ -235,10 +236,23 @@ export const actions = {
         e.preventDefault();
         const form = e.target;
         const postId = parseInt(new URL(document.URL).searchParams.get("post-id"));
-        const commentContent = form.querySelector("textarea").value;
+        const inputElem = form.querySelector("textarea");
+        const commentContent = inputElem.value;
         console.log(commentContent, postId);
-        // addComment()
-        console.log("comment");
+        
+        try
+        {
+            await addComment(postId, commentContent);
+        }
+        catch
+        {
+            form.querySelector(".error").innerText = "Something went wrong";
+            inputElem.classList.add("error");
+        }
+
+        renderComments(await getComments(postId), document.querySelector(".js-comment"));
+
+        form.reset();
     },
 
     "make-reply-post": async (e) => {
