@@ -59,7 +59,7 @@ export default function Comment(
                     </svg>
                     <span></span>
                 </button>
-                <button class="button button--neutral">
+                <button class="button button--neutral" data-action="make-reply-post">
                     <svg>
                         <use href="../assets/img/icons/icons.svg#reply1"></use>
                     </svg>
@@ -72,13 +72,15 @@ export default function Comment(
                 </button>
             </div>
             <div class="add-reply">
-                <textarea class="text-input" placeholder="Write a reply"></textarea>
-                <div class="buttons">
-                    <button class="button button--hover-fill-blue border">Reply</button>
-                    <button class="button button--white-inverse border">Cancel</button>
-                </div>
+                <form data-action="reply-post">
+                    <textarea class="text-input" placeholder="Write a reply"></textarea>
+                    <div class="buttons">
+                        <button class="button button--hover-fill-blue border" data-btn-type="submit">Reply</button>
+                        <button class="button button--white-inverse border">Cancel</button>
+                    </div>
+                </form>
             </div>
-            <div class="replies active">
+            <div class="js-replies replies active">
                 
             </div>
         </div>
@@ -107,7 +109,7 @@ export default function Comment(
     if(!isEditor)
         comment.querySelector(".js-trash").remove();
 
-    const replyContainer = comment.querySelector(".replies");
+    const replyContainer = comment.querySelector(".js-replies");
     replies.forEach((reply) => {
         replyContainer.appendChild(reply);
     });

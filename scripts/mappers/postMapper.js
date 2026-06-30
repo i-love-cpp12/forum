@@ -13,6 +13,7 @@ export function mapPost(post, user, me, likeStatus)
             dislikeCount: post.dislikeCount,
             commentCount: post.commentCount
         },
+        replies: post.replies || [],
         isEditor: me?.id === post.userId || me?.role === "admin"
     };
 }
@@ -21,6 +22,6 @@ export function mapPosts(posts, usersMap, me, likesMap)
 {
     console.log(me);
     return posts
-        .filter(post => post.parentPostId === null)
+        // .filter(post => post.parentPostId === null)
         .map(post => {return mapPost(post, usersMap.get(post.userId), me, likesMap.get(post.id))});
 }

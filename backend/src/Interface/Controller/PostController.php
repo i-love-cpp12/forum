@@ -142,9 +142,9 @@ class PostController
     {
         $this->createPostHelper(PostType::post);
     }
-    public function createComment(): void
+    public function createComment(string $parentPostId): void
     {
-        $this->createPostHelper(PostType::comment);
+        $this->createPostHelper(PostType::comment, $parentPostId);
     }
 
     public function updatePost(string $postId): void
@@ -220,9 +220,8 @@ class PostController
         );
     }
 
-    private function createPostHelper(PostType $type): void
+    private function createPostHelper(PostType $type, ?string $parentPostId): void
     {
-        $parentPostId = $this->request->body["parentPostId"] ?? null;
         $header = $this->request->body["header"] ?? null;
         $content = $this->request->body["content"] ?? null;
         $categories = $this->request->body["categories"] ?? null;
@@ -233,8 +232,13 @@ class PostController
         try
         {
 
-            if($parentPostId !== null && !is_int($parentPostId))
-                throw new RequestDataFormatException("parentPostId", "int");
+            if($parentPostId !== null)
+            {
+                if(!is_numeric($parentPostId))
+                    throw new RequestDataFormatException("parentPostId", "int");
+                $parentPostId = intval($parentPostId);
+            }
+
             if($header !== null && !is_string($header))
                 throw new RequestDataFormatException("header", "string");
             if($content === null || !is_string($content))

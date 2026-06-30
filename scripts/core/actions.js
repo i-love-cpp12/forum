@@ -13,6 +13,7 @@ import { getMeContext, setMe } from "../auth/authContext.js";
 import { ROOT_DIR } from "../config/config.js";
 import { updateHeader } from "../ui/headerUI.js";
 import renderProfileForm from "../ui/profileUI.js";
+import { addComment } from "../services/commentService.js";
 
 export const actions = {
     "like-post": async (e, actionElem) => {
@@ -151,6 +152,8 @@ export const actions = {
 
     "add-new-post": async (e) => {
         e.preventDefault();
+        if(e.submitter.dataset.btnType != "submit")
+            location.href = `${ROOT_DIR}/index.html`;
         const form = e.target;
         const title = form.querySelector('.js-title input')?.value;
         const content = form.querySelector('.js-content textarea')?.value;
@@ -229,11 +232,22 @@ export const actions = {
     },
 
     "comment-post": async (e) => {
-        console.log("commenting");
+        e.preventDefault();
+        const form = e.target;
+        const postId = parseInt(new URL(document.URL).searchParams.get("post-id"));
+        const commentContent = form.querySelector("textarea").value;
+        console.log(commentContent, postId);
+        // addComment()
+        console.log("comment");
     },
 
-    "reply-to-post": async (e) => {
-        console.log("repling");
+    "make-reply-post": async (e) => {
+        getPostElem(e.target).querySelector(".add-reply").classList.add("active");
+    },
+
+    "reply-post": async (e) => {
+        if(e.submitter.dataset.btnType != "submit")
+            getPostElem(e.target).querySelector(".add-reply").classList.remove("active");
     }
 };
 

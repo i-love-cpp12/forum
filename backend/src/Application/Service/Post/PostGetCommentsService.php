@@ -18,7 +18,7 @@ class PostGetCommentsService
     {
         if($DTO->page !== $DTO->limit && ($DTO->limit === null || $DTO->page === null))
             throw new BusinessException("Page and limit must be both provided or not");
-        if($DTO->page <= 0 || $DTO->limit <= 0)
+        if($DTO->page !== null && ($DTO->page <= 0 || $DTO->limit <= 0))
             throw new BusinessException("Page and limit must not be negative");
         $post = $this->postRepo->getCommentsForPost($DTO);
         if($post === null)
