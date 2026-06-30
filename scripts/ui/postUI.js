@@ -1,4 +1,5 @@
 import Post from "../components/Post.js";
+import { EMPTY_LIST_TEXT } from "../config/config.js";
 
 export function renderPosts(posts, container, renderCommentBtn = true)
 {
@@ -9,7 +10,7 @@ export function renderPosts(posts, container, renderCommentBtn = true)
     });
 
     if(!posts.length)
-        container.innerHTML = "No posts yet";
+        container.innerHTML = EMPTY_LIST_TEXT;
 }
 
 export function updatePost(postId, newData)

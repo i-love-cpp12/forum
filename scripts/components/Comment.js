@@ -32,57 +32,55 @@ export default function Comment(
     comment.setAttribute("data-post-id", postId);
     comment.innerHTML = 
     `
-        <div class="comment">
-            <div class="header">
-                <div class="reply-icon">
-                    <svg>
-                        <use href="../assets/img/icons/icons.svg#reply2"></use>
-                    </svg>
+        <div class="header">
+            <div class="reply-icon">
+                <svg>
+                    <use href="../assets/img/icons/icons.svg#reply2"></use>
+                </svg>
+            </div>
+            <div class="username js-username"></div>
+            <div>&middot;</div>
+            <div class="js-time"></div>
+        </div>
+        <div class="js-post-content comment-content">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. In, modi tenetur. Vel cupiditate ipsam at! Illo facere, aliquam quod veritatis, commodi, quam saepe et aperiam eos fugiat rerum porro beatae.
+        </div>
+        <div class="comment-options">
+            <button class="js-like button button--blue">
+                <svg>
+                    <use href="../assets/img/icons/icons.svg#thumb_up"></use>
+                </svg>
+                <span></span>
+            </button>
+            <button class="js-dislike button button--red">
+                <svg>
+                    <use href="../assets/img/icons/icons.svg#thumb_down"></use>
+                </svg>
+                <span></span>
+            </button>
+            <button class="button button--neutral" data-action="make-reply-post">
+                <svg>
+                    <use href="../assets/img/icons/icons.svg#reply1"></use>
+                </svg>
+                <span>Reply</span>
+            </button>
+            <button class="js-trash button button--trash" data-action="delete-post">
+                <svg>
+                    <use href="../assets/img/icons/icons.svg#delete"></use>
+                </svg>
+            </button>
+        </div>
+        <div class="add-reply">
+            <form data-action="reply-post">
+                <textarea class="text-input" placeholder="Write a reply"></textarea>
+                <div class="buttons">
+                    <button class="button button--hover-fill-blue border" data-btn-type="submit">Reply</button>
+                    <button class="button button--white-inverse border">Cancel</button>
                 </div>
-                <div class="username js-username"></div>
-                <div>&middot;</div>
-                <div class="js-time"></div>
-            </div>
-            <div class="js-post-content comment-content">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. In, modi tenetur. Vel cupiditate ipsam at! Illo facere, aliquam quod veritatis, commodi, quam saepe et aperiam eos fugiat rerum porro beatae.
-            </div>
-            <div class="comment-options">
-                <button class="js-like button button--blue">
-                    <svg>
-                        <use href="../assets/img/icons/icons.svg#thumb_up"></use>
-                    </svg>
-                    <span></span>
-                </button>
-                <button class="js-dislike button button--red">
-                    <svg>
-                        <use href="../assets/img/icons/icons.svg#thumb_down"></use>
-                    </svg>
-                    <span></span>
-                </button>
-                <button class="button button--neutral" data-action="make-reply-post">
-                    <svg>
-                        <use href="../assets/img/icons/icons.svg#reply1"></use>
-                    </svg>
-                    <span>Reply</span>
-                </button>
-                <button class="js-trash button button--trash" data-action="delete-post">
-                    <svg>
-                        <use href="../assets/img/icons/icons.svg#delete"></use>
-                    </svg>
-                </button>
-            </div>
-            <div class="add-reply">
-                <form data-action="reply-post">
-                    <textarea class="text-input" placeholder="Write a reply"></textarea>
-                    <div class="buttons">
-                        <button class="button button--hover-fill-blue border" data-btn-type="submit">Reply</button>
-                        <button class="button button--white-inverse border">Cancel</button>
-                    </div>
-                </form>
-            </div>
-            <div class="js-replies replies active">
-                
-            </div>
+            </form>
+        </div>
+        <div class="js-replies replies active">
+            
         </div>
     `;
     comment.querySelector(".js-username").textContent = "@" + username;

@@ -220,7 +220,7 @@ class PostController
         );
     }
 
-    private function createPostHelper(PostType $type, ?string $parentPostId): void
+    private function createPostHelper(PostType $type, ?string $parentPostId = null): void
     {
         $header = $this->request->body["header"] ?? null;
         $content = $this->request->body["content"] ?? null;

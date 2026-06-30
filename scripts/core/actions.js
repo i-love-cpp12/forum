@@ -10,7 +10,7 @@ import {
 import { logoutUser, loginUser, registerUser, updateUser, getMe } from "../services/userService.js";
 import { getToken, setToken, logout } from "../auth/auth.js";
 import { getMeContext, setMe } from "../auth/authContext.js";
-import { ROOT_DIR } from "../config/config.js";
+import { EMPTY_LIST_TEXT, ROOT_DIR } from "../config/config.js";
 import { updateHeader } from "../ui/headerUI.js";
 import renderProfileForm from "../ui/profileUI.js";
 import { addComment, getComments } from "../services/commentService.js";
@@ -80,9 +80,14 @@ export const actions = {
             return;
         }
 
-        await deletePost(postId);
-
+        const postContainer = actionElem.closest(".js-posts") || actionElem.closest(".js-comments");
+        
         getPostElem(actionElem).remove();
+        
+        if(!postContainer.innerText.trim())
+            postContainer.innerText = EMPTY_LIST_TEXT;
+
+        await deletePost(postId);
         // if(document.location.href != ROOT_DIR && document.location.href != ROOT_DIR + "/index.html")
         //     document.location.href = `${ROOT_DIR}/index.html`;
     },
@@ -173,8 +178,9 @@ export const actions = {
 
             location.href = `${ROOT_DIR}/index.html`;
         }
-        catch
+        catch(err)
         {
+            console.error(err);
             form.querySelectorAll(".js-form-field .error")
                 .forEach(errorElem => errorElem.textContent = "Something went wrong");
             form.querySelectorAll(".js-form-field .text-input")

@@ -1,20 +1,19 @@
 import Comment from "../components/Comment.js";
+import { EMPTY_LIST_TEXT } from "../config/config.js";
 
 export function renderComments(comments, container)
 {
-    if(!comments.length) return;
-
     container.innerHTML = "";
 
     comments.forEach(comment => {
         const commentElem = Comment(comment);
         container.appendChild(commentElem);
-        const replyContainer = commentElem.querySelector(".js-replies");
-        renderComments(comment.replies, replyContainer);
+        // const replyContainer = commentElem.querySelector(".js-replies");
+        // renderComments(comment.replies, replyContainer);
     });
 
     if(!comments.length)
-        container.innerHTML = "No comments yet";
+        container.innerHTML = EMPTY_LIST_TEXT;
 }
 
 export function updateComment(postId, newData)
