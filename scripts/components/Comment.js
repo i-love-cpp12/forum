@@ -9,7 +9,7 @@ import { ROOT_DIR } from "../config/config.js";
  * @param {String[]} props.categories
  * @param {String} props.content
  * @param {{ like: boolean, dislike: boolean }} props.likeStatus
- * @param {{ likeCount: number, dislikeCount: number }} props.reactionsCount
+ * @param {{ likeCount: number, dislikeCount: number, commentCount: number }} props.reactionsCount
  * @param {Element[]} props.replies
  * @param {boolean} props.isEditor
  * @return {Element}
@@ -29,6 +29,7 @@ export default function Comment(
 {
     const comment = document.createElement("div");
     comment.classList.add("comment");
+    comment.classList.add("js-comment");
     comment.setAttribute("data-post-id", postId);
     comment.innerHTML = 
     `
@@ -46,13 +47,13 @@ export default function Comment(
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. In, modi tenetur. Vel cupiditate ipsam at! Illo facere, aliquam quod veritatis, commodi, quam saepe et aperiam eos fugiat rerum porro beatae.
         </div>
         <div class="comment-options">
-            <button class="js-like button button--blue">
+            <button class="js-like button button--blue" data-action="like-post">
                 <svg>
                     <use href="../assets/img/icons/icons.svg#thumb_up"></use>
                 </svg>
                 <span></span>
             </button>
-            <button class="js-dislike button button--red">
+            <button class="js-dislike button button--red" data-action="dislike-post">
                 <svg>
                     <use href="../assets/img/icons/icons.svg#thumb_down"></use>
                 </svg>
@@ -63,6 +64,12 @@ export default function Comment(
                     <use href="../assets/img/icons/icons.svg#reply1"></use>
                 </svg>
                 <span>Reply</span>
+            </button>
+            <button class="js-show-replies show-replies button button--neutral" data-action="show-replies-post">
+                <svg>
+                    <use href="../assets/img/icons/icons.svg#arrow_down"></use>
+                </svg>
+                <span>Show replies <span class="js-replies-count"></span></span>
             </button>
             <button class="js-trash button button--trash" data-action="delete-post">
                 <svg>
@@ -104,6 +111,17 @@ export default function Comment(
     }
     dislikeElem.querySelector("span").textContent = reactionsCount.dislikeCount;
 
+    const showRepliesBtn = comment.querySelector(".comment-options .js-show-replies");
+
+    if(!reactionsCount.commentCount)
+        showRepliesBtn.remove();
+    else
+        showRepliesBtn.querySelector(".js-replies-count").innerText = reactionsCount.commentCount;
+
+    showRepliesBtn.addEventListener("click", () => {
+        comment.classList.toggle("replies-visible");
+    })
+
     if(!isEditor)
         comment.querySelector(".js-trash").remove();
 
@@ -114,3 +132,4 @@ export default function Comment(
 
     return comment;
 }
+

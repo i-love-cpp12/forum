@@ -1,5 +1,6 @@
 import { getPost, deletePost, createPost } from "../services/postService.js";
 import { updatePost } from "../ui/postUI.js";
+import { updateComment } from "../ui/commentUI.js";
 import {
     likePost,
     dislikePost,
@@ -38,7 +39,7 @@ export const actions = {
         }
 
         const updatedPost = await getPost(postId, getMeContext());
-        updatePost(postId, updatedPost);
+        isComment(actionElem) ? updateComment(postId, updatedPost) : updatePost(postId, updatedPost);
     },
 
     "dislike-post": async (e, actionElem) => {
@@ -63,7 +64,7 @@ export const actions = {
 
         const updatedPost = await getPost(postId, getMeContext());
 
-        updatePost(postId, updatedPost);
+        isComment(actionElem) ? updateComment(postId, updatedPost) : updatePost(postId, updatedPost);
     },
 
     "delete-post": async (e, actionElem) => {
@@ -268,6 +269,10 @@ export const actions = {
     "reply-post": async (e) => {
         if(e.submitter.dataset.btnType != "submit")
             getPostElem(e.target).querySelector(".add-reply").classList.remove("active");
+    },
+
+    "show-replies-post": async (e) => {
+        const commentElem = getPostElem(e.target); 
     }
 };
 
@@ -279,4 +284,9 @@ function getPostElem(elem)
 function getPostId(elem)
 {
     return getPostElem(elem).dataset.postId;
+}
+
+function isComment(elem)
+{
+    return getPostElem(elem).classList.contains("js-comment");
 }

@@ -20,6 +20,7 @@ export function updateComment(postId, newData)
 {
     const old = document.querySelector(`[data-post-id="${postId}"]`);
     if (!old) return;
-    const newElem = Comment({...newData});   
+    const repliesElems = old.querySelectorAll(".replies > div");
+    const newElem = Comment({...newData, replies: repliesElems});
     old.replaceWith(newElem);
 }

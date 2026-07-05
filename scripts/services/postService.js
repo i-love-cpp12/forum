@@ -4,16 +4,14 @@ import { getUser } from "./userService.js";
 import { getPostLikeState } from "./reactionsService.js"
 import { getMeContext } from "../auth/authContext.js";
 
-export async function getPosts(params = {})
+export async function getPosts(params = {}, getComments = false, postId = null)
 {
     const me = getMeContext();
 
     const query = new URLSearchParams(params).toString();
 
-    const res = await request(`posts?${query}`);
-    const posts = res.posts.filter(post => post.parentPostId === null);
-
-    console.log(posts)
+    const res = await request(getComments ? `posts/${postId}/comments` : `posts?${query}`);
+    const posts = res[getComments ? "comments":"posts"].filter(post => !!post.parentPostId === getComments);
 
     const usersMap = new Map();
     const likesMap = new Map();

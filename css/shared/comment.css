@@ -33,6 +33,7 @@
     gap: 10px;
     padding-block: 30px;
 }
+
 .comment .header
 {
     display: flex;
@@ -84,6 +85,24 @@
     height: 40px;
     padding-inline: 20px;
 }
+.comment .comment-options
+{
+    display: flex;
+}
+.comment .comment-options .show-replies svg
+{
+    fill: currentColor;
+    transition: transform 100ms ease-in-out;
+    transform: rotate(0);
+}
+.comment.replies-visible .comment-options .show-replies svg
+{
+    transform: rotate(-90deg);
+}
+.comment .comment-options .button--trash
+{
+    margin-left: auto;
+}
 .comment .replies
 {
     display: none;
@@ -97,7 +116,7 @@
 {
     display: block;
 }
-.comment .replies.active
+.comment.replies-visible .replies
 {
     display: flex;
 }
