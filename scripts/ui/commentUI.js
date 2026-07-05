@@ -21,8 +21,6 @@ export function updateComment(postId, newData)
     const old = document.querySelector(`[data-post-id="${postId}"]`);
     if (!old) return;
     const repliesElems = document.querySelectorAll(`[data-post-id="${postId}"] > .js-replies > .comment`);
-    console.log(old);
-    console.log("replies aftr udate: ", repliesElems);
     const newElem = Comment({...newData, replies: repliesElems, repliesVisible: old.classList.contains("replies-visible")});
     old.replaceWith(newElem);
 }

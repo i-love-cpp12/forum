@@ -2,10 +2,9 @@ import { getPosts } from "./postService.js";
 import { request } from "../api/request.js";
 
 
-export async function getComments(postId, params = {sort: "latest"})
+export async function getComments(postId)
 {
-    console.log("getComment: ", params);
-    return getPosts(params, true, postId);
+    return getPosts({}, true, postId);
 }
 
 export function addComment(postId, content)

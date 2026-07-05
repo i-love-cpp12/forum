@@ -74,7 +74,9 @@ export const actions = {
             return;
         }
 
-        const postId = getPostId(actionElem);
+        const postElem = getPostElem(actionElem);
+        const postId = getPostId(postElem);
+
         if(!(await getPost(postId, getMeContext())).isEditor)
         {
             console.warn("User is not authenticated");
@@ -83,17 +85,33 @@ export const actions = {
 
         const postContainer = actionElem.closest(".js-posts") || actionElem.closest(".js-comments");
         
-        getPostElem(actionElem).remove();
-        
-        if(!postContainer.innerText.trim())
-            postContainer.innerText = EMPTY_LIST_TEXT;
 
+        const parentElem = getPostElem(postElem.parentElement);
+
+        postElem.remove();
+
+        if(postContainer.children.legnth === 0)
+            postContainer.innerText = EMPTY_LIST_TEXT;
+        
         await deletePost(postId);
-        // if(document.location.href != ROOT_DIR && document.location.href != ROOT_DIR + "/index.html")
-        //     document.location.href = `${ROOT_DIR}/index.html`;
+
+        if(parentElem)
+        {
+            // if(!parentElem.querySelector(".replies").children.length)
+            // {
+            //     parentElem.classList.remove("replies-visible");
+            //     return;
+            // }
+
+            const parentPostId = getPostId(parentElem);
+
+            const updatedComment = await getPost(parentPostId);
+            // console.log(updatedComment);
+            updateComment(parentPostId, updatedComment);
+        }
     },
 
-    "logout": async (e, actionElem) => {
+    "logout": async () => {
         if(!getToken())
         {
             console.warn("User is not logged");
@@ -233,13 +251,13 @@ export const actions = {
         }
     },
 
-    "make-comment-post": async (e) => {
+    "make-comment-post": async (e, actionElem) => {
         if(!getToken())
         {
             console.warn("User is not logged");
             return;
         }
-        const postId = getPostId(e.target);
+        const postId = getPostId(actionElem);
         location.href = `${ROOT_DIR}/pages/post.html?post-id=${postId}`;
     },
 
@@ -266,31 +284,42 @@ export const actions = {
         form.reset();
     },
 
-    "make-reply-post": async (e) => {
-        getPostElem(e.target).querySelector(".add-reply").classList.add("active");
+    "make-reply-post": async (e, actionElem) => {
+        getPostElem(actionElem).querySelector(".add-reply").classList.add("active");
     },
 
     "reply-post": async (e) => {
 
         const form = e.target;
+        console.log(form);
         if(e.submitter.dataset.btnType != "submit")
             getPostElem(form).querySelector(".add-reply").classList.remove("active");
 
         const commentElem = getPostElem(form)
         const postId = getPostId(commentElem);
         console.log(postId);
-        const replyContent = form.querySelector("textarea").value.trim();
+        const inputElem = form.querySelector("textarea");
+        const replyContent = inputElem.value.trim();
+        try
+        {
+            await addComment(postId, replyContent);
+            const updatedReplies = await getComments(postId);
+            const updatedComment = await getPost(postId);
+    
+            commentElem.classList.add("replies-visible");
 
-        await addComment(postId, replyContent);
-        const updatedReplies = await getComments(postId);
-        const updatedComment = await getPost(postId);
-
-        renderComments(updatedReplies, commentElem.querySelector(".js-replies"));
-        updateComment(postId, updatedComment);
+            renderComments(updatedReplies, commentElem.querySelector(".js-replies"));
+            updateComment(postId, updatedComment);
+        }
+        catch
+        {
+            form.querySelector("div.error").innerText = "Something went wrong";
+            inputElem.classList.add("error");
+        }
     },
 
-    "show-replies-post": async (e) => {
-        const commentElem = getPostElem(e.target);
+    "show-replies-post": async (e, actionElem) => {
+        const commentElem = getPostElem(actionElem);
         const repliesContainer = commentElem.querySelector(".js-replies");
         if(repliesContainer.children.length)
             return;

@@ -7,9 +7,7 @@ import { getMeContext } from "../auth/authContext.js";
 export async function getPosts(params = {sort: "latest"}, getComments = false, postId = null)
 {
     const me = getMeContext();
-    console.log(params);
     const query = new URLSearchParams(params).toString();
-    console.log(query);
     const res = await request(getComments ? `posts/${postId}/comments?${query}` : `posts?${query}`);
     const posts = res[getComments ? "comments":"posts"].filter(post => !!post.parentPostId === getComments);
 

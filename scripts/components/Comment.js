@@ -82,8 +82,9 @@ export default function Comment(
             </button>
         </div>
         <div class="add-reply">
-            <form data-action="reply-post">
+            <form data-action="reply-post" class="form">
                 <textarea class="text-input" placeholder="Write a reply"></textarea>
+                <div class="error"></div>
                 <div class="buttons">
                     <button class="button button--hover-fill-blue border" data-btn-type="submit">Reply</button>
                     <button class="button button--white-inverse border">Cancel</button>
