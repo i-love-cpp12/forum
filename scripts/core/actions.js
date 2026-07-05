@@ -260,7 +260,7 @@ export const actions = {
             form.querySelector(".error").innerText = "Something went wrong";
             inputElem.classList.add("error");
         }
-        console.log(document.querySelector(".js-comments"));
+    
         renderComments(await getComments(postId), document.querySelector(".js-comments"));
 
         form.reset();
@@ -271,8 +271,22 @@ export const actions = {
     },
 
     "reply-post": async (e) => {
+
+        const form = e.target;
         if(e.submitter.dataset.btnType != "submit")
-            getPostElem(e.target).querySelector(".add-reply").classList.remove("active");
+            getPostElem(form).querySelector(".add-reply").classList.remove("active");
+
+        const commentElem = getPostElem(form)
+        const postId = getPostId(commentElem);
+        console.log(postId);
+        const replyContent = form.querySelector("textarea").value.trim();
+
+        await addComment(postId, replyContent);
+        const updatedReplies = await getComments(postId);
+        const updatedComment = await getPost(postId);
+
+        renderComments(updatedReplies, commentElem.querySelector(".js-replies"));
+        updateComment(postId, updatedComment);
     },
 
     "show-replies-post": async (e) => {

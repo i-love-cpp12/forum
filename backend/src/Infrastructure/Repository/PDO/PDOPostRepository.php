@@ -470,7 +470,7 @@ class PDOPostRepository implements PostRepositoryInterface
         $limit = $DTO->limit;
         $offset = ($DTO->page - 1) * $DTO->limit;
 
-        $sql = "SELECT p.post_id as post_id, parent_post_id, user_id, header, content, like_count, dislike_count, comment_count, pc.post_category_id AS post_category_id, pc.post_category_name AS post_category_name, UNIX_TIMESTAMP(p.created_at) AS post_created_at, UNIX_TIMESTAMP(pc.created_at) AS post_category_created_at FROM post AS p LEFT JOIN post_post_category AS ppc ON p.post_id = ppc.post_id AND ppc.deleted_at IS NULL LEFT JOIN post_category AS pc ON ppc.post_category_id = pc.post_category_id AND pc.deleted_at IS NULL WHERE parent_post_id = :parent_post_id AND p.deleted_at IS NULL";
+        $sql = "SELECT p.post_id as post_id, parent_post_id, user_id, header, content, like_count, dislike_count, comment_count, pc.post_category_id AS post_category_id, pc.post_category_name AS post_category_name, UNIX_TIMESTAMP(p.created_at) AS post_created_at, UNIX_TIMESTAMP(pc.created_at) AS post_category_created_at FROM post AS p LEFT JOIN post_post_category AS ppc ON p.post_id = ppc.post_id AND ppc.deleted_at IS NULL LEFT JOIN post_category AS pc ON ppc.post_category_id = pc.post_category_id AND pc.deleted_at IS NULL WHERE parent_post_id = :parent_post_id AND p.deleted_at IS NULL ORDER BY p.created_at DESC";
 
         if($limit !== null)
             $sql .= " LIMIT $limit OFFSET $offset";
