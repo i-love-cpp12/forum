@@ -97,11 +97,11 @@ export const actions = {
 
         if(parentElem)
         {
-            // if(!parentElem.querySelector(".replies").children.length)
-            // {
-            //     parentElem.classList.remove("replies-visible");
-            //     return;
-            // }
+            if(!parentElem.querySelector(".replies").children.length)
+            {
+                parentElem.classList.remove("replies-visible");
+                return;
+            }
 
             const parentPostId = getPostId(parentElem);
 
