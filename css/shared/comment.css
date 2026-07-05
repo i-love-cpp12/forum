@@ -32,6 +32,8 @@
     flex-direction: column;
     gap: 10px;
     padding-block: 30px;
+    z-index: 0;
+    position: relative;
 }
 
 .comment .header
@@ -62,6 +64,8 @@
 .comment .add-reply
 {
     display: none;
+    z-index: 5;
+    position: relative;
 }
 .comment .add-reply.active
 {
@@ -85,23 +89,16 @@
     height: 40px;
     padding-inline: 20px;
 }
-.comment .comment-options
-{
-    display: flex;
-}
+
 .comment .comment-options .show-replies svg
 {
     fill: currentColor;
     transition: transform 100ms ease-in-out;
     transform: rotate(0);
 }
-.comment.replies-visible .comment-options .show-replies svg
+.comment.replies-visible > .comment-options .show-replies svg
 {
     transform: rotate(-90deg);
-}
-.comment .comment-options .button--trash
-{
-    margin-left: auto;
 }
 .comment .replies
 {
@@ -116,7 +113,7 @@
 {
     display: block;
 }
-.comment.replies-visible .replies
+.comment.replies-visible > .replies
 {
     display: flex;
 }

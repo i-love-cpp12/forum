@@ -234,7 +234,11 @@ export const actions = {
     },
 
     "make-comment-post": async (e) => {
-            
+        if(!getToken())
+        {
+            console.warn("User is not logged");
+            return;
+        }
         const postId = getPostId(e.target);
         location.href = `${ROOT_DIR}/pages/post.html?post-id=${postId}`;
     },
@@ -272,7 +276,13 @@ export const actions = {
     },
 
     "show-replies-post": async (e) => {
-        const commentElem = getPostElem(e.target); 
+        const commentElem = getPostElem(e.target);
+        const repliesContainer = commentElem.querySelector(".js-replies");
+        if(repliesContainer.children.length)
+            return;
+        const postId = getPostId(commentElem);
+        const comments = await getComments(postId);
+        renderComments(comments, repliesContainer);
     }
 };
 

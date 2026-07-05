@@ -11,6 +11,7 @@ import { ROOT_DIR } from "../config/config.js";
  * @param {{ like: boolean, dislike: boolean }} props.likeStatus
  * @param {{ likeCount: number, dislikeCount: number, commentCount: number }} props.reactionsCount
  * @param {Element[]} props.replies
+ * @param {Boolean} props.repliesVisible
  * @param {boolean} props.isEditor
  * @return {Element}
  */
@@ -24,12 +25,15 @@ export default function Comment(
         likeStatus,
         reactionsCount,
         replies,
+        repliesVisible,
         isEditor
     } = props)
 {
     const comment = document.createElement("div");
     comment.classList.add("comment");
     comment.classList.add("js-comment");
+    if(repliesVisible)
+        comment.classList.add("replies-visible");
     comment.setAttribute("data-post-id", postId);
     comment.innerHTML = 
     `
@@ -86,7 +90,7 @@ export default function Comment(
                 </div>
             </form>
         </div>
-        <div class="js-replies replies active">
+        <div class="js-replies replies">
             
         </div>
     `;
@@ -118,8 +122,8 @@ export default function Comment(
     else
         showRepliesBtn.querySelector(".js-replies-count").innerText = reactionsCount.commentCount;
 
-    showRepliesBtn.addEventListener("click", () => {
-        comment.classList.toggle("replies-visible");
+    showRepliesBtn.addEventListener("click", (e) => {
+        e.target.closest("[data-post-id]").classList.toggle("replies-visible");
     })
 
     if(!isEditor)
