@@ -9,7 +9,7 @@ import {
     getPostLikeState
 } from "../services/reactionsService.js";
 import { logoutUser, loginUser, registerUser, updateUser, getMe } from "../services/userService.js";
-import { getToken, setToken, logout } from "../auth/auth.js";
+import { setToken, logout } from "../auth/auth.js";
 import { getMeContext, setMe } from "../auth/authContext.js";
 import { EMPTY_LIST_TEXT, ROOT_DIR } from "../config/config.js";
 import { updateHeader } from "../ui/headerUI.js";
@@ -19,7 +19,7 @@ import { renderComments } from "../ui/commentUI.js";
 
 export const actions = {
     "like-post": async (e, actionElem) => {
-        if(!getToken())
+        if(!await authorize())
         {
             console.warn("User is not logged");
             return;
@@ -43,7 +43,7 @@ export const actions = {
     },
 
     "dislike-post": async (e, actionElem) => {
-        if(!getToken())
+        if(!await authorize())
         {
             console.warn("User is not logged");
             return;
@@ -68,7 +68,7 @@ export const actions = {
     },
 
     "delete-post": async (e, actionElem) => {
-        if(!getToken())
+        if(!await authorize())
         {
             console.warn("User is not logged");
             return;
@@ -109,7 +109,7 @@ export const actions = {
     },
 
     "logout": async () => {
-        if(!getToken())
+        if(!await authorize())
         {
             console.warn("User is not logged");
             return;
@@ -131,7 +131,6 @@ export const actions = {
         try
         {
             const token = (await loginUser({ email, password })).value;
-            console.log(token);
             setToken(token);
 
             const user = await getMeContext();
@@ -249,7 +248,7 @@ export const actions = {
     },
 
     "make-comment-post": async (e, actionElem) => {
-        if(!getToken())
+        if(!await authorize())
         {
             console.warn("User is not logged");
             return;
@@ -339,4 +338,18 @@ function getPostId(elem)
 function isComment(elem)
 {
     return getPostElem(elem).classList.contains("js-comment");
+}
+
+async function authorize()
+{
+    try
+    {
+        const user = await getMe();
+        setMe(user);
+    }
+    catch
+    {
+        return false;
+    }
+    return true;
 }
