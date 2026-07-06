@@ -1,5 +1,6 @@
 import Category from "../components/Category.js";
 import NewPostCategory from "../components/NewPostCategories.js";
+import { EMPTY_LIST_TEXT } from "../config/config.js";
 
 export function renderCategories(container, categories)
 {
@@ -8,6 +9,8 @@ export function renderCategories(container, categories)
     categories.forEach(category => {
         container.appendChild(Category(category));
     });
+    if(!categories.length)
+        container.innerText = EMPTY_LIST_TEXT;
 }
 
 export function renderCategoriesNewPost(container, categories)
