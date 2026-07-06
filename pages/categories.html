@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../css/shared/text-input.css">
     <link rel="stylesheet" href="../css/shared/tile-container.css">
     <link rel="stylesheet" href="../css/shared/logo.css">
+    <link rel="stylesheet" href="../css/shared/form.css">
 
 </head>
 <body>
@@ -45,14 +46,17 @@
         </div>
         <div class="big">Categories</div>
         <div class="js-subtitle small">Browse and change categories</div>
-        <form class="js-add-category add-category tile-container">
-            <input type="text" class="text-input" placeholder="New category name">
-            <button class="button button--white-inverse border">
-                <span>Add</span>
-                <svg>
-                    <use href="../assets/img/icons/icons.svg#add"></use>
-                </svg>
-            </button>
+        <form class="js-add-category add-category tile-container form" data-action="add-category">
+            <div>
+                <input type="text" class="text-input" placeholder="New category name">
+                <button class="button button--white-inverse border">
+                    <span>Add</span>
+                    <svg>
+                        <use href="../assets/img/icons/icons.svg#add"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="error"></div>
         </form>
         <div class="js-categories categories tile-container grid"></div>
     </main>

@@ -1,13 +1,24 @@
 .add-category
 {
+    margin-bottom: 20px;
+}
+.add-category > div
+{
     display: flex;
     align-items: stretch;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    /* row-gap: 5px; */
+    /* grid-template-columns: 1fr min-content; */
 }
 .add-category input[type="text"]
 {
     flex-grow: 1;
+    margin: 0;
+}
+.add-category div.error
+{
+    grid-column: 2 span;
 }
 .categories.tile-container
 {
@@ -53,7 +64,7 @@
 }
 @media (max-width: 405px)
 {
-    .add-category
+    .add-category > div
     {
         flex-direction: column;
     }
