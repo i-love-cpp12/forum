@@ -5,6 +5,6 @@ namespace src\Domain\Entity;
 
 enum UserRole: int
 {
-    case normal = 0;
-    case admin = 1;
+    case admin = 0;
+    case normal = 1;
 };

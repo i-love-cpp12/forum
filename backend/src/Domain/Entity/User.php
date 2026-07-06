@@ -142,7 +142,7 @@ class User extends Entity
     }
     public static function roleToString(UserRole $role): string
     {
-        $roles = ["normal", "admin"];
+        $roles = ["admin", "normal"];
         return $roles[$role->value];
     }
 }
