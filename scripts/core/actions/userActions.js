@@ -2,6 +2,9 @@ import { updateUser, getMe } from "../../services/userService.js";
 import { getMeContext, setMe } from "../../auth/authContext.js";
 import { updateHeader } from "../../ui/headerUI.js";
 import renderProfileForm from "../../ui/profileUI.js";
+import { deleteUser } from "../../services/userService.js"
+import { ROOT_DIR } from "../../config/config.js";
+import { authorize } from "./actions.js";
 
 
 const userActions = {
@@ -12,9 +15,10 @@ const userActions = {
         const form = e.target;
         
         form.querySelectorAll(".js-form-field .error")
-                .forEach(errorElem => errorElem.textContent = "");
-        form.querySelectorAll(".js-form-field .text-input")
-            .forEach(inputElem => inputElem.classList.remove("error"));
+            .forEach(errorElem => {
+                errorElem.textContent = "";
+                errorElem.classList.remove("active");
+            });
 
         const username = form.querySelector('.js-form-field input[type="text"]')?.value?.trim();
         const password = form.querySelector('.js-form-field input[type="password"]')?.value?.trim();
@@ -50,6 +54,23 @@ const userActions = {
             form.querySelectorAll(".js-form-field .text-input")
                 .forEach(inputElem => inputElem.classList.add("error"));
         }
+    },
+
+
+    "delete-profile": async () => {
+        
+        if(!await authorize())
+        {
+            console.warn("User is not logged");
+            return;
+        }
+
+        try
+        {
+            await deleteUser(getMeContext().id);
+        }
+        catch {}
+        location.href = `${ROOT_DIR}/index.html`;
     }
 };
 
