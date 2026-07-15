@@ -69,7 +69,7 @@ async function loadFilters(postsContainer)
             [
                 { id:"all", value: "All categories"},
                 ...categories.map((category) => {
-                    return { id: category.name.toLowerCase(), value: capitalize(category.name) }
+                    return { id: category.id, value: capitalize(category.name) }
                 })
             ],
             onSelect: async (id) =>

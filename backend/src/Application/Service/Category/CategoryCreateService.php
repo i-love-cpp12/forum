@@ -32,7 +32,6 @@ class CategoryCreateService
 
         if(!PostCategory::validateCategoryName($DTO->categoryName))
             throw new InvalidValueException("CategoryName", $DTO->categoryName, PostCategory::getCategoryNameValidateMessage());
-
         $category = new PostCategory(null, $DTO->categoryName);
         $this->categoryRepo->saveCategory($category);
     }

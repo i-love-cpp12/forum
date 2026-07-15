@@ -198,7 +198,7 @@ class PDOPostRepository implements PostRepositoryInterface
 
             if($DTO->category)
             {
-                $sql .= " AND pc.post_category_name LIKE :category";
+                $sql .= " AND (pc.post_category_name LIKE :category OR pc.post_category_id LIKE :category)";
                 $params["category"] = "%{$DTO->category}%";
             }
             $sql .= ";";
