@@ -4,10 +4,17 @@
     width: 100%;
     font-size: 1.07rem;
 }
+
 .form div.error
 {
     color: var(--red-color);
     font-size: 0.8rem;
+    display: none;
+}
+
+.form div.error.active
+{
+    display: block;
 }
 .form > .form-field
 {

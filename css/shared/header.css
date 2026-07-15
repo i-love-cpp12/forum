@@ -106,6 +106,7 @@ header .profile .profile-options
 header .profile .profile-options .profile-options-group
 {
     flex-direction: column;
+    padding: 6px;
 }
 header .profile .profile-options a
 {

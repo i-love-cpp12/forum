@@ -143,7 +143,10 @@ export const actions = {
         catch
         {
             form.querySelectorAll(".js-form-field .error")
-                .forEach(errorElem => errorElem.textContent = "Invalid email or password");
+                .forEach(errorElem => {
+                    errorElem.textContent = "Something went wrong";
+                    errorElem.classList.add("active");
+                });
             form.querySelectorAll(".js-form-field .text-input")
                 .forEach(inputElem => inputElem.classList.add("error"));
         }
@@ -167,7 +170,10 @@ export const actions = {
         catch
         {
             form.querySelectorAll(".js-form-field .error")
-                .forEach(errorElem => errorElem.textContent = "Something went wrong");
+                .forEach(errorElem => {
+                    errorElem.textContent = "Something went wrong";
+                    errorElem.classList.add("active");
+                });
             form.querySelectorAll(".js-form-field .text-input")
                 .forEach(inputElem => inputElem.classList.add("error"));
         }
@@ -197,9 +203,11 @@ export const actions = {
         }
         catch(err)
         {
-            console.error(err);
             form.querySelectorAll(".js-form-field .error")
-                .forEach(errorElem => errorElem.textContent = "Something went wrong");
+                .forEach(errorElem => {
+                    errorElem.textContent = "Something went wrong";
+                    errorElem.classList.add("active");
+                });
             form.querySelectorAll(".js-form-field .text-input")
                 .forEach(inputElem => inputElem.classList.add("error"));
         }
@@ -243,7 +251,10 @@ export const actions = {
         catch
         {
             form.querySelectorAll(".js-form-field .error")
-                .forEach(errorElem => errorElem.textContent = "Something went wrong");
+                .forEach(errorElem => {
+                    errorElem.textContent = "Something went wrong";
+                    errorElem.classList.add("active");
+                });
             form.querySelectorAll(".js-form-field .text-input")
                 .forEach(inputElem => inputElem.classList.add("error"));
         }
@@ -273,7 +284,9 @@ export const actions = {
         }
         catch
         {
-            form.querySelector(".error").innerText = "Something went wrong";
+            const errDiv = form.querySelector("div.error");
+            errDiv.innerText = "Something went wrong";
+            errDiv.classList.add("active");
             inputElem.classList.add("error");
         }
     
@@ -311,7 +324,9 @@ export const actions = {
         }
         catch
         {
-            form.querySelector("div.error").innerText = "Something went wrong";
+            const errDiv = form.querySelector("div.error");
+            errDiv.innerText = "Something went wrong";
+            errDiv.classList.add("active");
             inputElem.classList.add("error");
         }
     },
@@ -339,7 +354,9 @@ export const actions = {
         }
         catch
         {
-            form.querySelector(".error").innerText = "Something went wrong";
+            const errElem = form.querySelector(".error");
+            errElem.innerText = "Something went wrong";
+            errElem.classList.add("active");
             inputElem.classList.add("error");
             return;
         }

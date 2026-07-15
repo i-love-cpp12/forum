@@ -1,13 +1,17 @@
 .add-category
 {
     margin-bottom: 20px;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
 }
 .add-category > div
 {
     display: flex;
     align-items: stretch;
     gap: 10px;
-    margin-bottom: 5px;
     /* row-gap: 5px; */
     /* grid-template-columns: 1fr min-content; */
 }
