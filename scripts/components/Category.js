@@ -33,7 +33,7 @@ function optionsTemplate()
 {
     return `
         <div class="options">
-            <button class="button button--blue" data-action="category-edit">
+            <button class="button button--blue" data-action="category-make-edit">
                 <svg>
                     <use href="${ROOT_DIR}/assets/img/icons/icons.svg#edit"></use>
                 </svg>
@@ -51,17 +51,20 @@ function editStageTemplate(title)
 {
     return `
         <form class="form" data-action="edit-category">
-            <input type="text" class="text-input" value="${title}">
-            <button class="button button--hover-fill-blue border" data-action="close-edit-category">
-                <svg>
-                    <use href="../assets/img/icons/icons.svg#close"></use>
-                </svg>
-            </button>
-            <button class="button button--white-inverse border" data-action="accept-edit-category">
-                <svg>
-                    <use href="../assets/img/icons/icons.svg#check"></use>
-                </svg>
-            </button>
+            <div class="fields">
+                <input type="text" class="text-input" value="${title}" placeholder="New category name">
+                <button class="button button--white-inverse border" data-btn-type="submit">
+                    <svg>
+                        <use href="../assets/img/icons/icons.svg#check"></use>
+                    </svg>
+                </button>
+                <button class="button button--hover-fill-blue border">
+                    <svg>
+                        <use href="../assets/img/icons/icons.svg#close"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="error"></div>
         </form>
     `;
 }

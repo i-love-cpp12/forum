@@ -46,15 +46,26 @@
 }
 .categories form
 {
+    width: 100%;
+}
+.categories form .fields
+{
     display: flex;
     align-items: stretch;
-    gap: clamp(5px, 1vw, 15px);
+    gap: clamp(5px, 0.5vw, 10px);
     width: 100%;
     height: clamp(30px, 4vw, 40px);
+    margin-bottom: 4px;
 }
-.categories form input[type="text"]
+.categories form div.error
+{
+    margin-left: 3px;
+}
+.categories form > .fields input[type="text"]
 {
     flex-grow: 1;
+    /* height: 100%; */
+    margin: 0;
     font-size: clamp(0.95rem, 1.4vw, 1.1rem);
 }
 .categories form button

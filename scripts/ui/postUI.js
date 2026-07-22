@@ -18,6 +18,6 @@ export function updatePost(postId, newData)
     const old = document.querySelector(`[data-post-id="${postId}"]`);
     if (!old) return;
     const renderCommentBtn = new Boolean(old.querySelector(`[data-action="make-comment-post"]`)).valueOf();
-    const newElem = Post({...newData, renderCommentBtn});   
+    const newElem = Post({...newData, renderCommentBtn});
     old.replaceWith(newElem);
 }

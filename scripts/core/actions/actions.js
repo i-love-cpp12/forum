@@ -43,3 +43,13 @@ export async function authorize()
     }
     return true;
 }
+
+export function getCategoryElem(elem)
+{
+    return elem.closest("[data-category-id]");
+}
+
+export function getCategoryId(elem)
+{
+    return getCategoryElem(elem).dataset.categoryId;
+}
