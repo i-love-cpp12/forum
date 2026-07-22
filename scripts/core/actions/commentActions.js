@@ -50,14 +50,18 @@ const commentActions = {
     "reply-post": async (e) => {
 
         const form = e.target;
-        console.log(form);
-        if(e.submitter.dataset.btnType != "submit")
+        const inputElem = form.querySelector("textarea");
+
+        if(e.submitter.dataset.btnType !== "submit")
+        {
             getPostElem(form).querySelector(".add-reply").classList.remove("active");
+            inputElem.value = "";
+            return;
+        }
 
         const commentElem = getPostElem(form)
         const postId = getPostId(commentElem);
         console.log(postId);
-        const inputElem = form.querySelector("textarea");
         const replyContent = inputElem.value.trim();
         try
         {
