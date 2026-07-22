@@ -66,7 +66,12 @@
     display: none;
     z-index: 5;
     position: relative;
+    /* background-color: aqua; */
 }
+/* .comments.tile-container .comment:last-child .add-reply
+{
+    margin-bottom: 0px;
+} */
 .comment .add-reply.active
 {
     display: flex;
@@ -81,13 +86,14 @@
     display: flex;
     justify-content: end;
     gap: 10px;
-    margin-bottom: -40px;
+    /* margin-bottom: -100px; */
     z-index: 10;
 }
-.comments > .comment:last-child .add-reply .buttons
+/* .comments .comment:last-child .add-reply .buttons
 {
     margin-bottom: 0;
-}
+    background-color: aqua;
+} */
 .comment .add-reply button
 {
     height: 40px;
