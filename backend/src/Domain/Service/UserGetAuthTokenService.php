@@ -12,10 +12,10 @@ class UserGetAuthTokenService
     public static function execute(): string
     {
         //Authorization: Bearer TOKEN_CONTENT
-        $authHeader = (new Request())->headers["Authorization"] ?? "";
+        $authHeader = (new Request())->headers["X-Authorization"] ?? "";
 
         preg_match("/^(Bearer) ([0-9a-f]{64})$/", $authHeader, $args);
-        // die(json_encode($args));
+        
         if
         (
             count($args) !== 3 ||

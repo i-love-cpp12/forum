@@ -20,7 +20,9 @@ class Request
         $this->body =
             $this->method === "GET" ? $_GET :
             json_decode(file_get_contents("php://input"), true) ?? [];
+
         $this->headers = $this->getRequestHeaders() ?? [];
+
         $this->state = [];
     }
 
@@ -42,18 +44,27 @@ class Request
         {
             return getallheaders();
         }
-
+        
         $headers = [];
 
-        foreach($_SERVER as $name => $value)
+        foreach ($_SERVER as $name => $value)
         {
-            if(str_starts_with($name, 'HTTP_')) {
-                $header = str_replace('_', ' ', strtolower(substr($name, 5)));
-                $header = ucwords($header);
-                $header = str_replace(' ', '-', $header);
-
+            if (str_starts_with($name, 'HTTP_')) {
+                $header = str_replace('_', '-', strtolower(substr($name, 5)));
                 $headers[$header] = $value;
             }
+        }
+
+        if (isset($_SERVER['CONTENT_TYPE'])) {
+            $headers['content-type'] = $_SERVER['CONTENT_TYPE'];
+        }
+
+        if (isset($_SERVER['CONTENT_LENGTH'])) {
+            $headers['content-length'] = $_SERVER['CONTENT_LENGTH'];
+        }
+
+        if (isset($_SERVER['HTTP_X_AUTHORIZATION'])) {
+            $headers['X-Authorization'] = $_SERVER['HTTP_X_AUTHORIZATION'];
         }
 
         return $headers;

@@ -14,7 +14,7 @@ export async function request(path, options = {})
 
     if(token)
     {
-        headers["Authorization"] = `Bearer ${token}`;
+        headers["X-Authorization"] = `Bearer ${token}`;
     }
 
     const res = await fetch(API_PATH + path, {
