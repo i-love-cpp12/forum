@@ -20,7 +20,7 @@ class Request
         $this->body =
             $this->method === "GET" ? $_GET :
             json_decode(file_get_contents("php://input"), true) ?? [];
-        $this->headers = getallheaders() ?? [];
+        $this->headers = $this->getRequestHeaders() ?? [];
         $this->state = [];
     }
 
@@ -30,8 +30,32 @@ class Request
             throw new OutOfBoundsException("Key: $key is not valid");
         return $this->state[$key];
     }
+
     public function setStateItem(string $key, mixed $value): void
     {
         $this->state[$key] = $value;
+    }
+
+    private function getRequestHeaders(): array
+    {
+        if(function_exists('getallheaders'))
+        {
+            return getallheaders();
+        }
+
+        $headers = [];
+
+        foreach($_SERVER as $name => $value)
+        {
+            if(str_starts_with($name, 'HTTP_')) {
+                $header = str_replace('_', ' ', strtolower(substr($name, 5)));
+                $header = ucwords($header);
+                $header = str_replace(' ', '-', $header);
+
+                $headers[$header] = $value;
+            }
+        }
+
+        return $headers;
     }
 }
