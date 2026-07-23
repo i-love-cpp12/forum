@@ -1,18 +1,11 @@
 import { logoutUser, loginUser, registerUser } from "../../services/userService.js";
 import { setToken, logout } from "../../auth/auth.js";
-import { authorize } from "./actions.js";
 import { ROOT_DIR } from "../../config/config.js";
 import { getMeContext, setMe } from "../../auth/authContext.js";
 
 
 const authActions = {
     "logout": async () => {
-        if(!await authorize())
-        {
-            console.warn("User is not logged");
-            return;
-        }
-
         await logoutUser();
         logout();
         location.href = `${ROOT_DIR}/index.html`;

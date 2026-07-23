@@ -4,7 +4,6 @@ import { updateHeader } from "../../ui/headerUI.js";
 import renderProfileForm from "../../ui/profileUI.js";
 import { deleteUser } from "../../services/userService.js"
 import { ROOT_DIR } from "../../config/config.js";
-import { authorize } from "./actions.js";
 
 
 const userActions = {
@@ -58,13 +57,6 @@ const userActions = {
 
 
     "delete-profile": async () => {
-        
-        if(!await authorize())
-        {
-            console.warn("User is not logged");
-            return;
-        }
-
         try
         {
             await deleteUser(getMeContext().id);

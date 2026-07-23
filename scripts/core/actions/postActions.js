@@ -64,20 +64,8 @@ const postActions = {
     },
 
     "delete-post": async (e, actionElem) => {
-        if(!await authorize())
-        {
-            console.warn("User is not logged");
-            return;
-        }
-
         const postElem = getPostElem(actionElem);
         const postId = getPostId(postElem);
-
-        if(!(await getPost(postId, getMeContext())).isEditor)
-        {
-            console.warn("User is not authenticated");
-            return;
-        }
 
         const postContainer = actionElem.closest(".js-posts") || actionElem.closest(".js-comments");
         
@@ -99,7 +87,6 @@ const postActions = {
             const parentPostId = getPostId(parentElem);
 
             const updatedComment = await getPost(parentPostId);
-            // console.log(updatedComment);
             updateComment(parentPostId, updatedComment);
         }
     },

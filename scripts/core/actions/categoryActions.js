@@ -1,4 +1,5 @@
-import { addCategory, getCategories, updateCategory } from "../../services/categoryService.js";
+import { EMPTY_LIST_TEXT } from "../../config/config.js";
+import { addCategory, deleteCategory, getCategories, updateCategory } from "../../services/categoryService.js";
 import { renderCategories, updateCategoryUI } from "../../ui/categoryUI.js";
 import { getCategoryElem, getCategoryId } from "./actions.js";
 
@@ -74,6 +75,20 @@ const categoryActions = {
         renderCategories(container, categories.map((category) => {
             return {categoryId: category.id, title: category.name, isAdmin: true, isInEditStage: false};
         }));
+    },
+
+    "category-delete": async (e, actionElem) => {
+        const categoryId = getCategoryId(actionElem);
+        const categoryElem = getCategoryElem(actionElem);
+
+        const categoryContainer = actionElem.closest(".js-categories");
+        
+        categoryElem.remove();
+
+        if(categoryContainer.children.length === 0)
+            categoryContainer.innerText = EMPTY_LIST_TEXT;
+        
+        await deleteCategory(categoryId);
     }
 };
 
