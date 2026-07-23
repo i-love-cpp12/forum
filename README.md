@@ -14,5 +14,3 @@ konto admin:
 
 
 github: https://github.com/i-love-cpp12/forum.git
-
-PROJEKT NIE SKOŃCZONY (js)
